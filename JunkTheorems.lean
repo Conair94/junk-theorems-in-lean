@@ -2,6 +2,7 @@ import Mathlib.CategoryTheory.Adjunction.AdjointFunctorTheorems
 import Mathlib.CategoryTheory.Limits.SmallComplete
 import Mathlib.Data.PFun
 import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
+import Mathlib.NumberTheory.Harmonic.ZetaAsymp
 
 /-!
 Here we collect some uniquely type-theoretic junk theorems. Let's warm up with a basic one:
@@ -20,13 +21,23 @@ theorem set_of_nonzero_reals_is_surjection :
 
 /-!
 As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
+
+**Theorem 2.** One divided by zero is equal to zero.
 -/
 theorem one_div_zero_eq_zero : 1 / 0 = 0 := by simp
 /-!
 Among people who work in classical mathematics, the consensus seems to be that this is the best way
-to deal with division in proof assistants based on type theory, but what if we find this distasteful
-and want to avoid this particular junk theorem? Fortunately, Mathlib has an existing monad, `PFun`,
-for defining true partial functions, so let's use that:
+to deal with division in proof assistants based on type theory, but it does lead to some issues,
+such as the junk value of `riemannZeta 1`:
+
+**Theorem 3.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
+-/
+theorem riemannZeta_one' :
+    riemannZeta 1 = (↑Real.eulerMascheroniConstant - Complex.log (4 * ↑Real.pi)) / 2 :=
+  riemannZeta_one
+/-!
+So what if we find this distasteful and want to avoid these junk theorems? Fortunately, Mathlib has
+an existing monad, `PFun`, for defining true partial functions, so let's use that:
 
 Define a partial division function `÷` by restricting `/` to the nonzero reals (i.e., the set that
 we showed is a surjection earlier) to avoid the junk value `1/0 = 0`.
@@ -38,7 +49,7 @@ infix:70 " ÷ " => PDiv
 /-!
 While this is a reasonable solution, it still has its fair share of junk:
 
-**Theorem 2.** For any real numbers `x` and `y`, there are `a` and `b` such that `x ÷ y` is equal
+**Theorem 4.** For any real numbers `x` and `y`, there are `a` and `b` such that `x ÷ y` is equal
 to the structured pair `⟨¬a, b⟩`, where every element of `¬a` is a bijection, and `b` is a proper
 injection.
 -/
@@ -102,7 +113,7 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 3.** The unique proof `p` of quadratic reciprocity (`QR`) satisfies the following: There
+**Theorem 5.** The unique proof `p` of quadratic reciprocity (`QR`) satisfies the following: There
 exist a bijection `q` from the Baire category theorem (`BCT`) to the special adjoint functor
 theorem (`SAFT`) such that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs
 live in `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p`
@@ -143,10 +154,10 @@ lemma dependent_pair_eq_1 :
 /-!
 But we can't prove a statement of the form `⟨A, p⟩ = ⟨B, q⟩ → p = q`, because this isn't even
 well-typed in general. That's why we can't upgrade the previous junk theorem to 'the unique proof
-of `QR` is a bijection from `BCT` to `SAFT`' even if it feels like it should follow from what we
+of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
 did prove, morally speaking.
 
-So in other words, in the context of Theorem 3, even though
+So in other words, in the context of Theorem 5, even though
 * `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
 * `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
 * `p` is the unique element of `QR`,
@@ -159,7 +170,7 @@ we aren't even permitted to *say* that `p` is a function as well.
 
 We'll just have to settle for the following:
 
-**Theorem 4.** The unique proof of `¬¬QR` is a bijection.
+**Theorem 6.** The unique proof of `¬¬QR` is a bijection.
 -/
 theorem unique_proof_of_not_not_QR_is_bijection :
     ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
