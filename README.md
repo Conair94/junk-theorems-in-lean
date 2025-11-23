@@ -20,4 +20,4 @@ In the following theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\m
 
 And in particular, despite the fact that $`\mathsf{QR} = \neg\neg \mathsf{QR}`$ and $`\langle \mathsf{QR},p\rangle = \langle\neg\neg\mathsf{QR},q\rangle`$ are both provable (where $`p`$ is the unique proof of $`\mathsf{QR}`$ and $`q`$ is the unique proof of $`\neg\neg \mathsf{QR}`$), one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean.
 
-Note that since these are formalized in Lean, we have a 100% guarantee that they are, in fact, true statements. [See the main .lean file here.](JunkTheorems.lean)
+[See the main .lean file here.](JunkTheorems.lean)
