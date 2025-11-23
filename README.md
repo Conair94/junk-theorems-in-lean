@@ -16,7 +16,7 @@ In the following theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\m
 
 > **Theorem 5.** *The unique proof $`p`$ of quadratic reciprocity satisfies the following: There exists a bijection $`q`$ from the Baire category theorem to the special adjoint functor theorem such that the pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle \mathsf{BCT} \to \mathsf{SAFT},q\rangle`$.*
 
-> **Theorem 6.** *The unique proof of that quadratic reciprocity isn't false is a bijection.*
+> **Theorem 6.** *The unique proof that quadratic reciprocity isn't false is a bijection.*
 
 And in particular, despite the fact that $`\mathsf{QR} = \neg\neg \mathsf{QR}`$ and $`\langle \mathsf{QR},p\rangle = \langle\neg\neg\mathsf{QR},q\rangle`$ are both provable (where $`p`$ is the unique proof of $`\mathsf{QR}`$ and $`q`$ is the unique proof of $`\neg\neg \mathsf{QR}`$), one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean.
 
