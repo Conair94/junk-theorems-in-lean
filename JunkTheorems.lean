@@ -50,7 +50,7 @@ infix:70 " ÷ " => PDiv
 While this is a reasonable solution, it still has its fair share of junk:
 
 **Theorem 4.** For any real numbers `x` and `y`, there are `a` and `b` such that `x ÷ y` is equal
-to the structured pair `⟨¬a, b⟩`, where every element of `¬a` is a bijection, and `b` is a proper
+to the structured pair `⟨¬a, b⟩`, where every element of `¬a` is a bijection and `b` is a proper
 injection.
 -/
 theorem x_div_y_is_bijections_injection_pair :
