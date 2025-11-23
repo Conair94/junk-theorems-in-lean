@@ -21,7 +21,7 @@ theorem set_of_nonzero_reals_is_surjection :
 /-!
 As is well-known, Lean, like many proof assistants, takes `1/0` to be `0`.
 -/
-theorem one_div_zero_eq_zero : 1/0 = 0 := by simp
+theorem one_div_zero_eq_zero : 1 / 0 = 0 := by simp
 /-!
 Among people who work in classical mathematics, the consensus seems to be that this is the best way
 to deal with division in proof assistants based on type theory, but what if we find this distasteful
@@ -156,4 +156,17 @@ So in other words, in the context of Theorem 3, even though
     weak sense of the symbol `=`), then `p` would be `=`-equal to `q`, and
 * `q` is a function,
 we aren't even permitted to *say* that `p` is a function as well.
+
+We'll just have to settle for the following:
+
+**Theorem 4.** The unique proof of `¬¬QR` is a bijection.
 -/
+theorem unique_proof_of_not_not_QR_is_bijection :
+    ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
+              ∧ Function.Bijective p := by
+  use (by apply not_not_intro; unfold QR; grind [jacobiSym.quadratic_reciprocity])
+  constructor
+  · simp
+  · constructor
+    · simp [Function.Injective]
+    · simp [Function.Surjective]
