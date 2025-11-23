@@ -19,9 +19,9 @@ theorem set_of_nonzero_reals_is_surjection :
 -------------------------------------------------------------------
 
 /-!
-As is well-known, Lean, like many proof assistants, takes `1/0` to be `0`.
+As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
 -/
-theorem one_div_zero_eq_zero : 1/0 = 0 := by simp
+theorem one_div_zero_eq_zero : 1 / 0 = 0 := by simp
 /-!
 Among people who work in classical mathematics, the consensus seems to be that this is the best way
 to deal with division in proof assistants based on type theory, but what if we find this distasteful
@@ -53,7 +53,7 @@ theorem x_div_y_is_bijections_injection_pair :
   constructor
   · constructor
   · constructor
-    · intros p
+    · intros
       constructor
       · simp [Function.Injective]
       · simp [Function.Surjective]
@@ -78,7 +78,7 @@ Next we'll prove a junk theorem that relates number theory, point-set topology, 
 To keep the statement readable, we need to give shorthand notation for the following three theorem
 statements.
 
-The statement of Quadratic reciprocity for the Jacobi symbol.
+The statement of quadratic reciprocity for the Jacobi symbol.
 -/
 def QR := ∀ a b : ℕ, Odd a → Odd b →
                jacobiSym (↑a) b = (-1) ^ (a / 2 * (b / 2)) * jacobiSym (↑b) a
