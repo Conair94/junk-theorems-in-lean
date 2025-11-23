@@ -18,4 +18,6 @@ In the following theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\m
 
 **Theorem 6.** The unique proof of not not quadratic reciprocity is a bijection.
 
+And in particular, despite the fact that $`\mathsf{QR} = \neg\neg \mathsf{QR}`$ is provable, one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean.
+
 Note that since these are formalized in Lean, we have a 100% guarantee that they are, in fact, true statements. [See the main .lean file here.](JunkTheorems.lean)
