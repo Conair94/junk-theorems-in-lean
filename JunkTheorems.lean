@@ -40,7 +40,7 @@ So what if we find this distasteful and want to avoid these junk theorems? Fortu
 an existing monad, `PFun`, for defining true partial functions, so let's use that:
 
 Define a partial division function `÷` by restricting `/` to the nonzero reals (i.e., the set that
-we showed is a surjection earlier) to avoid the junk value `1/0 = 0`.
+we showed is a surjection earlier) to avoid the junk value `1 / 0 = 0`.
 -/
 noncomputable def PDiv : ℝ → ℝ →. ℝ :=
    fun x ↦ PFun.res (fun y ↦ x / y) {z : ℝ | z ≠ 0}
@@ -208,13 +208,10 @@ Now let `r` be the equivalence class of the unique proof of quadratic reciprocit
 def r : QR_mod_eq :=
   (Quot.mk (fun x y ↦ x = y) (by unfold QR; grind [jacobiSym.quadratic_reciprocity]))
 /-!
-This lets us conclude that the quotient `QR/=` is nonempty, reasonably enough.
+Use the axiom of choice to pick an element `q` of `QR/=`. (Choice needs us to give it `r` so that
+it knows the the type `QR/=` is nonempty.)
 -/
-instance QR_nonempty : Nonempty QR_mod_eq := ⟨r⟩
-/-!
-Use the axiom of choice to pick an element `q` of `QR/=`.
--/
-def q : QR_mod_eq := Classical.choice QR_nonempty
+def q : QR_mod_eq := Classical.choice ⟨r⟩
 /-!
 `QR/=` is a singleton, since it's the quotient of a singleton, so we have that `q = r`.
 -/
@@ -231,7 +228,9 @@ lemma f_q_eq_one : f q = 1 := by rw [q_eq_r]; unfold f r; grind
 /-!
 Recall that `Fin n` is the type of natural numbers less than `n` (i.e., `Fin n` is like the set
 `{0,1,...,n-1}`). Let `a` be `0` in the type `Fin (f q)`, `b` be `0` in the type `Fin (f r)`, and
-`c` be `0` in the type `Fin 1`.
+`c` be `0` in the type `Fin 1`. For `a` and `b` we need to provide proofs that `0` is less than
+`f q` and `f r`, respectively. (Fortunately, Lean is smart enough to figure out that `0 < 1` on its
+own for `c`.)
 -/
 def a : Fin (f q) := ⟨0, by rw [f_q_eq_one]; simp⟩
 
