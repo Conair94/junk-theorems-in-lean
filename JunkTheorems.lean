@@ -197,9 +197,9 @@ instance QR_setoid : Setoid QR where
   r x y := (x = y)
   iseqv := by
     constructor
-    · grind
-    · grind
-    · grind
+    · simp
+    · simp
+    · simp
 
 def QR_mod_eq := Quotient QR_setoid
 /-!
