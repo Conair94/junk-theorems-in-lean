@@ -212,7 +212,7 @@ This lets us conclude that the quotient `QR/=` is nonempty, reasonably enough.
 -/
 instance QR_nonempty : Nonempty QR_mod_eq := ⟨r⟩
 /-!
-Now use the axiom of choice to pick an element `q` of `QR/=`.
+Use the axiom of choice to pick an element `q` of `QR/=`.
 -/
 def q : QR_mod_eq := Classical.choice QR_nonempty
 /-!
