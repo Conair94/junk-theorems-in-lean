@@ -24,6 +24,6 @@ Finally, using the axiom of choice (in an essential way, mind), we can build thr
 
 > **Theorem 7.** *$`a`$ is equal to $`b`$, and $`b`$ is equal to $`c`$.*
 
-Now this may not seem so strange, but the issue is that the terms $`a`$ and $`c`$ do not have the same type, so, again, one cannot even form the sentence '$`a`$ is equal to $`c`$.' in Lean, because it would be absurd to assert such a thing.
+Now this may not seem so strange, but the issue is that the terms $`a`$ and $`c`$ do not have the same type, so, again, the question of whether $`a`$ is equal to $`c`$ is as absurd as the question of whether the real number $`\pi`$ is equal to the monster group.
 
 [See the main .lean file here.](JunkTheorems.lean)
