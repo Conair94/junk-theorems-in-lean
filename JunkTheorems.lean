@@ -202,7 +202,6 @@ instance QR_setoid : Setoid QR where
     · grind
 
 def QR_mod_eq := Quotient QR_setoid
-
 /-!
 Now let `r` be the equivalence class of the unique proof of quadratic reciprocity under equality.
 -/
@@ -252,7 +251,7 @@ theorem a_eq_b_eq_c : a = b ∧ b = c := by
   · rfl
   · rfl
 /-!
-But now there's an issue. If we ask Lean, it will tell use that `a` and `c` don't have the same
+But now there's an issue. If we ask Lean, it will tell us that `a` and `c` don't have the same
 type:
 -/
 #check_failure a = c
