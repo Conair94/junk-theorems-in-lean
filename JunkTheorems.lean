@@ -1,8 +1,8 @@
 import Mathlib.CategoryTheory.Adjunction.AdjointFunctorTheorems
 import Mathlib.CategoryTheory.Limits.SmallComplete
 import Mathlib.Data.PFun
-import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
 import Mathlib.NumberTheory.Harmonic.ZetaAsymp
+import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
 
 /-!
 Here we collect some uniquely type-theoretic junk theorems. Let's warm up with a basic one:
@@ -180,3 +180,82 @@ theorem unique_proof_of_not_not_QR_is_bijection :
   · constructor
     · simp [Function.Injective]
     · simp [Function.Surjective]
+/-!
+Although, again, note that here we have `QR = ¬¬QR`, `⟨QR, p⟩ = ⟨¬¬QR, q⟩` (where `p` is the
+unique proof of `QR` and `q` is the unique proof of `¬¬QR`), and it happens to be the case that
+`q` is a bijection, but it doesn't make sense to say that `p` is a function.
+-/
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+
+/-!
+We have one last bit of equality-based junk. First we need to define the quotient of quadratic
+reciprocity by the equivalence relation of equality.
+-/
+instance QR_setoid : Setoid QR where
+  r x y := (x = y)
+  iseqv := by
+    constructor
+    · grind
+    · grind
+    · grind
+
+def QR_mod_eq := Quotient QR_setoid
+
+/-!
+Now let `r` be the equivalence class of the unique proof of quadratic reciprocity under equality.
+-/
+def r : QR_mod_eq :=
+  (Quot.mk (fun x y ↦ x = y) (by unfold QR; grind [jacobiSym.quadratic_reciprocity]))
+/-!
+This lets us conclude that the quotient `QR/=` is nonempty, reasonably enough.
+-/
+instance QR_nonempty : Nonempty QR_mod_eq := ⟨r⟩
+/-!
+Now use the axiom of choice to pick an element `q` of `QR/=`.
+-/
+def q : QR_mod_eq := Classical.choice QR_nonempty
+/-!
+`QR/=` is a singleton, since it's the quotient of a singleton, so we have that `q = r`.
+-/
+lemma q_eq_r : q = r := by simp
+/-!
+Consider the function from `QR` to `ℕ` that always takes on the value `1`. This clearly respects
+the equivalence relation of equality, so it lifts to a function `f` from `QR/=` to `ℕ`.
+-/
+def f : QR_mod_eq → ℕ := Quot.lift (fun _ ↦ 1) (by grind)
+/-!
+Use the fact that `q` equals `r` to prove that `f q = 1`.
+-/
+lemma f_q_eq_one : f q = 1 := by rw [q_eq_r]; unfold f r; grind
+/-!
+Now recall that `Fin n` is the type of natural numbers less than `n` (i.e., `Fin n` is like the set
+`{0,1,...,n-1}`). Let `a` be `0` in the type `Fin (f q)`, `b` be `0` in the type `Fin (f r)`, and
+`c` be `0` in the type `Fin 1`.
+-/
+def a : Fin (f q) := ⟨0, by rw [f_q_eq_one]; simp⟩
+
+def b : Fin (f r) := ⟨0, by unfold f r; grind⟩
+
+def c : Fin 1 := 0
+/-!
+Now, since `f q = 1` and `f r = 1`, `Fin (f q)`, `Fin (f r)`, and `Fin 1` should all be the same
+type, and, moreover, `a`, `b`, and `c` should all be the same thing.
+
+Indeed we can almost prove this:
+
+**Theorem 7.** `a` is equal to `b`, and `b` is equal to `c`.
+-/
+theorem a_eq_b_eq_c : a = b ∧ b = c := by
+  constructor
+  · rfl
+  · rfl
+/-!
+But now there's an issue. If we ask Lean, it will tell use that `a` and `c` don't have the same
+type:
+-/
+#check_failure a = c
+/-!
+This means that it doesn't even make sense to say that `a` is equal to `c`.
+-/

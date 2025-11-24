@@ -20,4 +20,10 @@ In the following theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\m
 
 And in particular, despite the fact that $`\mathsf{QR} = \neg\neg \mathsf{QR}`$ and $`\langle \mathsf{QR},p\rangle = \langle\neg\neg\mathsf{QR},q\rangle`$ are both provable (where $`p`$ is the unique proof of $`\mathsf{QR}`$ and $`q`$ is the unique proof of $`\neg\neg \mathsf{QR}`$), one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean.
 
+Finally, using the axiom of choice (in an essential way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
+
+> **Theorem 7.** *$`a`$ is equal to $`b`$, and $`b`$ is equal to $`c`$.*
+
+Now this may not seem so strange, but the issue is that the terms $`a`$ and $`c`$ do not have the same type, so, again, one cannot even form the sentence '$`a`$ is equal to $`c`$.' in Lean, because it would be absurd to assert such a thing.
+
 [See the main .lean file here.](JunkTheorems.lean)
