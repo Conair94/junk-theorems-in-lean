@@ -229,7 +229,7 @@ Use the fact that `q` equals `r` to prove that `f q = 1`.
 -/
 lemma f_q_eq_one : f q = 1 := by rw [q_eq_r]; unfold f r; grind
 /-!
-Now recall that `Fin n` is the type of natural numbers less than `n` (i.e., `Fin n` is like the set
+Recall that `Fin n` is the type of natural numbers less than `n` (i.e., `Fin n` is like the set
 `{0,1,...,n-1}`). Let `a` be `0` in the type `Fin (f q)`, `b` be `0` in the type `Fin (f r)`, and
 `c` be `0` in the type `Fin 1`.
 -/
