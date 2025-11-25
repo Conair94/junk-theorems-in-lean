@@ -222,44 +222,37 @@ the equivalence relation of equality, so it lifts to a function `f` from `QR/=` 
 -/
 def f : QR_mod_eq → ℕ := Quot.lift (fun _ ↦ 1) (by grind)
 /-!
-Use the fact that `q` equals `r` to prove that `f q = 1`.
--/
-lemma f_q_eq_one : f q = 1 := by rw [q_eq_r]; unfold f r; grind
-/-!
 Recall that `Fin n` is the type of natural numbers less than `n` (i.e., `Fin n` is like the set
-`{0,1,...,n-1}`). Let `a` be `0` in the type `Fin (f q)`, `b` be `0` in the type `Fin (f r)`, and
-`c` be `0` in the type `Fin 1`. For `a` and `b` we need to provide proofs that `0` is less than
-`f q` and `f r`, respectively. (Fortunately, Lean is smart enough to figure out that `0 < 1` on its
-own for `c`.)
+`{0,1,...,n-1}`). Let `a` be the constant zero function on `Fin 1`, `b` be the constant zero
+function on `Fin (f r)`, and `c` be the constant zero function on `Fin (f q)`.
 -/
-def a : Fin (f q) := ⟨0, by rw [f_q_eq_one]; simp⟩
+def a : Fin 1 → ℕ := fun _ ↦ 0
 
-def b : Fin (f r) := ⟨0, by unfold f r; grind⟩
+def b : Fin (f r) → ℕ := fun _ ↦ 0
 
-def c : Fin 1 := 0
+def c : Fin (f q) → ℕ := fun _ ↦ 0
 /-!
-Now, since `f q = 1` and `f r = 1`, `Fin (f q)`, `Fin (f r)`, and `Fin 1` should all be the same
-type, and, moreover, `a`, `b`, and `c` should all be the same thing.
-
-Indeed we can almost prove this:
-
-**Theorem 7.** `a` is equal to `b`, and `b` is equal to `c`.
+Now, since `f q = 1` and `f r = 1`, `Fin 1`, `Fin (f q)`, and `Fin (f r)` should all be the same
+type, and, moreover, `a`, `b`, and `c` should all be the same zero function. In particular, we can
+easily prove the following:
+**Theorem 7.** `a = b + c` and `b + c = c + b`.
 -/
-theorem a_eq_b_eq_c : a = b ∧ b = c := by
+theorem a_plus_b_eq_c_eq_c_plus_b : a = b + c
+                                  ∧ b + c = c + b := by
   constructor
   · rfl
   · rfl
 /-!
-But now there's an issue. If we ask Lean, it will tell us that `a` and `c` don't have the same type:
+But now there's an issue. If we ask Lean, it will tell us that `a` and `c + b` don't have the same
+type:
 -/
-#check_failure a = c
+#check_failure a = c + b
 /-!
-This means that it doesn't even make sense to say that `a` is equal to `c`.
+This means that it doesn't even make sense to say that `a` is equal to `c + b`.
 
-However, it is easy to show that `a` and `c` are heterogeneously equal, since equality is
-transitive, of course:
+However, it is easy to show that `a` and `c + b` are heterogeneously equal, by appealing to Theorem
+7 and the basic mathematical fact that addition is commutative:
 -/
-theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := by
-  have h0 : ⟨Fin (f q), a⟩ = (⟨Fin (f r), b⟩ : Σ' X : Type, X) := rfl
-  have h1 : ⟨Fin (f r), b⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := rfl
-  simp [h0,h1]
+theorem b_plus_a_heq_c : ⟨Fin 1 → ℕ, a⟩ = (⟨Fin (f q) → ℕ, c + b⟩ : Σ' X : Type, X) := by
+  rw [add_comm]
+  grind [a_plus_b_eq_c_eq_c_plus_b]
