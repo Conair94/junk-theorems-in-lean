@@ -4,7 +4,7 @@ import Mathlib.Data.PFun
 import Mathlib.NumberTheory.Harmonic.ZetaAsymp
 import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
 
-/--
+/-!
 Here we collect some uniquely type-theoretic junk theorems. Let's warm up with a basic one:
 
 **Theorem 1.** The set `{z : ℝ | z ≠ 0}` is a surjection.
@@ -19,13 +19,13 @@ theorem set_of_nonzero_reals_is_surjection :
 -------------------------------------------------------------------
 -------------------------------------------------------------------
 
-/--
+/-!
 As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
 
 **Theorem 2.** One divided by zero is equal to zero.
 -/
 theorem one_div_zero_eq_zero : 1 / 0 = 0 := by simp
-/--
+/-!
 Among people who work in classical mathematics, the consensus seems to be that this is the best way
 to deal with division in proof assistants based on type theory, but it does lead to some issues,
 such as the junk value of `riemannZeta 1`:
@@ -35,7 +35,7 @@ such as the junk value of `riemannZeta 1`:
 theorem riemannZeta_one' :
     riemannZeta 1 = (↑Real.eulerMascheroniConstant - Complex.log (4 * ↑Real.pi)) / 2 :=
   riemannZeta_one
-/--
+/-!
 So what if we find this distasteful and want to avoid these junk theorems? Fortunately, Mathlib has
 an existing monad, `PFun`, for defining true partial functions, so let's use that:
 
@@ -43,10 +43,10 @@ Define a partial division function `÷` by restricting `/` to the nonzero reals 
 we showed is a surjection earlier) to avoid the junk value `1 / 0 = 0`.
 -/
 noncomputable def PDiv : ℝ → ℝ →. ℝ :=
-   fun x ↦ PFun.res (fun y ↦ x / y) {z : ℝ | z ≠ 0}
+   fun x ↦ PFun.res (x / ·) {z : ℝ | z ≠ 0}
 
 infix:70 " ÷ " => PDiv
-/--
+/-!
 While this is a reasonable solution, it still has its fair share of junk:
 
 **Theorem 4.** For any real numbers `x` and `y`, there are `a` and `b` such that `x ÷ y` is equal
@@ -73,7 +73,7 @@ theorem x_div_y_is_bijections_injection_pair :
         apply Finite.of_surjective at h
         apply (inferInstance : Infinite ℝ).not_finite at h
         exact h
-/--
+/-!
 In particular, note that this statement is still true in the specific case of `y = 0`. In other
 words, despite the fact that `fun x y ↦ x ÷ y` is a partial function not defined at `y = 0`,
 `1 ÷ 0` still exists and, moreover, has the property that its second coordinate is an injection.
@@ -82,7 +82,7 @@ words, despite the fact that `fun x y ↦ x ÷ y` is a partial function not defi
 -------------------------------------------------------------------
 -------------------------------------------------------------------
 
-/--
+/-!
 Next we'll prove a junk theorem that relates number theory, point-set topology, and category theory.
 
 To keep the statement readable, we need to give shorthand notation for the following three theorem
@@ -92,14 +92,14 @@ The statement of quadratic reciprocity for the Jacobi symbol.
 -/
 def QR := ∀ a b : ℕ, Odd a → Odd b →
                jacobiSym (↑a) b = (-1) ^ (a / 2 * (b / 2)) * jacobiSym (↑b) a
-/--
+/-!
 The statement of the Baire category theorem for small countably generated complete uniform spaces.
 -/
 def BCT := ∀ {X : Type} [inst : UniformSpace X]
                         [CompleteSpace X] [(uniformity X).IsCountablyGenerated]
                         {f : ℕ → Set X}, (∀ (n : ℕ), IsOpen (f n)) →
                                 (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
-/--
+/-!
 The statement of the special adjoint functor theorem for small categories.
 -/
 def SAFT :=
@@ -109,7 +109,7 @@ def SAFT :=
                [CategoryTheory.ObjectProperty.Small.{0, 0, 0} P],
                  P.IsCoseparating → ∀ (G : CategoryTheory.Functor D C)
                             [CategoryTheory.Limits.PreservesLimits G], G.IsRightAdjoint
-/--
+/-!
 Now we can prove this:
 
 **Theorem 5.** The unique proof `p` of quadratic reciprocity (`QR`) satisfies the following: There
@@ -137,7 +137,7 @@ theorem unique_proof_of_QR_is_almost_bijection_from_BCT_to_SAFT :
         · assumption
     · grind
 
-/--
+/-!
 Now, clearly, this has nothing to do with `QR`, `BCT`, and `SAFT` in particular. (Or does it?
 Hopefully you're able to determine this just by inspecting the proof.)
 
@@ -150,7 +150,7 @@ lemma dependent_pair_eq_0 :
 
 lemma dependent_pair_eq_1 :
   ∀ A, ∀ p q, ⟨A, p⟩ = (⟨A, q⟩ : Σ' C : Sort u, C) → p = q := by grind
-/--
+/-!
 But we can't prove a statement of the form `⟨A, p⟩ = ⟨B, q⟩ → p = q`, because this isn't even
 well-typed in general. That's why we can't upgrade the previous junk theorem to 'the unique proof
 of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
@@ -180,7 +180,7 @@ theorem unique_proof_of_not_not_QR_is_bijection :
   · constructor
     · simp [Function.Injective]
     · simp [Function.Surjective]
-/--
+/-!
 Although, again, note that here we have `QR = ¬¬QR`, `⟨QR, p⟩ = ⟨¬¬QR, q⟩` (where `p` is the unique
 proof of `QR` and `q` is the unique proof of `¬¬QR`), and it happens to be the case that `q` is a
 bijection, but it doesn't make sense to say that `p` is a function.
@@ -189,7 +189,7 @@ bijection, but it doesn't make sense to say that `p` is a function.
 -------------------------------------------------------------------
 -------------------------------------------------------------------
 
-/--
+/-!
 We have one last bit of equality-based junk. First we need to define the quotient of quadratic
 reciprocity by the equivalence relation of equality.
 -/
@@ -202,30 +202,30 @@ instance QR_setoid : Setoid QR where
     · simp
 
 def QR_mod_eq := Quotient QR_setoid
-/--
+/-!
 Now let `r` be the equivalence class of the unique proof of quadratic reciprocity under equality.
 -/
 def r : QR_mod_eq :=
-  (Quot.mk (fun x y ↦ x = y) (by unfold QR; grind [jacobiSym.quadratic_reciprocity]))
-/--
+  (Quot.mk (· = ·) (by unfold QR; grind [jacobiSym.quadratic_reciprocity]))
+/-!
 Use the axiom of choice to pick an element `q` of `QR/=`. (Choice needs us to give it `r` so that
 it knows the the type `QR/=` is nonempty.)
 -/
 def q : QR_mod_eq := Classical.choice ⟨r⟩
-/--
+/-!
 `QR/=` is a singleton, since it's the quotient of a singleton, so we have that `q = r`.
 -/
 lemma q_eq_r : q = r := by simp
-/--
+/-!
 Consider the function from `QR` to `ℕ` that always takes on the value `1`. This clearly respects
 the equivalence relation of equality, so it lifts to a function `f` from `QR/=` to `ℕ`.
 -/
 def f : QR_mod_eq → ℕ := Quot.lift (fun _ ↦ 1) (by grind)
-/--
+/-!
 Use the fact that `q` equals `r` to prove that `f q = 1`.
 -/
 lemma f_q_eq_one : f q = 1 := by rw [q_eq_r]; unfold f r; grind
-/--
+/-!
 Recall that `Fin n` is the type of natural numbers less than `n` (i.e., `Fin n` is like the set
 `{0,1,...,n-1}`). Let `a` be `0` in the type `Fin (f q)`, `b` be `0` in the type `Fin (f r)`, and
 `c` be `0` in the type `Fin 1`. For `a` and `b` we need to provide proofs that `0` is less than
@@ -240,7 +240,7 @@ def c : Fin 1 := 0
 
 #check (0 : Fin 1)
 
-/--
+/-!
 Now, since `f q = 1` and `f r = 1`, `Fin (f q)`, `Fin (f r)`, and `Fin 1` should all be the same
 type, and, moreover, `a`, `b`, and `c` should all be the same thing.
 
@@ -252,11 +252,11 @@ theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
   · rfl
   · rfl
-/--
+/-!
 But now there's an issue. If we ask Lean, it will tell us that `a` and `c` don't have the same type:
 -/
 #check_failure a = c
-/--
+/-!
 This means that it doesn't even make sense to say that `a` is equal to `c`.
 
 However, it is easy to show that `a` and `c` are heterogeneously equal, since equality is
