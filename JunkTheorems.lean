@@ -194,7 +194,7 @@ We have one last bit of equality-based junk. First we need to define the quotien
 reciprocity by the equivalence relation of equality.
 -/
 instance QR_setoid : Setoid QR where
-  r x y := (x = y)
+  r := (· = ·)
   iseqv := by
     constructor
     · simp
