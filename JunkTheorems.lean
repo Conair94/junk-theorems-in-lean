@@ -181,9 +181,9 @@ theorem unique_proof_of_not_not_QR_is_bijection :
     · simp [Function.Injective]
     · simp [Function.Surjective]
 /-!
-Although, again, note that here we have `QR = ¬¬QR`, `⟨QR, p⟩ = ⟨¬¬QR, q⟩` (where `p` is the
-unique proof of `QR` and `q` is the unique proof of `¬¬QR`), and it happens to be the case that
-`q` is a bijection, but it doesn't make sense to say that `p` is a function.
+Although, again, note that here we have `QR = ¬¬QR`, `⟨QR, p⟩ = ⟨¬¬QR, q⟩` (where `p` is the unique
+proof of `QR` and `q` is the unique proof of `¬¬QR`), and it happens to be the case that `q` is a
+bijection, but it doesn't make sense to say that `p` is a function.
 -/
 
 -------------------------------------------------------------------
@@ -253,8 +253,7 @@ theorem a_eq_b_eq_c : a = b ∧ b = c := by
   · rfl
   · rfl
 /-!
-But now there's an issue. If we ask Lean, it will tell us that `a` and `c` don't have the same
-type:
+But now there's an issue. If we ask Lean, it will tell us that `a` and `c` don't have the same type:
 -/
 #check_failure a = c
 /-!
@@ -264,6 +263,6 @@ However, it is easy to show that `a` and `c` are heterogeneously equal, since eq
 transitive, of course:
 -/
 theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := by
-  have h0 : ⟨Fin (f q), a⟩ = (⟨Fin (f r), b⟩ : Σ' X : Type, X) := by rfl
-  have h1 : ⟨Fin (f r), b⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := by rfl
+  have h0 : ⟨Fin (f q), a⟩ = (⟨Fin (f r), b⟩ : Σ' X : Type, X) := rfl
+  have h1 : ⟨Fin (f r), b⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := rfl
   simp [h0,h1]
