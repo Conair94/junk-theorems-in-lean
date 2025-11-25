@@ -237,9 +237,6 @@ def a : Fin (f q) := ⟨0, by rw [f_q_eq_one]; simp⟩
 def b : Fin (f r) := ⟨0, by unfold f r; grind⟩
 
 def c : Fin 1 := 0
-
-#check (0 : Fin 1)
-
 /-!
 Now, since `f q = 1` and `f r = 1`, `Fin (f q)`, `Fin (f r)`, and `Fin 1` should all be the same
 type, and, moreover, `a`, `b`, and `c` should all be the same thing.
