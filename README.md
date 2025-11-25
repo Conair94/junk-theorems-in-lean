@@ -18,9 +18,9 @@ In the following theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\m
 
 > **Theorem 6.** *The unique proof that quadratic reciprocity isn't false is a bijection.*
 
-And in particular, despite the fact that $`\mathsf{QR} = \neg\neg \mathsf{QR}`$ and $`\langle \mathsf{QR},p\rangle = \langle\neg\neg\mathsf{QR},q\rangle`$ are both provable (where $`p`$ is the unique proof of $`\mathsf{QR}`$ and $`q`$ is the unique proof of $`\neg\neg \mathsf{QR}`$), one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean, because this would be as nonsensical as the sentence 'The natural number $`2`$ is a bijection.' and type theory is all about avoiding mathematical nonsense.
+And in particular, despite the fact that $`\mathsf{QR} = \neg\neg \mathsf{QR}`$ and $`\langle \mathsf{QR},p\rangle = \langle\neg\neg\mathsf{QR},q\rangle`$ are both provable (where $`p`$ is the unique proof of $`\mathsf{QR}`$ and $`q`$ is the unique proof of $`\neg\neg \mathsf{QR}`$), one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean, because this would be as nonsensical as the sentence 'The natural number $`2`$ is a bijection.'
 
-Finally, using the axiom of choice (in an essential way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
+Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
 
 > **Theorem 7.** *$`a`$ is equal to $`b`$, and $`b`$ is equal to $`c`$.*
 
