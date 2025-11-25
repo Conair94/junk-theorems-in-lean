@@ -20,7 +20,7 @@ In the following theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\m
 
 And in particular, despite the fact that $`\mathsf{QR} = \neg\neg \mathsf{QR}`$ and $`\langle \mathsf{QR},p\rangle = \langle\neg\neg\mathsf{QR},q\rangle`$ are both provable (where $`p`$ is the unique proof of $`\mathsf{QR}`$ and $`q`$ is the unique proof of $`\neg\neg \mathsf{QR}`$), one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean, because this would be as nonsensical as the sentence 'The natural number $`2`$ is a bijection.'
 
-Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ (representing some $`\mathbb{N}`$-valued function) and prove the following:
+Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ (representing some $`\mathbb{N}`$-valued functions) and prove the following:
 
 > **Theorem 7.** *$`a`$ is equal to $`b + c`$, and $`b + c`$ is equal to $`c + b`$.*
 
