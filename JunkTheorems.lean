@@ -253,6 +253,6 @@ This means that it doesn't even make sense to say that `a` is equal to `c + b`.
 However, it is easy to show that `a` and `c + b` are heterogeneously equal, by appealing to Theorem
 7 and the basic mathematical fact that addition is commutative:
 -/
-theorem b_plus_a_heq_c : ⟨Fin 1 → ℕ, a⟩ = (⟨Fin (f q) → ℕ, c + b⟩ : Σ' X : Type, X) := by
+theorem b_plus_a_heq_c : ⟨Fin 1 → ℕ, a⟩ = (⟨Fin (f q) → ℕ, c + b⟩ : Σ X : Type, X) := by
   rw [add_comm]
   grind [a_plus_b_eq_c_eq_c_plus_b]
