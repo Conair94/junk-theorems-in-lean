@@ -24,7 +24,7 @@ As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
 
 **Theorem 2.** One divided by zero is equal to zero.
 -/
-theorem one_div_zero_eq_zero : 1 / 0 = 0 := by simp
+theorem one_div_zero_eq_zero : 1 / 0 = 0 := rfl
 /-!
 Among people who work in classical mathematics, the consensus seems to be that this is the best way
 to deal with division in proof assistants based on type theory, but it does lead to some issues,
@@ -237,7 +237,7 @@ type, and, moreover, `a`, `b`, and `c` should all be the same zero function. In 
 easily prove the following:
 **Theorem 7.** `a = b + c` and `b + c = c + b`.
 -/
-theorem a_plus_b_eq_c_eq_c_plus_b : a = b + c
+theorem a_eq_b_plus_c_eq_c_plus_b : a = b + c
                                   ∧ b + c = c + b := by
   constructor
   · rfl
@@ -253,6 +253,6 @@ This means that it doesn't even make sense to say that `a` is equal to `c + b`.
 However, it is easy to show that `a` and `c + b` are heterogeneously equal, by appealing to Theorem
 7 and the basic mathematical fact that addition is commutative:
 -/
-theorem b_plus_a_heq_c : ⟨Fin 1 → ℕ, a⟩ = (⟨Fin (f q) → ℕ, c + b⟩ : Σ X : Type, X) := by
+theorem a_heq_c_plus_b : ⟨Fin 1 → ℕ, a⟩ = (⟨Fin (f q) → ℕ, c + b⟩ : Σ X : Type, X) := by
   rw [add_comm]
-  grind [a_plus_b_eq_c_eq_c_plus_b]
+  grind [a_eq_b_plus_c_eq_c_plus_b]
