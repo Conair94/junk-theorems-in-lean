@@ -49,30 +49,25 @@ infix:70 " ÷ " => PDiv
 /-!
 While this is a reasonable solution, it still has its fair share of junk:
 
-**Theorem 4.** For any real numbers `x` and `y`, there are `a` and `b` such that `x ÷ y` is equal
-to the pair `⟨¬a, b⟩`, where every element of `¬a` is a bijection and `b` is a proper injection.
+**Theorem 4.** For any real numbers `x` and `y`, every element of the first coordinate of `x ÷ y`
+is a bijection and the second coordinate of `x ÷ y` is a proper injection.
 -/
 theorem x_div_y_is_bijections_injection_pair :
-    ∀ x y : ℝ, ∃ a b,
-          x ÷ y = ⟨¬a, b⟩
-       ∧ (∀ f : ¬a, Function.Bijective f)
-       ∧  Function.Injective  b
-       ∧ ¬Function.Surjective b := by
+    ∀ x y : ℝ, (∀ f : (x ÷ y).1, Function.Bijective f)
+             ∧  Function.Injective (x ÷ y).2
+             ∧ ¬Function.Surjective (x ÷ y).2 := by
   intros x y
-  use (y = 0); use (x ÷ y).get
   constructor
+  · intro f
+    constructor
+    · simp [Function.Injective]
+    · simp [Function.Surjective]
   · constructor
-  · constructor
-    · intros
-      constructor
-      · simp [Function.Injective]
-      · simp [Function.Surjective]
-    · constructor
-      · simp [Function.Injective]
-      · intro h
-        apply Finite.of_surjective at h
-        apply (inferInstance : Infinite ℝ).not_finite at h
-        exact h
+    · simp [Function.Injective]
+    · intro h
+      apply Finite.of_surjective at h
+      apply (inferInstance : Infinite ℝ).not_finite at h
+      trivial
 /-!
 In particular, note that this statement is still true in the specific case of `y = 0`. In other
 words, despite the fact that `fun x y ↦ x ÷ y` is a partial function not defined at `y = 0`,
