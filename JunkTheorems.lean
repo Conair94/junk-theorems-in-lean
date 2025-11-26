@@ -10,7 +10,7 @@ ones:
 
 **Theorem 1.** The third coordinate of the rational number `1 / 2` is a bijection.
 -/
-theorem one_half_third_coord_bijection : Function.Bijective (1 / 2 : ℚ).3 := by
+theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 := by
   constructor
   · grind [Function.Injective]
   · grind [Function.Surjective]
@@ -80,7 +80,30 @@ theorem x_div_y_is_bijections_injection_pair :
 In particular, note that this statement is still true in the specific case of `y = 0`. In other
 words, despite the fact that `fun x y ↦ x ÷ y` is a partial function not defined at `y = 0`,
 `1 ÷ 0` still exists and, moreover, has the property that its second coordinate is an injection.
+
+For the next theorem, we will need the Baire category theorem (for small countably generated
+complete uniform spaces).
 -/
+def BCT := ∀ {X : Type} [inst : UniformSpace X]
+                        [CompleteSpace X] [(uniformity X).IsCountablyGenerated]
+                        {f : ℕ → Set X}, (∀ (n : ℕ), IsOpen (f n)) →
+                                (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
+
+/-!
+**Theorem 6.** The first coordinate of `1 ÷ 2` is equal to the Baire category theorem.
+-/
+theorem one_div_two_first_coord_eq_BCT : (1 ÷ 2).1 = BCT := by
+  simp
+  constructor
+  · intro
+    unfold BCT
+    intros
+    apply BaireSpace.baire_property
+    · assumption
+    · assumption
+  · intros
+    unfold PDiv PFun.res PFun.restrict Part.restrict
+    grind
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -95,13 +118,6 @@ The statement of quadratic reciprocity for the Jacobi symbol.
 -/
 def QR := ∀ a b : ℕ, Odd a → Odd b →
                jacobiSym (↑a) b = (-1) ^ (a / 2 * (b / 2)) * jacobiSym (↑b) a
-/-!
-The statement of the Baire category theorem for small countably generated complete uniform spaces.
--/
-def BCT := ∀ {X : Type} [inst : UniformSpace X]
-                        [CompleteSpace X] [(uniformity X).IsCountablyGenerated]
-                        {f : ℕ → Set X}, (∀ (n : ℕ), IsOpen (f n)) →
-                                (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
 /-!
 The statement of the special adjoint functor theorem for small categories.
 -/
