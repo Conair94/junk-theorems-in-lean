@@ -14,7 +14,7 @@ In the following theorem, $`\div`$ is the partial division function on $`\mathbb
 
 In this next theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\mathsf{BCT}`$ stands for the Baire category theorem, and $`\mathsf{SAFT}`$ stands for the special adjoint functor theorem.
 
-> **Theorem 5.** *The unique proof $`p`$ of quadratic reciprocity satisfies the following: There exists a bijection $`q`$ from the Baire category theorem to the special adjoint functor theorem such that the pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle \mathsf{BCT} \to \mathsf{SAFT},q\rangle`$.*
+> **Theorem 5.** *Let $`p`$ be the unique proof of quadratic reciprocity. There exists a bijection $`q`$ from the Baire category theorem to the special adjoint functor theorem such that the pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle \mathsf{BCT} \to \mathsf{SAFT},q\rangle`$.*
 
 > **Theorem 6.** *The unique proof that quadratic reciprocity isn't false is a bijection.*
 

@@ -107,11 +107,11 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 5.** The unique proof `p` of quadratic reciprocity (`QR`) satisfies the following: There
-exist a bijection `q` from the Baire category theorem (`BCT`) to the special adjoint functor
-theorem (`SAFT`) such that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs
-live in `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p`
-is a proof of `A`.)
+**Theorem 5.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
+`q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
+that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
+`Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
+proof of `A`.)
 -/
 theorem unique_proof_of_QR_is_almost_bijection_from_BCT_to_SAFT :
     ∃ p : QR, (∀ r : QR, p = r)
