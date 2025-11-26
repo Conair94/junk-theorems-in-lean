@@ -10,7 +10,7 @@ ones:
 
 **Theorem 1.** The third coordinate of the rational number `1 / 2` is a bijection.
 -/
-theorem one_half_third_coord_bijectin : Function.Bijective (1 / 2 : ℚ).3 := by
+theorem one_half_third_coord_bijection : Function.Bijective (1 / 2 : ℚ).3 := by
   constructor
   · grind [Function.Injective]
   · grind [Function.Surjective]
