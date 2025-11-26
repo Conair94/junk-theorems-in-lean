@@ -10,7 +10,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 In the following theorem, $`\div`$ is the partial division function on $`\mathbb{R}`$ defined using Lean's partial function monad `PFun` (which would be the standard way to avoid $`1/0 = 0`$).
 
-> **Theorem 4.** *For any real numbers $`x`$ and $`y`$ (including $`0`$), every element of the first coordinate of $`x \div y`$ is a bijection and the second coordinate of $`x \div y`$ is a proper injection.
+> **Theorem 4.** *For any real numbers $`x`$ and $`y`$ (including $`0`$), every element of the first coordinate of $`x \div y`$ is a bijection and the second coordinate of $`x \div y`$ is a proper injection.*
 
 In this next theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\mathsf{BCT}`$ stands for the Baire category theorem, and $`\mathsf{SAFT}`$ stands for the special adjoint functor theorem.
 
