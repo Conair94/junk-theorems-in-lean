@@ -5,9 +5,17 @@ import Mathlib.NumberTheory.Harmonic.ZetaAsymp
 import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
 
 /-!
-Here we collect some uniquely type-theoretic junk theorems. Let's warm up with a basic one:
+Here we collect some uniquely type-theoretic junk theorems. Let's warm up with a couple of basic
+ones:
 
-**Theorem 1.** The set `{z : ℝ | z ≠ 0}` is a surjection.
+**Theorem 1.** The third coordinate of the rational number `1 / 2` is a bijection.
+-/
+theorem one_half_third_coord_bijectin : Function.Bijective (1 / 2 : ℚ).3 := by
+  constructor
+  · grind [Function.Injective]
+  · grind [Function.Surjective]
+/-!
+**Theorem 2.** The set `{z : ℝ | z ≠ 0}` is a surjection.
 -/
 theorem set_of_nonzero_reals_is_surjection :
     Function.Surjective {z : ℝ | z ≠ 0} := by
@@ -22,7 +30,7 @@ theorem set_of_nonzero_reals_is_surjection :
 /-!
 As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
 
-**Theorem 2.** One divided by zero is equal to zero.
+**Theorem 3.** One divided by zero is equal to zero.
 -/
 theorem one_div_zero_eq_zero : 1 / 0 = 0 := rfl
 /-!
@@ -30,7 +38,7 @@ Among people who work in classical mathematics, the consensus seems to be that t
 to deal with division in proof assistants based on type theory, but it does lead to some issues,
 such as the junk value of `riemannZeta 1`:
 
-**Theorem 3.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
+**Theorem 4.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
 -/
 theorem riemannZeta_one' :
     riemannZeta 1 = (↑Real.eulerMascheroniConstant - Complex.log (4 * ↑Real.pi)) / 2 :=
@@ -49,7 +57,7 @@ infix:70 " ÷ " => PDiv
 /-!
 While this is a reasonable solution, it still has its fair share of junk:
 
-**Theorem 4.** For any real numbers `x` and `y`, every element of the first coordinate of `x ÷ y`
+**Theorem 5.** For any real numbers `x` and `y`, every element of the first coordinate of `x ÷ y`
 is a bijection and the second coordinate of `x ÷ y` is a proper injection.
 -/
 theorem x_div_y_is_bijections_injection_pair :
@@ -107,7 +115,7 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 5.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
+**Theorem 6.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
 `q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
 that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
 `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
@@ -151,7 +159,7 @@ well-typed in general. That's why we can't upgrade the previous junk theorem to 
 of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
 did prove, morally speaking.
 
-So in other words, in the context of Theorem 5, even though
+So in other words, in the context of Theorem 6, even though
 * `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
 * `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
 * `p` is the unique element of `QR`,
@@ -164,7 +172,7 @@ we aren't even permitted to *say* that `p` is a function as well.
 
 We'll just have to settle for the following:
 
-**Theorem 6.** The unique proof that quadratic reciprocity isn't false is a bijection.
+**Theorem 7.** The unique proof that quadratic reciprocity isn't false is a bijection.
 -/
 theorem unique_proof_of_not_not_QR_is_bijection :
     ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
@@ -238,7 +246,7 @@ type, and, moreover, `a`, `b`, and `c` should all be the same thing.
 
 Indeed we can almost prove this:
 
-**Theorem 7.** `a` is equal to `b`, and `b` is equal to `c`.
+**Theorem 8.** `a` is equal to `b`, and `b` is equal to `c`.
 -/
 theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
