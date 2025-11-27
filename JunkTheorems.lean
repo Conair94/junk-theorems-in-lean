@@ -17,8 +17,7 @@ theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 :
 /-!
 **Theorem 2.** The set `{z : ℝ | z ≠ 0}` is a surjection.
 -/
-theorem set_of_nonzero_reals_is_surjection :
-    Function.Surjective {z : ℝ | z ≠ 0} := by
+theorem set_of_nonzero_reals_is_surjection : Function.Surjective {z : ℝ | z ≠ 0} := by
   intro a
   by_cases a
   · use 1; simp [setOf]; tauto
@@ -111,7 +110,7 @@ theorem one_div_two_first_coord_eq_BCT : (1 ÷ 2).1 = BCT := by
 /-!
 Next we'll prove a junk theorem that relates number theory, point-set topology, and category theory.
 
-To keep the statement readable, we need to give shorthand notation for the following three theorem
+To keep the statement readable, we need to give shorthand notation for the following two theorem
 statements.
 
 The statement of quadratic reciprocity for the Jacobi symbol.
@@ -131,7 +130,7 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 6.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
+**Theorem 7.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
 `q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
 that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
 `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
@@ -175,7 +174,7 @@ well-typed in general. That's why we can't upgrade the previous junk theorem to 
 of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
 did prove, morally speaking.
 
-So in other words, in the context of Theorem 6, even though
+So in other words, in the context of Theorem 7, even though
 * `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
 * `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
 * `p` is the unique element of `QR`,
@@ -188,7 +187,7 @@ we aren't even permitted to *say* that `p` is a function as well.
 
 We'll just have to settle for the following:
 
-**Theorem 7.** The unique proof that quadratic reciprocity isn't false is a bijection.
+**Theorem 8.** The unique proof that quadratic reciprocity isn't false is a bijection.
 -/
 theorem unique_proof_of_not_not_QR_is_bijection :
     ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
@@ -262,7 +261,7 @@ type, and, moreover, `a`, `b`, and `c` should all be the same thing.
 
 Indeed we can almost prove this:
 
-**Theorem 8.** `a` is equal to `b`, and `b` is equal to `c`.
+**Theorem 9.** `a` is equal to `b`, and `b` is equal to `c`.
 -/
 theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
