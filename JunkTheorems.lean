@@ -12,8 +12,8 @@ ones:
 -/
 theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 := by
   constructor
-  · grind [Function.Injective]
-  · grind [Function.Surjective]
+  · simp [Function.Injective]
+  · simp [Function.Surjective]
 /-!
 **Theorem 2.** The set `{z : ℝ | z ≠ 0}` is a surjection.
 -/
@@ -102,7 +102,7 @@ theorem one_div_two_first_coord_eq_BCT : (1 ÷ 2).1 = BCT := by
     · assumption
   · intros
     unfold PDiv PFun.res PFun.restrict Part.restrict
-    grind
+    simp
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -167,7 +167,7 @@ lemma dependent_pair_eq_0 :
   ∀ A B, ∀ p q, ⟨A, p⟩ = (⟨B, q⟩ : Σ' C : Sort u, C) → A = B := by grind
 
 lemma dependent_pair_eq_1 :
-  ∀ A, ∀ p q, ⟨A, p⟩ = (⟨A, q⟩ : Σ' C : Sort u, C) → p = q := by grind
+  ∀ A, ∀ p q, ⟨A, p⟩ = (⟨A, q⟩ : Σ' C : Sort u, C) → p = q := by simp
 /-!
 But we can't prove a statement of the form `⟨A, p⟩ = ⟨B, q⟩ → p = q`, because this isn't even
 well-typed in general. That's why we can't upgrade the previous junk theorem to 'the unique proof
@@ -238,11 +238,11 @@ lemma q_eq_r : q = r := by simp
 Consider the function from `QR` to `ℕ` that always takes on the value `1`. This clearly respects
 the equivalence relation of equality, so it lifts to a function `f` from `QR/=` to `ℕ`.
 -/
-def f : QR_mod_eq → ℕ := Quot.lift (fun _ ↦ 1) (by grind)
+def f : QR_mod_eq → ℕ := Quot.lift (fun _ ↦ 1) (by simp)
 /-!
 Use the fact that `q` equals `r` to prove that `f q = 1`.
 -/
-lemma f_q_eq_one : f q = 1 := by rw [q_eq_r]; unfold f r; grind
+lemma f_q_eq_one : f q = 1 := by rw [q_eq_r]; unfold f r; simp
 /-!
 Recall that `Fin n` is the type of natural numbers less than `n` (i.e., `Fin n` is like the set
 `{0,1,...,n-1}`). Let `a` be `0` in the type `Fin (f q)`, `b` be `0` in the type `Fin (f r)`, and
@@ -252,7 +252,7 @@ own for `c`.)
 -/
 def a : Fin (f q) := ⟨0, by rw [f_q_eq_one]; simp⟩
 
-def b : Fin (f r) := ⟨0, by unfold f r; grind⟩
+def b : Fin (f r) := ⟨0, by unfold f r; simp⟩
 
 def c : Fin 1 := 0
 /-!
