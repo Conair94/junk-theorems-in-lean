@@ -14,14 +14,135 @@ theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 :
   constructor
   · simp [Function.Injective]
   · simp [Function.Surjective]
+
+lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X = Set.univ := by
+  apply Iff.intro
+  · intro h
+    induction h
+    · right; left; grind
+    · right; right; rfl
+    · grind
+    · grind
+  · intro h
+    apply Or.elim h
+    · intro h2
+      rw [h2]
+      simp
+    · intro h2
+      apply Or.elim h2
+      · intro h3
+        rw [h3]
+        simp
+      · intro h3
+        rw [h3]
+        simp
+
 /-!
-**Theorem 2.** The set `{z : ℝ | z ≠ 0}` is a surjection.
+**Theorem 2.** The set `{z : ℝ | z ≠ 0}` is a continuous, non-monotone surjection.
 -/
-theorem set_of_nonzero_reals_is_surjection : Function.Surjective {z : ℝ | z ≠ 0} := by
-  intro a
-  by_cases a
-  · use 1; simp [setOf]; tauto
-  · use 0; simp [setOf]; tauto
+theorem set_of_nonzero_reals_is_continuous_nonmono_surjection :
+       Continuous {z : ℝ | z ≠ 0}
+    ∧ ¬Monotone {z : ℝ | z ≠ 0}
+    ∧  Function.Surjective {z : ℝ | z ≠ 0} := by
+  constructor
+  · rw [continuous_def]
+    intro s h
+    rw [Prop.isOpen_iff] at h
+    apply Or.elim h
+    · intro h2
+      rw [h2]
+      simp
+    · intro h2
+      apply Or.elim h2
+      · intro h3
+        rw [h3]
+        unfold setOf
+        simp [isOpen_ne]
+      · intro h3
+        rw [h3]
+        simp
+  · constructor
+    · intro h
+      have h1 : -1 ≤ (0 : ℝ) := by norm_num
+      apply h at h1
+      simp [setOf] at h1
+    · intro a
+      by_cases a
+      · use 1; simp [setOf]; tauto
+      · use 0; simp [setOf]; tauto
+
+lemma Prop.isClosed_iff (X : Set Prop) : IsClosed X ↔ X = ∅ ∨ X = {⊥} ∨ X = Set.univ := by
+  apply Iff.intro
+  · intro h
+    have h2 : IsOpen Xᶜ := by simp_all only [isOpen_compl_iff]
+    rw [isOpen_iff] at h2
+    apply Or.elim h2
+    · intro h3
+      right; right
+      rw [<- compl_eq_comm,eq_comm] at h3
+      rw [h3]
+      grind
+    · intro h3
+      apply Or.elim h3
+      · intro h4
+        right; left
+        rw [compl_eq_comm,eq_comm] at h4
+        rw [h4]
+        simp
+      · intro h4
+        left
+        rw [compl_eq_comm,eq_comm] at h4
+        rw [h4]
+        simp
+  · intro h
+    rw [<- compl_compl X]
+    rw [isClosed_compl_iff]
+    apply Or.elim h
+    · intro h2
+      rw [h2,isOpen_iff]
+      simp
+    · intro h2
+      apply Or.elim h2
+      · intro h3
+        rw [h3,isOpen_iff]
+        simp
+      · intro h3
+        rw [h3,isOpen_iff]
+        simp
+
+lemma Prop.closure_singleton_true_univ : closure ({⊤} : Set Prop) = Set.univ := by
+  unfold closure
+  ext
+  rw [Set.mem_sInter]
+  apply Iff.intro
+  · simp
+  · intro h X h2
+    have h3 : IsClosed X := by grind
+    have h4 : {⊤} ⊆ X := by grind
+    rw [isClosed_iff] at h3
+    apply Or.elim h3
+    · intro h5
+      rw [h5] at h4
+      tauto
+    · intro h5
+      apply Or.elim h5
+      · intro h6
+        rw [h6] at h4
+        rw [Set.singleton_subset_singleton] at h4
+        by_contra
+        tauto
+      · intro h6
+        rw [h6]
+        simp
+
+/-!
+**Theorem 3.** The Riemann hypothesis is in the topological closure of not not.
+-/
+theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure (¬¬ ·) := by
+  have h3 : (¬¬ ·) = ({⊤} : Set Prop) := by
+         unfold Not singleton Set.instSingletonSet Set.singleton; aesop
+  rw [h3,Prop.closure_singleton_true_univ]
+  simp
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -29,7 +150,7 @@ theorem set_of_nonzero_reals_is_surjection : Function.Surjective {z : ℝ | z �
 /-!
 As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
 
-**Theorem 3.** One divided by zero is equal to zero.
+**Theorem 4.** One divided by zero is equal to zero.
 -/
 theorem one_div_zero_eq_zero : 1 / 0 = 0 := rfl
 /-!
@@ -37,7 +158,7 @@ Among people who work in classical mathematics, the consensus seems to be that t
 to deal with division in proof assistants based on type theory, but it does lead to some issues,
 such as the junk value of `riemannZeta 1`:
 
-**Theorem 4.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
+**Theorem 5.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
 -/
 theorem riemannZeta_one' :
     riemannZeta 1 = (↑Real.eulerMascheroniConstant - Complex.log (4 * ↑Real.pi)) / 2 :=
@@ -56,7 +177,7 @@ infix:70 " ÷ " => PDiv
 /-!
 While this is a reasonable solution, it still has its fair share of junk:
 
-**Theorem 5.** For any real numbers `x` and `y`, every element of the first coordinate of `x ÷ y`
+**Theorem 6.** For any real numbers `x` and `y`, every element of the first coordinate of `x ÷ y`
 is a bijection and the second coordinate of `x ÷ y` is a proper injection.
 -/
 theorem x_div_y_is_bijections_injection_pair :
@@ -89,7 +210,7 @@ def BCT := ∀ {X : Type} [inst : UniformSpace X]
                                 (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
 
 /-!
-**Theorem 6.** The first coordinate of `1 ÷ 2` is equal to the Baire category theorem.
+**Theorem 7.** The first coordinate of `1 ÷ 2` is equal to the Baire category theorem.
 -/
 theorem one_div_two_first_coord_eq_BCT : (1 ÷ 2).1 = BCT := by
   simp
@@ -130,7 +251,7 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 7.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
+**Theorem 8.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
 `q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
 that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
 `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
@@ -174,7 +295,7 @@ well-typed in general. That's why we can't upgrade the previous junk theorem to 
 of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
 did prove, morally speaking.
 
-So in other words, in the context of Theorem 7, even though
+So in other words, in the context of Theorem 8, even though
 * `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
 * `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
 * `p` is the unique element of `QR`,
@@ -187,7 +308,7 @@ we aren't even permitted to *say* that `p` is a function as well.
 
 We'll just have to settle for the following:
 
-**Theorem 8.** The unique proof that quadratic reciprocity isn't false is a bijection.
+**Theorem 9.** The unique proof that quadratic reciprocity isn't false is a bijection.
 -/
 theorem unique_proof_of_not_not_QR_is_bijection :
     ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
@@ -261,7 +382,7 @@ type, and, moreover, `a`, `b`, and `c` should all be the same thing.
 
 Indeed we can almost prove this:
 
-**Theorem 9.** `a` is equal to `b`, and `b` is equal to `c`.
+**Theorem 10.** `a` is equal to `b`, and `b` is equal to `c`.
 -/
 theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
