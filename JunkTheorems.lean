@@ -163,67 +163,6 @@ such as the junk value of `riemannZeta 1`:
 theorem riemannZeta_one' :
     riemannZeta 1 = (↑Real.eulerMascheroniConstant - Complex.log (4 * ↑Real.pi)) / 2 :=
   riemannZeta_one
-/-!
-So what if we find this distasteful and want to avoid these junk theorems? Fortunately, Mathlib has
-an existing monad, `PFun`, for defining true partial functions, so let's use that:
-
-Define a partial division function `÷` by restricting `/` to the nonzero reals (i.e., the set that
-we showed is a surjection earlier) to avoid the junk value `1 / 0 = 0`.
--/
-noncomputable def PDiv : ℝ → ℝ →. ℝ :=
-   fun x ↦ PFun.res (x / ·) {z : ℝ | z ≠ 0}
-
-infix:70 " ÷ " => PDiv
-/-!
-While this is a reasonable solution, it still has its fair share of junk:
-
-**Theorem 6.** For any real numbers `x` and `y`, every element of the first coordinate of `x ÷ y`
-is a bijection and the second coordinate of `x ÷ y` is a proper injection.
--/
-theorem x_div_y_is_bijections_injection_pair :
-    ∀ x y : ℝ, (∀ f : (x ÷ y).1, Function.Bijective f)
-             ∧  Function.Injective (x ÷ y).2
-             ∧ ¬Function.Surjective (x ÷ y).2 := by
-  intros x y
-  constructor
-  · intro f
-    constructor
-    · simp [Function.Injective]
-    · simp [Function.Surjective]
-  · constructor
-    · simp [Function.Injective]
-    · intro h
-      apply Finite.of_surjective at h
-      apply (inferInstance : Infinite ℝ).not_finite at h
-      trivial
-/-!
-In particular, note that this statement is still true in the specific case of `y = 0`. In other
-words, despite the fact that `fun x y ↦ x ÷ y` is a partial function not defined at `y = 0`,
-`1 ÷ 0` still exists and, moreover, has the property that its second coordinate is an injection.
-
-For the next theorem, we will need the Baire category theorem (for small countably generated
-complete uniform spaces).
--/
-def BCT := ∀ {X : Type} [inst : UniformSpace X]
-                        [CompleteSpace X] [(uniformity X).IsCountablyGenerated]
-                        {f : ℕ → Set X}, (∀ (n : ℕ), IsOpen (f n)) →
-                                (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
-
-/-!
-**Theorem 7.** The first coordinate of `1 ÷ 2` is equal to the Baire category theorem.
--/
-theorem one_div_two_first_coord_eq_BCT : (1 ÷ 2).1 = BCT := by
-  simp
-  constructor
-  · intro
-    unfold BCT
-    intros
-    apply BaireSpace.baire_property
-    · assumption
-    · assumption
-  · intros
-    unfold PDiv PFun.res PFun.restrict Part.restrict
-    simp
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -231,13 +170,21 @@ theorem one_div_two_first_coord_eq_BCT : (1 ÷ 2).1 = BCT := by
 /-!
 Next we'll prove a junk theorem that relates number theory, point-set topology, and category theory.
 
-To keep the statement readable, we need to give shorthand notation for the following two theorem
+To keep the statement readable, we need to give shorthand notation for the following three theorem
 statements.
 
 The statement of quadratic reciprocity for the Jacobi symbol.
 -/
 def QR := ∀ a b : ℕ, Odd a → Odd b →
                jacobiSym (↑a) b = (-1) ^ (a / 2 * (b / 2)) * jacobiSym (↑b) a
+
+/-!
+The Baire category theorem (for small countably generated complete uniform spaces).
+-/
+def BCT := ∀ {X : Type} [inst : UniformSpace X]
+                        [CompleteSpace X] [(uniformity X).IsCountablyGenerated]
+                        {f : ℕ → Set X}, (∀ (n : ℕ), IsOpen (f n)) →
+                                (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
 /-!
 The statement of the special adjoint functor theorem for small categories.
 -/
@@ -251,7 +198,7 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 8.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
+**Theorem 6.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
 `q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
 that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
 `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
@@ -295,7 +242,7 @@ well-typed in general. That's why we can't upgrade the previous junk theorem to 
 of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
 did prove, morally speaking.
 
-So in other words, in the context of Theorem 8, even though
+So in other words, in the context of Theorem 6, even though
 * `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
 * `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
 * `p` is the unique element of `QR`,
@@ -308,7 +255,7 @@ we aren't even permitted to *say* that `p` is a function as well.
 
 We'll just have to settle for the following:
 
-**Theorem 9.** The unique proof that quadratic reciprocity isn't false is a bijection.
+**Theorem 7.** The unique proof that quadratic reciprocity isn't false is a bijection.
 -/
 theorem unique_proof_of_not_not_QR_is_bijection :
     ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
@@ -382,7 +329,7 @@ type, and, moreover, `a`, `b`, and `c` should all be the same thing.
 
 Indeed we can almost prove this:
 
-**Theorem 10.** `a` is equal to `b`, and `b` is equal to `c`.
+**Theorem 8.** `a` is equal to `b`, and `b` is equal to `c`.
 -/
 theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
