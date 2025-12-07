@@ -10,6 +10,8 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 4.** *The dot product of not with itself. Moreover, the matrix determinant of or.*
 
+On the other hand, note that the determinant of and is not a true statement.
+
 > **Theorem 5.** *One divided by zero is equal to zero.*
 
 > **Theorem 6.** *$`\zeta(1) = (\gamma - \log 4 \pi) / 2`$, where $`\zeta(s)`$ is the Riemann zeta function.*
