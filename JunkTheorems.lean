@@ -144,9 +144,16 @@ theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure
          unfold Not singleton Set.instSingletonSet Set.singleton; aesop
   rw [h3,Prop.closure_singleton_true_univ]
   simp
-
 /-!
-**Theorem 4.** The dot product of not with itself. Moreover, the matrix determinant of or.
+**Theorem 4.** The following are equivalent: The binary expansion of `7`.
+-/
+theorem TFAE_7_binary : List.TFAE (7).bits := by
+  have h : Nat.bits 7 = [true, true, true] := by
+    unfold Nat.bits Nat.binaryRec; simp; unfold Nat.binaryRec; simp
+  simp_all only [List.pure_def, List.bind_eq_flatMap, List.flatMap_cons, List.flatMap_nil,
+  List.append_nil, List.cons_append, List.nil_append, List.tfae_cons_self, List.tfae_singleton]
+/-!
+**Theorem 5.** The dot product of not with itself. Moreover, the matrix determinant of or.
 -/
 theorem not_dot_not_and_det_or : dotProduct not not ∧ Matrix.det or := by decide
 
@@ -156,7 +163,7 @@ theorem not_dot_not_and_det_or : dotProduct not not ∧ Matrix.det or := by deci
 /-!
 As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
 
-**Theorem 5.** One divided by zero is equal to zero.
+**Theorem 6.** One divided by zero is equal to zero.
 -/
 theorem one_div_zero_eq_zero : 1 / 0 = 0 := rfl
 /-!
@@ -164,7 +171,7 @@ Among people who work in classical mathematics, the consensus seems to be that t
 to deal with division in proof assistants based on type theory, but it does lead to some issues,
 such as the junk value of `riemannZeta 1`:
 
-**Theorem 6.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
+**Theorem 7.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
 -/
 theorem riemannZeta_one' :
     riemannZeta 1 = (↑Real.eulerMascheroniConstant - Complex.log (4 * ↑Real.pi)) / 2 :=
@@ -204,7 +211,7 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 7.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
+**Theorem 8.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
 `q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
 that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
 `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
@@ -248,7 +255,7 @@ well-typed in general. That's why we can't upgrade the previous junk theorem to 
 of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
 did prove, morally speaking.
 
-So in other words, in the context of Theorem 7, even though
+So in other words, in the context of Theorem 8, even though
 * `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
 * `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
 * `p` is the unique element of `QR`,
@@ -261,7 +268,7 @@ we aren't even permitted to *say* that `p` is a function as well.
 
 We'll just have to settle for the following:
 
-**Theorem 8.** The unique proof that quadratic reciprocity isn't false is a bijection.
+**Theorem 9.** The unique proof that quadratic reciprocity isn't false is a bijection.
 -/
 theorem unique_proof_of_not_not_QR_is_bijection :
     ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
@@ -335,7 +342,7 @@ type, and, moreover, `a`, `b`, and `c` should all be the same thing.
 
 Indeed we can almost prove this:
 
-**Theorem 9.** `a` is equal to `b`, and `b` is equal to `c`.
+**Theorem 10.** `a` is equal to `b`, and `b` is equal to `c`.
 -/
 theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
