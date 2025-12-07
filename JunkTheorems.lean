@@ -149,7 +149,6 @@ theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure
 /-!
 **Theorem 4.** The following are equivalent: The binary expansion of `7`.
 -/
-
 theorem TFAE_7_binary : List.TFAE (7).bits := by
   unfold Nat.bits Nat.binaryRec Nat.binaryRec
   simp_all only [OfNat.ofNat_ne_zero, ↓reduceDIte, Nat.one_and_eq_mod_two, Nat.reduceMod,
@@ -161,9 +160,9 @@ theorem TFAE_7_binary : List.TFAE (7).bits := by
 **Theorem 5.** The dot product of not with itself. Moreover, the matrix determinant of or. However,
 not the determinant of and.
 -/
-theorem not_dot_not_and_det_or : dotProduct not not
-                              ∧  Matrix.det or
-                              ∧ ¬Matrix.det and := by decide
+theorem not_dot_not_det_or_and_not_det_and : dotProduct not not
+                                          ∧  Matrix.det or
+                                          ∧ ¬Matrix.det and := by decide
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
