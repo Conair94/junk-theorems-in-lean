@@ -16,7 +16,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 7.** *$`\zeta(1) = (\gamma - \log 4 \pi) / 2`$, where $`\zeta(s)`$ is the Riemann zeta function.*
 
-> **Theorem 8.** *Two minus there is equal to zero.*
+> **Theorem 8.** *Two minus three is equal to zero.*
 
 If we try to avoid this with the partial subtraction function `psub`, we get the following.
 
