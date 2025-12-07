@@ -1,6 +1,7 @@
 import Mathlib.CategoryTheory.Adjunction.AdjointFunctorTheorems
 import Mathlib.CategoryTheory.Limits.SmallComplete
 import Mathlib.Algebra.Ring.BooleanRing
+import Mathlib.Data.Nat.PSub
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.NumberTheory.Harmonic.ZetaAsymp
 import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
@@ -184,6 +185,17 @@ theorem riemannZeta_one' :
     riemannZeta 1 = (Real.eulerMascheroniConstant - Complex.log (4 * Real.pi)) / 2 :=
   riemannZeta_one
 
+/-!
+**Theorem 8.** Two minus three is equal to zero.
+-/
+theorem two_minus_three_eq_zero : 2 - 3 = 0 := rfl
+
+/-!
+**Theorem 9.** Two minus three, where subtraction is understood in the sense of a partial function,
+is equal to the extended natural number `+∞`.
+-/
+theorem two_minus_three_eq_infty : (2).psub 3 = (⊤ : ℕ∞) := rfl
+
 -------------------------------------------------------------------
 -------------------------------------------------------------------
 
@@ -218,7 +230,7 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 8.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
+**Theorem 10.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
 `q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
 that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
 `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
@@ -262,7 +274,7 @@ well-typed in general. That's why we can't upgrade the previous junk theorem to 
 of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
 did prove, morally speaking.
 
-So in other words, in the context of Theorem 8, even though
+So in other words, in the context of Theorem 10, even though
 * `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
 * `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
 * `p` is the unique element of `QR`,
@@ -275,7 +287,7 @@ we aren't even permitted to *say* that `p` is a function as well.
 
 We'll just have to settle for the following:
 
-**Theorem 9.** The unique proof that quadratic reciprocity isn't false is a bijection.
+**Theorem 11.** The unique proof that quadratic reciprocity isn't false is a bijection.
 -/
 theorem unique_proof_of_not_not_QR_is_bijection :
     ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
@@ -349,7 +361,7 @@ type, and, moreover, `a`, `b`, and `c` should all be the same thing.
 
 Indeed we can almost prove this:
 
-**Theorem 10.** `a` is equal to `b`, and `b` is equal to `c`.
+**Theorem 12.** `a` is equal to `b`, and `b` is equal to `c`.
 -/
 theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
