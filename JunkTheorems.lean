@@ -191,8 +191,8 @@ theorem riemannZeta_one' :
 theorem two_minus_three_eq_zero : 2 - 3 = 0 := rfl
 
 /-!
-**Theorem 9.** Two minus three, where subtraction is understood to be a partial function, is equal
-to the extended natural number `+∞`.
+**Theorem 9.** Two minus three, where subtraction is understood to be a partial function on `ℕ`, is
+equal to the extended natural number `+∞`.
 -/
 theorem two_minus_three_eq_infty : (2).psub 3 = (⊤ : ℕ∞) := rfl
 

@@ -20,7 +20,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 If we try to avoid this with the partial subtraction function `psub`, we get the following.
 
-> **Theorem 9.** *Two minus three, where subtraction is understood to be a partial function, is equal to the extended natural number $`+\infty`$.*
+> **Theorem 9.** *Two minus three, where subtraction is understood to be a partial function on $`\mathbb{N}`$, is equal to the extended natural number $`+\infty`$.*
 
 In this next theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity, $`\mathsf{BCT}`$ stands for the Baire category theorem, and $`\mathsf{SAFT}`$ stands for the special adjoint functor theorem.
 
