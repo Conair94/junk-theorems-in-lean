@@ -6,9 +6,9 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 2.** *The set $`\{z : \mathbb{R} | z \neq 0\}`$ is a continuous, non-monotone surjection.*
 
-> **Theorem 3.** *The Riemann hypothesis is in the topological closure of not not.*
+> **Theorem 3.** *The Riemann hypothesis is in the topological closure of the set not not.*
 
-> **Theorem 4.** *The dot product of not with itself. Moreover, the determinant of or.*
+> **Theorem 4.** *The dot product of not with itself. Moreover, the matrix determinant of or.*
 
 > **Theorem 5.** *One divided by zero is equal to zero.*
 

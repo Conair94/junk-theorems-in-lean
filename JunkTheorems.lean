@@ -137,7 +137,7 @@ lemma Prop.closure_singleton_true_univ : closure ({⊤} : Set Prop) = Set.univ :
         simp
 
 /-!
-**Theorem 3.** The Riemann hypothesis is in the topological closure of not not.
+**Theorem 3.** The Riemann hypothesis is in the topological closure of the set not not.
 -/
 theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure (¬¬ ·) := by
   have h3 : (¬¬ ·) = ({⊤} : Set Prop) := by
@@ -146,7 +146,7 @@ theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure
   simp
 
 /-!
-**Theorem 4. The dot product of not with itself. Moreover, the determinant of or.
+**Theorem 4.** The dot product of not with itself. Moreover, the matrix determinant of or.
 -/
 theorem not_dot_not_and_det_or : dotProduct not not ∧ Matrix.det or := by decide
 
