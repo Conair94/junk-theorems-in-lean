@@ -10,9 +10,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 4.** *The following are equivalent: The binary expansion of $`7`$.*
 
-> **Theorem 5.** *The dot product of not with itself. Moreover, the matrix determinant of or.*
-
-On the other hand, note that the determinant of and is not a true statement.
+> **Theorem 5.** *The dot product of not with itself. Moreover, the matrix determinant of or. However, not the determinant of and.*
 
 > **Theorem 6.** *One divided by zero is equal to zero.*
 

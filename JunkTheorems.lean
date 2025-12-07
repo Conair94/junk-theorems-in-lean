@@ -144,18 +144,25 @@ theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure
          unfold Not singleton Set.instSingletonSet Set.singleton; aesop
   rw [h3,Prop.closure_singleton_true_univ]
   simp
+
 /-!
 **Theorem 4.** The following are equivalent: The binary expansion of `7`.
 -/
+
 theorem TFAE_7_binary : List.TFAE (7).bits := by
-  have h : Nat.bits 7 = [true, true, true] := by
-    unfold Nat.bits Nat.binaryRec; simp; unfold Nat.binaryRec; simp
-  simp_all only [List.pure_def, List.bind_eq_flatMap, List.flatMap_cons, List.flatMap_nil,
-  List.append_nil, List.cons_append, List.nil_append, List.tfae_cons_self, List.tfae_singleton]
+  unfold Nat.bits Nat.binaryRec Nat.binaryRec
+  simp_all only [OfNat.ofNat_ne_zero, ↓reduceDIte, Nat.one_and_eq_mod_two, Nat.reduceMod,
+  Nat.reduceBNe, Nat.reduceShiftRight, Nat.binaryRec_one, List.pure_def, List.bind_eq_flatMap,
+  List.flatMap_cons, List.flatMap_nil, List.append_nil, List.cons_append, List.nil_append,
+  List.tfae_cons_self, List.tfae_singleton]
+
 /-!
-**Theorem 5.** The dot product of not with itself. Moreover, the matrix determinant of or.
+**Theorem 5.** The dot product of not with itself. Moreover, the matrix determinant of or. However,
+not the determinant of and.
 -/
-theorem not_dot_not_and_det_or : dotProduct not not ∧ Matrix.det or := by decide
+theorem not_dot_not_and_det_or : dotProduct not not
+                              ∧  Matrix.det or
+                              ∧ ¬Matrix.det and := by decide
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -174,7 +181,7 @@ such as the junk value of `riemannZeta 1`:
 **Theorem 7.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
 -/
 theorem riemannZeta_one' :
-    riemannZeta 1 = (↑Real.eulerMascheroniConstant - Complex.log (4 * ↑Real.pi)) / 2 :=
+    riemannZeta 1 = (Real.eulerMascheroniConstant - Complex.log (4 * Real.pi)) / 2 :=
   riemannZeta_one
 
 -------------------------------------------------------------------
