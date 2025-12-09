@@ -2,43 +2,43 @@
 
 This is a small collection of formally verified junk theorems provable in Lean 4 + Mathlib that, in my experience, are quite surprising and upsetting to mathematicians who are not familiar with type theory (and in the case of Theorem 13, also to mathematicians who are familiar with type theory). [See the main .lean file here.](JunkTheorems.lean)
 
-**Theorem 1.** *The third coordinate of the rational number $`1/2`$ is a bijection.*
+> **Theorem 1.** *The third coordinate of the rational number $`1/2`$ is a bijection.*
 
-**Theorem 2.** *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
+> **Theorem 2.** *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
 
-**Theorem 3.** *Let $`P`$ be the polynomial $`X^2(X^3 + X + 1)`$. Let $`A`$ be the third coordinate of the first coordinate of $`P`$. Fix a natural number $`n`$, and let $`B`$ and $`C`$ be the first and second coordinates of $`A(n)`$, respectively. Then*
-* *$`C`$ is the inverse of $`B`$ and*
-* *for any $`z`$ in the domain of $`B`$, $`B(z)`$ is a bijection.*
+> **Theorem 3.** *Let $`P`$ be the polynomial $`X^2(X^3 + X + 1)`$. Let $`A`$ be the third coordinate of the first coordinate of $`P`$. Fix a natural number $`n`$, and let $`B`$ and $`C`$ be the first and second coordinates of $`A(n)`$, respectively. Then*
+> * *$`C`$ is the inverse of $`B`$ and*
+> * *for any $`z`$ in the domain of $`B`$, $`B(z)`$ is a bijection.*
 
-**Theorem 4.** *The set $`\{z : \mathbb{R} | z \neq 0\}`$ is a continuous, non-monotone surjection.*
+> **Theorem 4.** *The set $`\{z : \mathbb{R} | z \neq 0\}`$ is a continuous, non-monotone surjection.*
 
-**Theorem 5.** *The Riemann hypothesis is in the topological closure of the set not not.*
+> **Theorem 5.** *The Riemann hypothesis is in the topological closure of the set not not.*
 
 Note though that showing that the Riemann hypothesis is in the topological closure of the set not will win you a million dollars.
 
-**Theorem 6.** *The following are equivalent: The binary expansion of $`7`$.*
+> **Theorem 6.** *The following are equivalent: The binary expansion of $`7`$.*
 
-**Theorem 7.** *The dot product of not with itself. Moreover, the matrix determinant of or. However, not the determinant of and.*
+> **Theorem 7.** *The dot product of not with itself. Moreover, the matrix determinant of or. However, not the determinant of and.*
 
-**Theorem 8.** *One divided by zero is equal to zero.*
+> **Theorem 8.** *One divided by zero is equal to zero.*
 
-**Theorem 9.** *$`\zeta(1) = (\gamma - \log 4 \pi) / 2`$, where $`\zeta(s)`$ is the Riemann zeta function.*
+> **Theorem 9.** *$`\zeta(1) = (\gamma - \log 4 \pi) / 2`$, where $`\zeta(s)`$ is the Riemann zeta function.*
 
-**Theorem 10.** *Two minus three is equal to zero.*
+> **Theorem 10.** *Two minus three is equal to zero.*
 
 If we try to avoid this with the partial subtraction function `psub`, we get the following.
 
-**Theorem 11.** *Two minus three, where subtraction is understood to be a partial function on $`\mathbb{N}`$, is equal to the extended natural number $`+\infty`$.*
+> **Theorem 11.** *Two minus three, where subtraction is understood to be a partial function on $`\mathbb{N}`$, is equal to the extended natural number $`+\infty`$.*
 
 In this next theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity and $`\mathsf{BCT}`$ stands for the Baire category theorem.
 
-**Theorem 12.** *Let $`p`$ be the unique proof of quadratic reciprocity, and let $`q`$ be the unique proof that the Baire category theorem isn't false. The pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle\neg\neg\mathsf{BCT},q\rangle`$ (in the sense of pointed types), and $`q`$ is a bijection.*
+> **Theorem 12.** *Let $`p`$ be the unique proof of quadratic reciprocity, and let $`q`$ be the unique proof that the Baire category theorem isn't false. The pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle\neg\neg\mathsf{BCT},q\rangle`$ (in the sense of pointed types), and $`q`$ is a bijection.*
 
 However, one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean, because this would be as nonsensical as the sentence 'The natural number $`2`$ is a bijection.'
 
 Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
 
-**Theorem 13.** *$`a`$ is equal to $`b`$, and $`b`$ is equal to $`c`$.*
+> **Theorem 13.** *$`a`$ is equal to $`b`$, and $`b`$ is equal to $`c`$.*
 
 This may not seem so strange, but the issue is that if we now consider the obvious corollary $`a = c`$, Lean will tell us that $`a`$ and $`c`$ don't have the same type, so the question of whether $`a`$ is equal to $`c`$ is as absurd as the question of whether the Banach space $`\ell^2`$ is equal to the monster group. (And, yes, $`a`$ and $`b`$ have the same type and $`b`$ and $`c`$ have the same type; there is no type coercion happening here.)
 
