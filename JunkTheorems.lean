@@ -17,7 +17,29 @@ theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 :
   · simp [Function.Surjective]
 
 /-!
-**Theorem 2.** Let `P` be the polynomial `X^2 + 2*X + 1` (over the integers). Let `A` be the third
+**Theorem 2.** The first coordinate of the polynomial `X^2 * (X^3 + X + 1)` is equal to the prime
+factorization of `30`.
+-/
+theorem polynomial_30_factorization :
+    (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)).1 = (30).factorization := by
+  have h : (Polynomial.X^2 : Polynomial ℕ) * (Polynomial.X^3 + Polynomial.X + 1)
+           = Polynomial.X^2 + Polynomial.X^3 + Polynomial.X^5 := by ring
+  rw [h]
+  have : Finsupp.single 2 1 + Finsupp.single 3 1 + Finsupp.single 5 1 = Nat.factorization 30 := by
+    have h2 : 30 = 2 * 3 * 5 := by ring
+    have f2 : Finsupp.single 2 1 = (2).factorization := by rw [Nat.Prime.factorization]; decide
+    have f3 : Finsupp.single 3 1 = (3).factorization := by rw [Nat.Prime.factorization]; decide
+    have f5 : Finsupp.single 5 1 = (5).factorization := by rw [Nat.Prime.factorization]; decide
+    rw [h2,Nat.factorization_mul,Nat.factorization_mul]
+    · simp_all only [Nat.reduceMul]
+    · simp
+    · simp
+    · simp
+    · simp
+  simp_all only [Polynomial.toFinsupp_add, Polynomial.toFinsupp_X_pow]
+
+/-!
+**Theorem 3.** Let `P` be the polynomial `X^2 + 2*X + 1` (over the integers). Let `A` be the third
 coordinate of the first coordinate of `P`. Fix a natural number `n`, and let `B` and `C` be the
 first and second coordinates of `A(n)`, respectively. Then
 * `C` is the inverse of `B` and
@@ -63,7 +85,7 @@ lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X 
         simp
 
 /-!
-**Theorem 3.** The set `{z : ℝ | z ≠ 0}` is a continuous, non-monotone surjection.
+**Theorem 4.** The set `{z : ℝ | z ≠ 0}` is a continuous, non-monotone surjection.
 -/
 theorem set_of_nonzero_reals_is_continuous_nonmono_surjection :
        Continuous {z : ℝ | z ≠ 0}
@@ -161,7 +183,7 @@ lemma Prop.closure_singleton_true_univ : closure ({⊤} : Set Prop) = Set.univ :
         simp
 
 /-!
-**Theorem 4.** The Riemann hypothesis is in the topological closure of the set not not.
+**Theorem 5.** The Riemann hypothesis is in the topological closure of the set not not.
 -/
 theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure (¬¬ ·) := by
   have h3 : (¬¬ ·) = ({⊤} : Set Prop) := by
@@ -170,14 +192,14 @@ theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure
   simp
 
 /-!
-**Theorem 5.** The following are equivalent: The binary expansion of `7`.
+**Theorem 6.** The following are equivalent: The binary expansion of `7`.
 -/
 theorem TFAE_7_binary : List.TFAE (7).bits := by
   unfold Nat.bits Nat.binaryRec Nat.binaryRec
   simp!
 
 /-!
-**Theorem 6.** The dot product of not with itself. Moreover, the matrix determinant of or. However,
+**Theorem 7.** The dot product of not with itself. Moreover, the matrix determinant of or. However,
 not the determinant of and.
 -/
 theorem not_dot_not_det_or_and_not_det_and : dotProduct not not
@@ -190,7 +212,7 @@ theorem not_dot_not_det_or_and_not_det_and : dotProduct not not
 /-!
 As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
 
-**Theorem 7.** One divided by zero is equal to zero.
+**Theorem 8.** One divided by zero is equal to zero.
 -/
 theorem one_div_zero_eq_zero : 1 / 0 = 0 := rfl
 /-!
@@ -198,19 +220,19 @@ Among people who work in classical mathematics, the consensus seems to be that t
 to deal with division in proof assistants based on type theory, but it does lead to some issues,
 such as the junk value of `riemannZeta 1`:
 
-**Theorem 8.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
+**Theorem 9.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
 -/
 theorem riemannZeta_one' :
     riemannZeta 1 = (Real.eulerMascheroniConstant - Complex.log (4 * Real.pi)) / 2 :=
   riemannZeta_one
 
 /-!
-**Theorem 9.** Two minus three is equal to zero.
+**Theorem 10.** Two minus three is equal to zero.
 -/
 theorem two_minus_three_eq_zero : 2 - 3 = 0 := rfl
 
 /-!
-**Theorem 10.** Two minus three, where subtraction is understood to be a partial function on `ℕ`, is
+**Theorem 11.** Two minus three, where subtraction is understood to be a partial function on `ℕ`, is
 equal to the extended natural number `+∞`.
 -/
 theorem two_minus_three_eq_infty : (2).psub 3 = (⊤ : ℕ∞) := rfl
@@ -219,108 +241,50 @@ theorem two_minus_three_eq_infty : (2).psub 3 = (⊤ : ℕ∞) := rfl
 -------------------------------------------------------------------
 
 /-!
-Next we'll prove a junk theorem that relates number theory, point-set topology, and category theory.
-
-To keep the statement readable, we need to give shorthand notation for the following three theorem
+To keep the next statement readable, we need to give shorthand notation for the following two
 statements.
 
 The statement of quadratic reciprocity for the Jacobi symbol.
 -/
 def QR := ∀ a b : ℕ, Odd a → Odd b →
-               jacobiSym (↑a) b = (-1) ^ (a / 2 * (b / 2)) * jacobiSym (↑b) a
-
+  jacobiSym (↑a) b = (-1) ^ (a / 2 * (b / 2)) * jacobiSym (↑b) a
 /-!
 The Baire category theorem (for small countably generated complete uniform spaces).
 -/
 def BCT := ∀ {X : Type} [inst : UniformSpace X]
-                        [CompleteSpace X] [(uniformity X).IsCountablyGenerated]
-                        {f : ℕ → Set X}, (∀ (n : ℕ), IsOpen (f n)) →
-                                (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
-/-!
-The statement of the special adjoint functor theorem for small categories.
--/
-def SAFT :=
-∀ {C : Type 0} [inst : CategoryTheory.Category.{0, 0} C] {D : Type 0}
-               [inst_1 : CategoryTheory.Category.{0, 0} D] [CategoryTheory.Limits.HasLimits D]
-               [CategoryTheory.WellPowered.{0, 0, 0} D] {P : CategoryTheory.ObjectProperty D}
-               [CategoryTheory.ObjectProperty.Small.{0, 0, 0} P],
-                 P.IsCoseparating → ∀ (G : CategoryTheory.Functor D C)
-                            [CategoryTheory.Limits.PreservesLimits G], G.IsRightAdjoint
-/-!
-Now we can prove this:
+  [CompleteSpace X] [(uniformity X).IsCountablyGenerated]
+  {f : ℕ → Set X}, (∀ (n : ℕ), IsOpen (f n)) →
+  (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
 
-**Theorem 11.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
-`q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
-that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
-`Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
-proof of `A`.)
+/-!
+**Theorem 12.** Let `p` be the unique proof of quadratic reciprocity, and let `q` be the unique
+proof that the Baire category theorem isn't false.
+* The pair `⟨QR,p⟩` is equal to the pair `⟨¬¬BCT,q⟩`.
+* `q` is a bijection.
 -/
-theorem unique_proof_of_QR_is_almost_bijection_from_BCT_to_SAFT :
-    ∃ p : QR, (∀ r : QR, p = r)
-            ∧ ∃ q : BCT → SAFT, Function.Bijective q
-                  ∧ ⟨QR, p⟩ = (⟨BCT → SAFT, q⟩ : Σ' A : Prop, A) := by
+theorem unique_proofs :
+    ∃ p : QR, ∃ q : ¬¬BCT, (∀ r : QR, p = r)
+                         ∧ (∀ r : ¬¬BCT, q = r)
+                         ∧ ⟨QR,p⟩ = (⟨¬¬BCT,r⟩ : Σ' A : Prop, A)
+                         ∧ Function.Bijective q := by
   use (by unfold QR; grind [jacobiSym.quadratic_reciprocity])
-  constructor
-  · simp
-  · use fun _ ↦ (by unfold SAFT; apply CategoryTheory.isRightAdjoint_of_preservesLimits_of_isCoseparating)
-    constructor
-    · constructor
-      · simp [Function.Injective]
-      · simp [Function.Surjective]
-        unfold BCT
-        intros
-        apply BaireSpace.baire_property
-        · assumption
-        · assumption
-    · grind
-
-/-!
-Now, clearly, this has nothing to do with `QR`, `BCT`, and `SAFT` in particular. (Or does it?
-Hopefully you're able to determine this just by inspecting the proof.)
-
-Note that here the pair `⟨A, p⟩` is almost an ordered pair in the sense that
-* if `⟨A, p⟩ = ⟨B, q⟩`, then `A = B` and
-* if `⟨A, p⟩ = ⟨B, q⟩` and `A` and `B` are judgmentally equal, then `p = q`.
--/
-lemma dependent_pair_eq_0 :
-  ∀ A B, ∀ p q, ⟨A, p⟩ = (⟨B, q⟩ : Σ' C : Sort u, C) → A = B := by grind
-
-lemma dependent_pair_eq_1 :
-  ∀ A, ∀ p q, ⟨A, p⟩ = (⟨A, q⟩ : Σ' C : Sort u, C) → p = q := by simp
-/-!
-But we can't prove a statement of the form `⟨A, p⟩ = ⟨B, q⟩ → p = q`, because this isn't even
-well-typed in general. That's why we can't upgrade the previous junk theorem to 'the unique proof
-of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
-did prove, morally speaking.
-
-So in other words, in the context of Theorem 11, even though
-* `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
-* `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
-* `p` is the unique element of `QR`,
-* `q` is the unique element of `BCT → SAFT`,
-* the pairs `⟨QR, p⟩` and `⟨BCT → SAFT, q⟩` are equal,
-* if `QR` and `BCT → SAFT` were no-really-actually-the-same (instead of merely being equal in the
-    weak sense of the symbol `=`), then `p` would be `=`-equal to `q`, and
-* `q` is a function,
-we aren't even permitted to *say* that `p` is a function as well.
-
-We'll just have to settle for the following:
-
-**Theorem 12.** The unique proof that quadratic reciprocity isn't false is a bijection.
--/
-theorem unique_proof_of_not_not_QR_is_bijection :
-    ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
-              ∧ Function.Bijective p := by
-  use (by apply not_not_intro; unfold QR; grind [jacobiSym.quadratic_reciprocity])
+  use (by apply not_not_intro
+          unfold BCT
+          intros
+          apply BaireSpace.baire_property
+          · assumption
+          · assumption)
   constructor
   · simp
   · constructor
-    · simp [Function.Injective]
-    · simp [Function.Surjective]
+    · simp
+    · constructor
+      · grind
+      · constructor
+        · simp [Function.Injective]
+        · simp [Function.Surjective]
 /-!
-Although, again, note that here we have `QR = ¬¬QR`, `⟨QR, p⟩ = ⟨¬¬QR, q⟩` (where `p` is the unique
-proof of `QR` and `q` is the unique proof of `¬¬QR`), and it happens to be the case that `q` is a
-bijection, but it doesn't make sense to say that `p` is a function.
+Although, note that here it doesn't make sense to say that `p` is a function.
 -/
 
 -------------------------------------------------------------------
@@ -382,7 +346,7 @@ Indeed we can almost prove this:
 
 **Theorem 13.** `a` is equal to `b`, and `b` is equal to `c`.
 -/
-  theorem a_eq_b_eq_c : a = b ∧ b = c := by
+theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
   · rfl
   · rfl
