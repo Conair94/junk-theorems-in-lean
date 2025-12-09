@@ -9,13 +9,36 @@ import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
 /-!
 Here we collect some uniquely type-theoretic junk theorems. Let's warm up with a couple of basic
 ones:
-
 **Theorem 1.** The third coordinate of the rational number `1 / 2` is a bijection.
 -/
 theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 := by
   constructor
   · simp [Function.Injective]
   · simp [Function.Surjective]
+
+/-!
+**Theorem 2.** Let `P` be the polynomial `X^2 + 2*X + 1` (over the integers). Let `A` be the third
+coordinate of the first coordinate of `P`. Fix a natural number `n`, and let `B` and `C` be the
+first and second coordinates of `A(n)`, respectively. Then
+* `C` is the inverse of `B` and
+* for any `z` in the domain of `B`, `B(z)` is a bijection.
+-/
+theorem polynomial_inverses : let P := (Polynomial.X^2 + 2*Polynomial.X + 1 : Polynomial ℤ)
+                              let A := P.1.3
+                              (∀ n, let B := (A n).1
+                                    let C := (A n).2
+                                    Function.LeftInverse B C
+                                  ∧ Function.RightInverse B C
+                                  ∧ ∀ z, Function.Bijective (B z)) := by
+  intro P A n B C
+  constructor
+  · exact congrFun rfl
+  · constructor
+    · exact congrFun rfl
+    · intro z
+      constructor
+      · simp [Function.Injective]
+      · simp [Function.Surjective]
 
 lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X = Set.univ := by
   apply Iff.intro
@@ -40,7 +63,7 @@ lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X 
         simp
 
 /-!
-**Theorem 2.** The set `{z : ℝ | z ≠ 0}` is a continuous, non-monotone surjection.
+**Theorem 3.** The set `{z : ℝ | z ≠ 0}` is a continuous, non-monotone surjection.
 -/
 theorem set_of_nonzero_reals_is_continuous_nonmono_surjection :
        Continuous {z : ℝ | z ≠ 0}
@@ -138,7 +161,7 @@ lemma Prop.closure_singleton_true_univ : closure ({⊤} : Set Prop) = Set.univ :
         simp
 
 /-!
-**Theorem 3.** The Riemann hypothesis is in the topological closure of the set not not.
+**Theorem 4.** The Riemann hypothesis is in the topological closure of the set not not.
 -/
 theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure (¬¬ ·) := by
   have h3 : (¬¬ ·) = ({⊤} : Set Prop) := by
@@ -147,17 +170,14 @@ theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure
   simp
 
 /-!
-**Theorem 4.** The following are equivalent: The binary expansion of `7`.
+**Theorem 5.** The following are equivalent: The binary expansion of `7`.
 -/
 theorem TFAE_7_binary : List.TFAE (7).bits := by
   unfold Nat.bits Nat.binaryRec Nat.binaryRec
-  simp_all only [OfNat.ofNat_ne_zero, ↓reduceDIte, Nat.one_and_eq_mod_two, Nat.reduceMod,
-  Nat.reduceBNe, Nat.reduceShiftRight, Nat.binaryRec_one, List.pure_def, List.bind_eq_flatMap,
-  List.flatMap_cons, List.flatMap_nil, List.append_nil, List.cons_append, List.nil_append,
-  List.tfae_cons_self, List.tfae_singleton]
+  simp!
 
 /-!
-**Theorem 5.** The dot product of not with itself. Moreover, the matrix determinant of or. However,
+**Theorem 6.** The dot product of not with itself. Moreover, the matrix determinant of or. However,
 not the determinant of and.
 -/
 theorem not_dot_not_det_or_and_not_det_and : dotProduct not not
@@ -170,7 +190,7 @@ theorem not_dot_not_det_or_and_not_det_and : dotProduct not not
 /-!
 As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
 
-**Theorem 6.** One divided by zero is equal to zero.
+**Theorem 7.** One divided by zero is equal to zero.
 -/
 theorem one_div_zero_eq_zero : 1 / 0 = 0 := rfl
 /-!
@@ -178,19 +198,19 @@ Among people who work in classical mathematics, the consensus seems to be that t
 to deal with division in proof assistants based on type theory, but it does lead to some issues,
 such as the junk value of `riemannZeta 1`:
 
-**Theorem 7.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
+**Theorem 8.** `ζ(1) = (γ - log 4π)/2`, where `ζ` is the Riemann zeta function.
 -/
 theorem riemannZeta_one' :
     riemannZeta 1 = (Real.eulerMascheroniConstant - Complex.log (4 * Real.pi)) / 2 :=
   riemannZeta_one
 
 /-!
-**Theorem 8.** Two minus three is equal to zero.
+**Theorem 9.** Two minus three is equal to zero.
 -/
 theorem two_minus_three_eq_zero : 2 - 3 = 0 := rfl
 
 /-!
-**Theorem 9.** Two minus three, where subtraction is understood to be a partial function on `ℕ`, is
+**Theorem 10.** Two minus three, where subtraction is understood to be a partial function on `ℕ`, is
 equal to the extended natural number `+∞`.
 -/
 theorem two_minus_three_eq_infty : (2).psub 3 = (⊤ : ℕ∞) := rfl
@@ -229,7 +249,7 @@ def SAFT :=
 /-!
 Now we can prove this:
 
-**Theorem 10.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
+**Theorem 11.** Let `p` be the unique proof of quadratic reciprocity (`QR`). There exist a bijection
 `q` from the Baire category theorem (`BCT`) to the special adjoint functor theorem (`SAFT`) such
 that the pair `⟨QR, p⟩` is equal to the pair `⟨BCT → SAFT, q⟩`. (These pairs live in
 `Σ' A : Prop, A`, which is the type of all pairs `⟨A, p⟩`, where `A` is a statement and `p` is a
@@ -273,7 +293,7 @@ well-typed in general. That's why we can't upgrade the previous junk theorem to 
 of `QR` is a bijection from `BCT` to `SAFT`', even if it feels like it should follow from what we
 did prove, morally speaking.
 
-So in other words, in the context of Theorem 10, even though
+So in other words, in the context of Theorem 11, even though
 * `QR` and `BCT → SAFT` are equal, and so are *the same type* (right?),
 * `QR` and `BCT → SAFT` are, moreover, equal in a unique way,
 * `p` is the unique element of `QR`,
@@ -286,7 +306,7 @@ we aren't even permitted to *say* that `p` is a function as well.
 
 We'll just have to settle for the following:
 
-**Theorem 11.** The unique proof that quadratic reciprocity isn't false is a bijection.
+**Theorem 12.** The unique proof that quadratic reciprocity isn't false is a bijection.
 -/
 theorem unique_proof_of_not_not_QR_is_bijection :
     ∃ p : ¬¬QR, (∀ q : ¬¬QR, p = q)
@@ -360,9 +380,9 @@ type, and, moreover, `a`, `b`, and `c` should all be the same thing.
 
 Indeed we can almost prove this:
 
-**Theorem 12.** `a` is equal to `b`, and `b` is equal to `c`.
+**Theorem 13.** `a` is equal to `b`, and `b` is equal to `c`.
 -/
-theorem a_eq_b_eq_c : a = b ∧ b = c := by
+  theorem a_eq_b_eq_c : a = b ∧ b = c := by
   constructor
   · rfl
   · rfl
