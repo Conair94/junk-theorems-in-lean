@@ -14,7 +14,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 5.** *The Riemann hypothesis is in the topological closure of the set not not.*
 
-Note though that showing that the Riemann hypothesis is in the topological closure of the set not will win you a million dollars.
+Note though that showing that the Riemann hypothesis is in the topological closure of not will win you a million dollars.
 
 > **Theorem 6.** *The following are equivalent: The binary expansion of $`7`$.*
 
