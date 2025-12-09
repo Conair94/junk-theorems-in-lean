@@ -39,13 +39,14 @@ theorem polynomial_30_factorization :
   simp_all only [Polynomial.toFinsupp_add, Polynomial.toFinsupp_X_pow]
 
 /-!
-**Theorem 3.** Let `P` be the polynomial `X^2 + 2*X + 1` (over the integers). Let `A` be the third
+**Theorem 3.** Let `P` be the polynomial `X^2 * (X^3 + X + 1)`. Let `A` be the third
 coordinate of the first coordinate of `P`. Fix a natural number `n`, and let `B` and `C` be the
 first and second coordinates of `A(n)`, respectively. Then
 * `C` is the inverse of `B` and
 * for any `z` in the domain of `B`, `B(z)` is a bijection.
 -/
-theorem polynomial_inverses : let P := (Polynomial.X^2 + 2*Polynomial.X + 1 : Polynomial ℤ)
+theorem polynomial_inverses : let P := (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)
+                                          : Polynomial ℕ)
                               let A := P.1.3
                               (∀ n, let B := (A n).1
                                     let C := (A n).2

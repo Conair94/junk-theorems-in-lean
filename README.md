@@ -6,7 +6,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 2.** *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
 
-> **Theorem 3.** *Let $`P`$ be the polynomial $`X^2 + 2X + 1`$ (over the integers). Let $`A`$ be the third coordinate of the first coordinate of $`P`$. Fix a natural number $`n`$, and let $`B`$ and $`C`$ be the first and second coordinates of $`A(n)`$, respectively. Then*
+> **Theorem 3.** *Let $`P`$ be the polynomial $`X^2(X^3 + X + 1)`$. Let $`A`$ be the third coordinate of the first coordinate of $`P`$. Fix a natural number $`n`$, and let $`B`$ and $`C`$ be the first and second coordinates of $`A(n)`$, respectively. Then*
 > * *$`C`$ is the inverse of $`B`$ and*
 > * *for any $`z`$ in the domain of $`B`$, $`B(z)`$ is a bijection.*
 
