@@ -42,7 +42,7 @@ If we try to avoid this with the partial subtraction function `psub`, we get the
 
 In this next theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity and $`\mathsf{BCT}`$ stands for the Baire category theorem.
 
-> **Theorem 12.** *Let $`p`$ be the unique proof of quadratic reciprocity, and let $`q`$ be the unique proof that the Baire category theorem isn't false. The pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle\neg\neg\mathsf{BCT},q\rangle`$ (in the sense of pointed types). Moreovoer, $`q`$ is a bijection.*
+> **Theorem 12.** *Let $`p`$ be the unique proof of quadratic reciprocity, and let $`q`$ be the unique proof that the Baire category theorem isn't false. The pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle\neg\neg\mathsf{BCT},q\rangle`$ (in the sense of pointed types). Moreover, $`q`$ is a bijection.*
 
 However, one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean, because this would be as nonsensical as the sentence 'The natural number $`2`$ is a bijection.'
 
