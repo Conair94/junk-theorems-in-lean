@@ -30,7 +30,7 @@ Note though that showing that the Riemann hypothesis is in the topological closu
 
 > **Theorem 8.** *One divided by zero is equal to zero.*
 
-> **Theorem 9.** *$`\zeta(1) = (\gamma - \log 4 \pi) / 2`$, where $`\zeta(s)`$ is the Riemann zeta function.*
+> **Theorem 9.** ([`riemannZeta_one`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/Harmonic/ZetaAsymp.html#riemannZeta_one)) *$`\zeta(1) = (\gamma - \log 4 \pi) / 2`$, where $`\zeta(s)`$ is the Riemann zeta function.*
 
 > **Theorem 10.** *Two minus three is equal to zero.*
 
