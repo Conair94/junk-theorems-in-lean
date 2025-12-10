@@ -255,63 +255,63 @@ lemma Set_instMeasurableSpace_generatedFrom {A : Type u} :
 lemma countable_set_measure_support
       {A : Type u} {_ : Uncountable A} {X : Set (Set A)} (meas : MeasurableSet X) :
       ∃ Y : Set A, Set.Countable Y ∧ ∀ Z W : Set A, Z ∩ Y = W ∩ Y → (Z ∈ X ↔ W ∈ X) := by
-      rw [Set_instMeasurableSpace_generatedFrom] at meas
-      unfold MeasurableSet MeasurableSpace.MeasurableSet' MeasurableSpace.generateFrom at meas
-      simp at meas
-      induction meas with
-      | basic u a => apply Set.mem_setOf.1 at a
-                     cases a with
-                     | intro w h => use ({w})
-                                    constructor
-                                    · norm_num
-                                    · intro Z W h2
-                                      constructor
-                                      · intro h3
-                                        rw [<- h] at h3
-                                        apply Set.mem_setOf.1 at h3
-                                        rw [<- h]
-                                        apply Set.mem_setOf.2
-                                        have h3 : w ∈ W ∩ {w} := by grind
-                                        grind
-                                      · intro h3
-                                        rw [<- h] at h3
-                                        apply Set.mem_setOf.1 at h3
-                                        rw [<- h]
-                                        apply Set.mem_setOf.2
-                                        have h4 : w ∈ Z ∩ {w}
-                                          := by simp_all only [Set.mem_inter_iff,
-                                                               Set.mem_singleton_iff,
-                                                               and_self]
-                                        grind
-      | empty     => use ∅
+  rw [Set_instMeasurableSpace_generatedFrom] at meas
+  unfold MeasurableSet MeasurableSpace.MeasurableSet' MeasurableSpace.generateFrom at meas
+  simp at meas
+  induction meas with
+  | basic u a => apply Set.mem_setOf.1 at a
+                 cases a with
+                 | intro w h => use ({w})
+                                constructor
+                                · norm_num
+                                · intro Z W h2
+                                  constructor
+                                  · intro h3
+                                    rw [<- h] at h3
+                                    apply Set.mem_setOf.1 at h3
+                                    rw [<- h]
+                                    apply Set.mem_setOf.2
+                                    have h3 : w ∈ W ∩ {w} := by grind
+                                    grind
+                                  · intro h3
+                                    rw [<- h] at h3
+                                    apply Set.mem_setOf.1 at h3
+                                    rw [<- h]
+                                    apply Set.mem_setOf.2
+                                    have h4 : w ∈ Z ∩ {w}
+                                      := by simp_all only [Set.mem_inter_iff,
+                                                           Set.mem_singleton_iff,
+                                                           and_self]
+                                    grind
+  | empty     => use ∅
+                 constructor
+                 · norm_num
+                 · tauto
+  | compl t a a' => cases a' with
+                    | intro b h => use b
+                                   constructor
+                                   · exact h.1
+                                   · intro Z W h2
+                                     grind
+  | iUnion f a a' => let g := fun n ↦ Classical.choose (a' n)
+                     let Y := ⋃ n, g n
+                     use Y
                      constructor
-                     · norm_num
-                     · tauto
-      | compl t a a' => cases a' with
-                        | intro b h => use b
-                                       constructor
-                                       · exact h.1
-                                       · intro Z W h2
-                                         grind
-      | iUnion f a a' => let g := fun n ↦ Classical.choose (a' n)
-                         let Y := ⋃ n, g n
-                         use Y
-                         constructor
-                         · apply Set.countable_iUnion
-                           intro n
-                           let h := Classical.choose_spec (a' n)
-                           tauto
-                         · intro Z W h
-                           have h2 : ∀ n, Z ∈ f n ↔ W ∈ f n := by
-                             intro n
-                             have h2 : g n ⊆ Y
-                               := by exact Set.subset_iUnion_of_subset n fun ⦃a⦄ a_1 ↦ a_1
-                             have h3 : Z ∩ g n = W ∩ g n := by
-                               have h4 : Z ∩ Y ∩ g n = Z ∩ g n := by grind
-                               have h5 : W ∩ Y ∩ g n = W ∩ g n := by grind
-                               simp_all only
-                             exact (Classical.choose_spec (a' n)).2 Z W h3
-                           simp_all only [Set.mem_iUnion]
+                     · apply Set.countable_iUnion
+                       intro n
+                       let h := Classical.choose_spec (a' n)
+                       tauto
+                     · intro Z W h
+                       have h2 : ∀ n, Z ∈ f n ↔ W ∈ f n := by
+                         intro n
+                         have h2 : g n ⊆ Y
+                           := by exact Set.subset_iUnion_of_subset n fun ⦃a⦄ a_1 ↦ a_1
+                         have h3 : Z ∩ g n = W ∩ g n := by
+                           have h4 : Z ∩ Y ∩ g n = Z ∩ g n := by grind
+                           have h5 : W ∩ Y ∩ g n = W ∩ g n := by grind
+                           simp_all only
+                         exact (Classical.choose_spec (a' n)).2 Z W h3
+                       simp_all only [Set.mem_iUnion]
 
 lemma GrpCat_Uncountable : Uncountable GrpCat := by
   constructor
