@@ -37,10 +37,7 @@ theorem polynomial_things_1 :
     have f5 : Finsupp.single 5 1 = (5).factorization := by rw [Nat.Prime.factorization]; decide
     rw [h2,Nat.factorization_mul,Nat.factorization_mul]
     · simp_all only [Nat.reduceMul]
-    · simp
-    · simp
-    · simp
-    · simp
+    all_goals simp
   simp_all only [Polynomial.toFinsupp_add, Polynomial.toFinsupp_X_pow]
 
 theorem polynomial_things_2 : let P := (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)
@@ -67,8 +64,7 @@ lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X 
     induction h
     · right; left; grind
     · right; right; rfl
-    · grind
-    · grind
+    all_goals grind
   · intro h
     apply Or.elim h
     · intro h2
@@ -451,7 +447,7 @@ proof that the Baire category theorem isn't false.
 theorem unique_proofs :
     ∃ p : QR, ∃ q : ¬¬BCT, (∀ r : QR, p = r)
                          ∧ (∀ r : ¬¬BCT, q = r)
-                         ∧ ⟨QR,p⟩ = (⟨¬¬BCT,r⟩ : Σ' A : Prop, A)
+                         ∧ ⟨QR,p⟩ = (⟨¬¬BCT,q⟩ : Σ' A : Prop, A)
                          ∧ Function.Bijective q := by
   use (by unfold QR; grind [jacobiSym.quadratic_reciprocity])
   use (by apply not_not_intro
@@ -484,9 +480,7 @@ instance QR_setoid : Setoid QR where
   r := (· = ·)
   iseqv := by
     constructor
-    · simp
-    · simp
-    · simp
+    all_goals simp
 
 def QR_mod_eq := Quotient QR_setoid
 /-!
