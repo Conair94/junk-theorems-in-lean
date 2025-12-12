@@ -198,11 +198,11 @@ lemma Set_instMeasurableSpace_generatedFrom {A : Type u} :
   apply LE.le.antisymm
   · apply MeasurableSpace.generateFrom_le
     intro t h
-    simp at t
+    simp only at t
     apply Set.mem_setOf.1 at h
     cases h with
     | intro Y h => unfold MeasurableSet MeasurableSpace.comap at h
-                   simp at h
+                   simp only [MeasurableSpace.measurableSet_top, true_and] at h
                    cases h with
                    | intro Z h2 => cases (Classical.em _ : True ∈ Z ∨ True ∉ Z) with
                                    | inl h3 => cases (Classical.em _ : False ∈ Z ∨ False ∉ Z) with
@@ -217,13 +217,15 @@ lemma Set_instMeasurableSpace_generatedFrom {A : Type u} :
                                                            aesop
                                                | inr h4 => have h5 : Z = {True} := by grind
                                                            rw [h5] at h2
-                                                           simp at h2
+                                                           simp only [Set.preimage_singleton_true]
+                                                             at h2
                                                            rw [<- h2]
                                                            tauto
                                    | inr h3 => cases (Classical.em _ : False ∈ Z ∨ False ∉ Z) with
                                                | inl h4 => have h5 : Z = {False} := by grind
                                                            rw [h5] at h2
-                                                           simp at h2
+                                                           simp only [Set.preimage_singleton_false]
+                                                             at h2
                                                            rw [<- h2]
                                                            apply MeasurableSet.compl
                                                            tauto
@@ -245,7 +247,7 @@ lemma Set_instMeasurableSpace_generatedFrom {A : Type u} :
                     use a
                     rw [<- h2]
                     unfold Prop.instMeasurableSpace MeasurableSpace.comap
-                    simp
+                    simp only [MeasurableSpace.measurableSet_top, true_and]
                     tauto
 
 lemma countable_set_measure_support
@@ -253,7 +255,7 @@ lemma countable_set_measure_support
       ∃ Y : Set A, Set.Countable Y ∧ ∀ Z W : Set A, Z ∩ Y = W ∩ Y → (Z ∈ X ↔ W ∈ X) := by
   rw [Set_instMeasurableSpace_generatedFrom] at meas
   unfold MeasurableSet MeasurableSpace.MeasurableSet' MeasurableSpace.generateFrom at meas
-  simp at meas
+  simp only at meas
   induction meas with
   | basic u a => apply Set.mem_setOf.1 at a
                  cases a with
@@ -353,7 +355,7 @@ theorem Exists_GrpCat_nonmeasurable : ¬MeasurableSet (@Exists GrpCat) := by
                     by_contra h7
                     have h8 : .univ ⊆ Y := by
                       rw [Set.subset_def]
-                      simp at h7
+                      simp only [Set.mem_diff, Set.mem_univ, true_and, not_exists, not_not] at h7
                       simp_all only [Set.mem_univ, imp_self, implies_true]
                     have h9 : Set.Countable (Set.univ : Set GrpCat)
                       := by exact Set.Countable.mono h8 h4
