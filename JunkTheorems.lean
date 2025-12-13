@@ -24,7 +24,7 @@ theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 :
   * `C` is the inverse of `B` and
   * for any `z` in the domain of `B`, `B(z)` is a bijection.
 -/
-theorem polynomial_30 :
+theorem polynomial_factorization_30 :
     (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)).1 = (30).factorization := by
   have h : (Polynomial.X^2 : Polynomial ℕ) * (Polynomial.X^3 + Polynomial.X + 1)
            = Polynomial.X^2 + Polynomial.X^3 + Polynomial.X^5 := by ring
@@ -175,8 +175,6 @@ theorem polynomials_within_polynomials : ((MvPolynomial.X 0 + MvPolynomial.X 1 +
     rw [Finsupp.add_apply, Finsupp.add_apply] at h
     simp_all only [Finsupp.single_eq_same, ne_eq, zero_ne_one, not_false_eq_true,
     Finsupp.single_eq_of_ne, add_zero, OfNat.zero_ne_ofNat]
-
-
 
 lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X = Set.univ := by
   apply Iff.intro
@@ -608,42 +606,58 @@ theorem unique_proofs :
 Although, note that here it doesn't make sense to say that `p` is a function.
 -/
 
-noncomputable def frankenRat : ℚ := {
-  num := 1,
-  den := (Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).toFinsupp.toFun 2,
-  den_nz := ((Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).1.3 2).1 (by
-rw [Polynomial.toFinsupp_C_mul_X_pow]; norm_num),
-  reduced := by norm_num
-}
-/-!
-**Theorem 12.** The rational number `frankenRat` is equal to `1 / 2`.
+namespace Theorem_12
 
-Let `P` be the polynomial `2X^2`. Let `A` be the result of applying the third coordinate of the
+def r : ℚ := {
+  num := 1,
+  den := 2,
+  den_nz := by finiteness,
+  reduced := by abel
+}
+
+def P : Polynomial ℕ := ⟨{
+  support := {2},
+  toFun :=
+    fun n ↦ match n with
+             | .succ (.succ 0) => 2
+             | _ => 0,
+  mem_support_toFun := by grind
+}⟩
+
+/-!
+**Theorem 12.** The rational number `r` is equal to `1 / 2`.
+
+The polynomial `P` is equal to the polynomial `2X^2`.
+
+Let `A` be the result of applying the third coordinate of the
 first coordinate of `P` to the natural number `2`. Let `B` be the first coordinate of `A`. For the
 unique `z` in the domain of `B`, `B(z)` is equal to the third coordinate of `frankenRat`.
 -/
-theorem frankenRat_thm :
-     frankenRat = 1 / 2
-  ∧ let A := (Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).1.3 2;
-     let B := A.1
-     ∀ z w, z = w ∧ B z = frankenRat.3
-   ∧ ∃ z, B z = frankenRat.3
-:= by
-  constructor
-  · have h : (Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).toFinsupp.toFun 2
-      = (Polynomial.C 2 * Polynomial.X^2).toFinsupp (2 : ℕ) := by abel
-    unfold frankenRat
-    apply Rat.ext
-    · ring
-    · simp only
-      rw [h, Polynomial.toFinsupp_C_mul_X_pow]
-      norm_num
-  · tauto
+theorem rational_polynomial_coordinates : r = 1 / 2
+                                        ∧ P = Polynomial.C 2 * Polynomial.X^2
+                                        ∧ let A := P.1.3 2;
+                                           let B := A.1
+                                           ∃ z, (∀ w, z = w)
+                                              ∧ B z = r.3 := by
+  repeat' constructor
+  · apply Rat.ext
+    all_goals aesop
+  · unfold Polynomial.X
+    rw [Polynomial.monomial_pow,Polynomial.C_mul_monomial]
+    apply Polynomial.ext
+    intro n
+    unfold Polynomial.coeff P
+    aesop
+  · simp only [Finsupp.mem_support_iff, ne_eq, implies_true]
 
-#check_failure let A := (Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).1.3 2
+#check_failure let A := (Polynomial.C 2 * Polynomial.X^2).1.3 2;
                let B := A.1
-               ∀ z w, z = w ∧ B z = frankenRat.3
-             ∧ ∃ z, B z = (1 / 2 : ℚ).3
+               ∃ z, (∀ w, z = w)
+                  ∧ B z = (1 / 2 : ℚ).3
+
+end Theorem_12
+
+namespace Theorem_13
 
 /-!
 We have one last bit of equality-based junk. First we need to define the quotient of quadratic
@@ -717,3 +731,4 @@ theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := by
   have h0 : ⟨Fin (f q), a⟩ = (⟨Fin (f r), b⟩ : Σ' X : Type, X) := rfl
   have h1 : ⟨Fin (f r), b⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := rfl
   simp [h0,h1]
+end Theorem_13
