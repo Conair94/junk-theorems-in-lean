@@ -42,13 +42,13 @@ In this next theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity and $`\ma
 
 However, one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean, because this would be as nonsensical as the sentence 'The natural number $`2`$ is a bijection.'
 
-Similarly, we can build a term $`r`$ of type $`\mathbb{Q}`$, and prove the following.
+Similarly, we can build an element $`r`$ of $`\mathbb{Q}`$, and prove the following.
 
 > **Theorem 12.**
 > * *$`r`$ is equal to $`\frac{1}{2}`$.*
 > * *Let $`P`$ be the polynomial $`2X^2`$. Let $`A`$ be the result of applying the third coordinate of the first coordinate of $`P`$ to the natural number $`2`$. Let $`B`$ be the first coordinate of $`A`$. For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`r`$.*
 
-Given Theorem 12, it is perhaps surprising that we can't just take $`r`$ to be the literal term $`\frac{1}{2}`$. If we try to do this, Lean will inform us that the resulting statement does not typecheck. In particular, the statement 'For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`\frac{1}{2}`$.' is completely meaningless, unlike the last sentence of Theorem 12.
+Given Theorem 12, it is perhaps surprising that we can't just take $`r`$ to be the literal term $`\frac{1}{2}`$. If we try to do this, Lean will inform us that the resulting proposition does not typecheck. In particular, the statement 'For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`\frac{1}{2}`$.' is completely meaningless, unlike the last sentence of Theorem 12.
 
 Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
 
@@ -60,4 +60,4 @@ It does make sense to ask whether $`a`$ and $`c`$ are 'heterogeneously equal' (i
 
 ---
 
-I should clarify some things. Theorems 1-11 (and to some extent Theorem 12) are artifacts of particular definitions made in Mathlib, although the convention that leads to Theorems 9 seems to be considered best practice (classically) for dealing with the fact that division is a partial function. Theorem 11 is not an artifact of particular definitions, but rather follows very directly from the treatment of propositions in type theory. (It's even provable constructively in type theories with propositional extensionality, such as HoTT.) Theorem 13 is unique to Lean and arises from some of its design decisions (i.e., definitional proof irrelevance and its computational rules for quotient types), which also lead to the failure of subject reduction. In other proof assistants based on dependent type theory (e.g., Rocq and Agda), judgmental/definitional equality is transitive, so nothing like Theorem 13 can happen, even assuming choice.
+I should clarify some things. Theorems 1-11 (and to some extent Theorem 12) are artifacts of particular definitions made in Mathlib, although the convention that leads to Theorem 9 seems to be considered best practice (classically) for dealing with the fact that division is a partial function. Theorem 11 is not an artifact of particular definitions, but rather follows very directly from the treatment of propositions in type theory. (It's even provable constructively in type theories with propositional extensionality, such as HoTT.) Theorem 13 is unique to Lean and arises from some of its design decisions (i.e., definitional proof irrelevance and its computational rules for quotient types), which also lead to the failure of subject reduction. In other proof assistants based on dependent type theory (e.g., Rocq and Agda), judgmental/definitional equality is transitive, so nothing like Theorem 13 can happen, even assuming choice.
