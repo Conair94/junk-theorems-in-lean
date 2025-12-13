@@ -42,13 +42,14 @@ In this next theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity and $`\ma
 
 However, one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean, because this would be as nonsensical as the sentence 'The natural number $`2`$ is a bijection.'
 
-Similarly, we can build an element $`r`$ of $`\mathbb{Q}`$, and prove the following.
+Similarly, we can build an element $`r`$ of $`\mathbb{Q}`$ and a polynomial $`P`$ with coefficients in $`\mathbb{N}`$, and prove the following.
 
 > **Theorem 12.**
 > * *$`r`$ is equal to $`\frac{1}{2}`$.*
-> * *Let $`P`$ be the polynomial $`2X^2`$. Let $`A`$ be the result of applying the third coordinate of the first coordinate of $`P`$ to the natural number $`2`$. Let $`B`$ be the first coordinate of $`A`$. For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`r`$.*
+> * *$`P`$ is equal to $`2X^2`$.*
+> * *Let $`A`$ be the result of applying the third coordinate of the first coordinate of $`P`$ to the natural number $`2`$. Let $`B`$ be the first coordinate of $`A`$. For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`r`$.*
 
-Given Theorem 12, it is perhaps surprising that we can't just take $`r`$ to be the literal term $`\frac{1}{2}`$. If we try to do this, Lean will inform us that the resulting proposition does not typecheck. In particular, the statement 'For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`\frac{1}{2}`$.' is completely meaningless, unlike the last sentence of Theorem 12.
+Given the first two bullets of Theorem 12, it is perhaps surprising that we can't just take $`r`$ to literally be $`\frac{1}{2}`$ and $`P`$ to literally be $`2X^2`$. If we try to do this, Lean will inform us that the resulting proposition does not typecheck. In particular, the statement 'Let $`A`$ be the result of applying the third coordinate of the first coordinate of $`2X^2`$ to the natural number $`2`$. Let $`B`$ be the first coordinate of $`A`$. For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`\frac{1}{2}`$.' is completely meaningless, unlike the last sentence of Theorem 12.
 
 Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
 
