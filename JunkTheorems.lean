@@ -122,7 +122,7 @@ lemma poly_11 : ((MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3 : Mv
    : Finsupp (Finsupp ℕ ℕ) ℕ) := by simp [poly_6,poly_7,poly_8,poly_9,poly_10]
 
 /-!
-**Theorem.** Let `P` be the multivariate polynomial `(X_0 + X_1 + X_2)^3` (in the semiring of
+**Theorem 3.** Let `P` be the multivariate polynomial `(X_0 + X_1 + X_2)^3` (in the semiring of
 polynomials over `ℕ` in the variables `(X_n)_{n ∈ ℕ}`). Let `Q` be the univariate polynomial
 `1 + X + X^2`. The second coordinate of `P` applied to the first coordinate of `Q` is equal to the
 natural number `6`.
@@ -198,7 +198,7 @@ lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X 
         simp
 
 /-!
-**Theorem 3.** The set `{z : ℝ | z ≠ 0}` is a continuous, non-monotone surjection.
+**Theorem 4.** The set `{z : ℝ | z ≠ 0}` is a continuous, non-monotone surjection.
 -/
 theorem set_of_nonzero_reals_is_continuous_nonmono_surjection :
        Continuous {z : ℝ | z ≠ 0}
@@ -296,7 +296,7 @@ lemma Prop.closure_singleton_true_univ : closure ({⊤} : Set Prop) = Set.univ :
         simp
 
 /-!
-**Theorem 4.** The Riemann hypothesis is in the topological closure of the set not not.
+**Theorem 5.** The Riemann hypothesis is in the topological closure of the set not not.
 -/
 theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure (¬¬ ·) := by
   have h3 : (¬¬ ·) = ({⊤} : Set Prop) := by
@@ -472,7 +472,7 @@ lemma GrpCat_Uncountable : Uncountable GrpCat := by
                   tauto
 
 /-!
-**Theorem 5.** The existential quantifier on the category of groups is a non-measurable set.
+**Theorem 8.** The existential quantifier on the category of groups is a non-measurable set.
 -/
 theorem Exists_GrpCat_nonmeasurable : ¬MeasurableSet (@Exists GrpCat) := by
   let F := fun (Q : GrpCat → Prop) ↦ Exists Q
@@ -514,8 +514,6 @@ theorem Exists_GrpCat_nonmeasurable : ¬MeasurableSet (@Exists GrpCat) := by
 
 /-!
 As is well-known, Lean, like many proof assistants, takes `1 / 0` to be `0`.
-
-**Theorem 8.** One divided by zero is equal to zero.
 -/
 theorem one_div_zero_eq_zero : 1 / 0 = 0 := rfl
 /-!
@@ -529,13 +527,10 @@ theorem riemannZeta_one' :
     riemannZeta 1 = (Real.eulerMascheroniConstant - Complex.log (4 * Real.pi)) / 2 :=
   riemannZeta_one
 
-/-!
-**Theorem 10.** Two minus three is equal to zero.
--/
 theorem two_minus_three_eq_zero : 2 - 3 = 0 := rfl
 
 /-!
-**Theorem 11.** Two minus three, where subtraction is understood to be a partial function on `ℕ`, is
+**Theorem 10.** Two minus three, where subtraction is understood to be a partial function on `ℕ`, is
 equal to the extended natural number `+∞`.
 -/
 theorem two_minus_three_eq_infty : (2).psub 3 = (⊤ : ℕ∞) := rfl
@@ -560,7 +555,7 @@ def BCT := ∀ {X : Type} [inst : UniformSpace X]
   (∀ (n : ℕ), Dense (f n)) → Dense (⋂ (n : ℕ), f n)
 
 /-!
-**Theorem 12.** Let `p` be the unique proof of quadratic reciprocity, and let `q` be the unique
+**Theorem 11.** Let `p` be the unique proof of quadratic reciprocity, and let `q` be the unique
 proof that the Baire category theorem isn't false.
 * The pair `⟨QR,p⟩` is equal to the pair `⟨¬¬BCT,q⟩`.
 * `q` is a bijection.

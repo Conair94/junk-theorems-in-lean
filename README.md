@@ -30,7 +30,7 @@ Famously, Lean, like many proof assistants, defines division so that $`\frac{1}{
 
 > **Theorem 9.** ([`riemannZeta_one`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/Harmonic/ZetaAsymp.html#riemannZeta_one)) *$`\zeta(1) = \frac{1}{2}(\gamma - \log 4 \pi)`$, where $`\zeta(s)`$ is the Riemann zeta function.*
 
-If we try to avoid $`2 - 3 = 0`$ with the partial subtraction function `psub`, we get the following.
+If we try to avoid the junk theorem $`2 - 3 = 0`$ with the partial subtraction function `psub`, we get the following.
 
 > **Theorem 10.** *Two minus three, where subtraction is understood to be a partial function on $`\mathbb{N}`$, is equal to the extended natural number $`+\infty`$.*
 
