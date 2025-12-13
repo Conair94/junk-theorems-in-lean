@@ -4,7 +4,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 ### Coding
 
-> **Theorem 1.** *The third coordinate of the rational number $`1/2`$ is a bijection.*
+> **Theorem 1.** *The third coordinate of the rational number $`\frac{1}{2}`$ is a bijection.*
 
 > **Theorem 2.**  *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
 
@@ -26,9 +26,9 @@ Note though that showing that the Riemann hypothesis is in the topological closu
 
 ### Partiality
 
-Famously, Lean, like many proof assistants, defines division so that $`1 / 0 = 0`$ and subtraction on the natural numbers so that $`2 - 3 = 0`$. In the first case, this leads to the following theorem (which is already in Mathlib).
+Famously, Lean, like many proof assistants, defines division so that $`\frac{1}{0} = 0`$ and subtraction on the natural numbers so that $`2 - 3 = 0`$. In the first case, this leads to the following theorem (which is already in Mathlib).
 
-> **Theorem 9.** ([`riemannZeta_one`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/Harmonic/ZetaAsymp.html#riemannZeta_one)) *$`\zeta(1) = (\gamma - \log 4 \pi) / 2`$, where $`\zeta(s)`$ is the Riemann zeta function.*
+> **Theorem 9.** ([`riemannZeta_one`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/Harmonic/ZetaAsymp.html#riemannZeta_one)) *$`\zeta(1) = \frac{1}{2}(\gamma - \log 4 \pi)`$, where $`\zeta(s)`$ is the Riemann zeta function.*
 
 If we try to avoid $`2 - 3 = 0`$ with the partial subtraction function `psub`, we get the following.
 
@@ -45,10 +45,10 @@ However, one cannot even form the sentence 'The unique proof of quadratic recipr
 Similarly, we can build a term $`r`$ of type $`\mathbb{Q}`$, and prove the following.
 
 > **Theorem 12.**
-> * *$`r`$ is equal to $`1 / 2`$.*
+> * *$`r`$ is equal to $`\frac{1}{2}`$.*
 > * *Let $`P`$ be the polynomial $`2X^2`$. Let $`A`$ be the result of applying the third coordinate of the first coordinate of $`P`$ to the natural number $`2`$. Let $`B`$ be the first coordinate of $`A`$. For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`r`$.*
 
-Given Theorem 12, it is perhaps surprising that we can't just take $`r`$ to be the literal term $`1/2`$. If we try to do this, Lean will inform us that the resulting statement does not typecheck. In particular, the statement 'For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`1/2`$.' is completely meaningless, unlike the last sentence of Theorem 12.
+Given Theorem 12, it is perhaps surprising that we can't just take $`r`$ to be the literal term $`\frac{1}{2}`$. If we try to do this, Lean will inform us that the resulting statement does not typecheck. In particular, the statement 'For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`\frac{1}{2}`$.' is completely meaningless, unlike the last sentence of Theorem 12.
 
 Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
 
