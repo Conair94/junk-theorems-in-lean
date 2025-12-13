@@ -3,6 +3,8 @@ import Mathlib.Algebra.Ring.BooleanRing
 import Mathlib.Data.Nat.PSub
 import Mathlib.NumberTheory.Harmonic.ZetaAsymp
 import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
+import Mathlib.Data.Nat.Prime.Basic
+import Mathlib.Data.List.Basic
 
 /-!
 Here we collect some uniquely type-theoretic junk theorems. Let's warm up with a couple of basic
@@ -537,6 +539,27 @@ theorem two_minus_three_eq_infty : (2).psub 3 = (⊤ : ℕ∞) := rfl
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
+/-! **Theorem 10.5** The first even prime greater than 3 and less than 100 -4 is 0
+-/
+
+/- This is the junk value we will exploit-/
+theorem empty_list_has_zero : [].head! = 0 := by
+  rfl
+
+-- An example of a script getting showing the smallest prime between 3 and 10 is 5
+def primes_gt_3_list : List Nat :=
+  (List.range 10).filter (fun n => n.Prime ∧ n > 3)
+
+theorem first_prime_gt_3_is_5 : primes_gt_3_list.head! = 5 := by
+decide
+
+/- Our desired junk theorem-/
+
+def primes_gt_3_even_list : List Nat :=
+  (List.range 100).filter (fun n => n.Prime ∧ n > 3 ∧ n % 2 == 0)
+
+theorem first_prime_gt_3_even_minus4_is_0 : primes_gt_3_even_list.head!-4 = 0 := by
+decide
 
 /-!
 To keep the next statement readable, we need to give shorthand notation for the following two
@@ -694,4 +717,3 @@ theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := by
   have h0 : ⟨Fin (f q), a⟩ = (⟨Fin (f r), b⟩ : Σ' X : Type, X) := rfl
   have h1 : ⟨Fin (f r), b⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := rfl
   simp [h0,h1]
-
