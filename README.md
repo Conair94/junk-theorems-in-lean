@@ -6,45 +6,49 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 1.** *The third coordinate of the rational number $`1/2`$ is a bijection.*
 
-> **Theorem 2.** *Let $`P`$ be the polynomial $`X^2(X^3 + X + 1)`$.*
-> * *The first coordinate of $`P`$ is equal to the prime factorization of $`30`$.*
-> * *Let $`A`$ be the third coordinate of the first coordinate of $`P`$. Fix a natural number $`n`$, and let $`B`$ and $`C`$ be the first and second coordinates of $`A(n)`$, respectively. Then*
->     * *$`C`$ is the inverse of $`B`$ and*
->     * *for any $`z`$ in the domain of $`B`$, $`B(z)`$ is a bijection.*
+> **Theorem 2.**  *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
+
+> **Theorem 3.** *Let $`P`$ be the multivariate polynomial $`(X_0 + X_1 + X_2)^3`$ (in the semiring of polynomials over $`\mathbb{N}`$ in the variables $`(X_n)_{n\in \mathbb{N}}`$). Let $`Q`$ be the univariate polynomial $`1 + X + X^2`$. The second coordinate of $`P`$ applied to the first coordinate of $`Q`$ is equal to the natural number $`6`$.*
 
 ### Sets and Logic
 
-> **Theorem 3.** *The set $`\{z : \mathbb{R} | z \neq 0\}`$ is a continuous, non-monotone surjection.*
+> **Theorem 4.** *The set $`\{z : \mathbb{R} | z \neq 0\}`$ is a continuous, non-monotone surjection.*
 
-> **Theorem 4.** *The Riemann hypothesis is in the topological closure of the set not not.*
+> **Theorem 5.** *The Riemann hypothesis is in the topological closure of the set not not.*
 
 Note though that showing that the Riemann hypothesis is in the topological closure of not will win you a million dollars.
-
-> **Theorem 5.** *The existential quantifier on the category of groups is a nonmeasurable set.*
 
 > **Theorem 6.** *The following are equivalent: The binary expansion of $`7`$.*
 
 > **Theorem 7.** *The dot product of not with itself. Moreover, the matrix determinant of or. However, not the determinant of and.*
 
+> **Theorem 8.** *The existential quantifier on the category of groups is a non-measurable set.*
+
 ### Partiality
 
-> **Theorem 8.** *One divided by zero is equal to zero.*
+Famously, Lean, like many proof assistants, defines division so that $`1 / 0 = 0`$ and subtraction on the natural numbers so that $`2 - 3 = 0`$. In the first case, this leads to the following theorem (which is already in Mathlib).
 
 > **Theorem 9.** ([`riemannZeta_one`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/Harmonic/ZetaAsymp.html#riemannZeta_one)) *$`\zeta(1) = (\gamma - \log 4 \pi) / 2`$, where $`\zeta(s)`$ is the Riemann zeta function.*
 
-> **Theorem 10.** *Two minus three is equal to zero.*
+If we try to avoid $`2 - 3 = 0`$ with the partial subtraction function `psub`, we get the following.
 
-If we try to avoid this with the partial subtraction function `psub`, we get the following.
-
-> **Theorem 11.** *Two minus three, where subtraction is understood to be a partial function on $`\mathbb{N}`$, is equal to the extended natural number $`+\infty`$.*
+> **Theorem 10.** *Two minus three, where subtraction is understood to be a partial function on $`\mathbb{N}`$, is equal to the extended natural number $`+\infty`$.*
 
 ### Equality
 
 In this next theorem, $`\mathsf{QR}`$ stands for quadratic reciprocity and $`\mathsf{BCT}`$ stands for the Baire category theorem.
 
-> **Theorem 12.** *Let $`p`$ be the unique proof of quadratic reciprocity, and let $`q`$ be the unique proof that the Baire category theorem isn't false. The pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle\neg\neg\mathsf{BCT},q\rangle`$ (in the sense of pointed types). Moreover, $`q`$ is a bijection.*
+> **Theorem 11.** *Let $`p`$ be the unique proof of quadratic reciprocity, and let $`q`$ be the unique proof that the Baire category theorem isn't false. The pair $`\langle \mathsf{QR},p\rangle`$ is equal to the pair $`\langle\neg\neg\mathsf{BCT},q\rangle`$ (in the sense of pointed types). Moreover, $`q`$ is a bijection.*
 
 However, one cannot even form the sentence 'The unique proof of quadratic reciprocity is a bijection.' in Lean, because this would be as nonsensical as the sentence 'The natural number $`2`$ is a bijection.'
+
+Similarly, we can build a term $`r`$ of type $`\mathbb{Q}`$, and prove the following.
+
+> **Theorem 12.**
+> * *$`r`$ is equal to $`1 / 2`$.*
+> * *Let $`P`$ be the polynomial $`2X^2`$. Let $`A`$ be the result of applying the third coordinate of the first coordinate of $`P`$ to the natural number $`2`$. Let $`B`$ be the first coordinate of $`A`$. For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`r`$.*
+
+Given Theorem 12, it is perhaps surprising that we can't just take $`r`$ to be the literal term $`1/2`$. If we try to do this, Lean will inform us that the resulting statement does not typecheck. In particular, the statement 'For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`1/2`$.' is completely meaningless, unlike the last sentence of Theorem 12.
 
 Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
 
@@ -56,4 +60,4 @@ It does make sense to ask whether $`a`$ and $`c`$ are 'heterogeneously equal' (i
 
 ---
 
-I should clarify some things. Theorems 1-11 are artifacts of particular definitions made in Mathlib, although Theorems 8 seems to be considered best practice (classically) for dealing with the fact that division is a partial function (despite the fact that it leads to things like Theorem 9), and Theorem 10 is common in proof assistants. Theorem 12 is not an artifact of particular definitions, but rather follows very directly from the treatment of propositions in type theory. (It's even provable constructively in type theories with propositional extensionality, such as HoTT.) Theorem 13 is unique to Lean and arises from some of its design decisions (i.e., definitional proof irrelevance and its computational rules for quotient types), which also lead to the failure of subject reduction. In other proof assistants based on dependent type theory (e.g., Rocq and Agda), judgmental/definitional equality is transitive, so nothing like Theorem 13 can happen, even assuming choice.
+I should clarify some things. Theorems 1-11 (and to some extent Theorem 12) are artifacts of particular definitions made in Mathlib, although the convention that leads to Theorems 9 seems to be considered best practice (classically) for dealing with the fact that division is a partial function. Theorem 11 is not an artifact of particular definitions, but rather follows very directly from the treatment of propositions in type theory. (It's even provable constructively in type theories with propositional extensionality, such as HoTT.) Theorem 13 is unique to Lean and arises from some of its design decisions (i.e., definitional proof irrelevance and its computational rules for quotient types), which also lead to the failure of subject reduction. In other proof assistants based on dependent type theory (e.g., Rocq and Agda), judgmental/definitional equality is transitive, so nothing like Theorem 13 can happen, even assuming choice.

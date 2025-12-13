@@ -1,9 +1,6 @@
 import Mathlib.Algebra.Category.Grp.Basic
-import Mathlib.CategoryTheory.Adjunction.AdjointFunctorTheorems
-import Mathlib.CategoryTheory.Limits.SmallComplete
 import Mathlib.Algebra.Ring.BooleanRing
 import Mathlib.Data.Nat.PSub
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.NumberTheory.Harmonic.ZetaAsymp
 import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
 
@@ -25,7 +22,7 @@ theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 :
   * `C` is the inverse of `B` and
   * for any `z` in the domain of `B`, `B(z)` is a bijection.
 -/
-theorem polynomial_things_1 :
+theorem polynomial_30 :
     (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)).1 = (30).factorization := by
   have h : (Polynomial.X^2 : Polynomial ℕ) * (Polynomial.X^3 + Polynomial.X + 1)
            = Polynomial.X^2 + Polynomial.X^3 + Polynomial.X^5 := by ring
@@ -40,23 +37,144 @@ theorem polynomial_things_1 :
     all_goals simp
   simp_all only [Polynomial.toFinsupp_add, Polynomial.toFinsupp_X_pow]
 
-theorem polynomial_things_2 : let P := (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)
-                                          : Polynomial ℕ)
-                              let A := P.1.3
-                              (∀ n, let B := (A n).1
-                                    let C := (A n).2
-                                    Function.LeftInverse B C
-                                  ∧ Function.RightInverse B C
-                                  ∧ ∀ z, Function.Bijective (B z)) := by
-  intro P A n B C
-  constructor
-  · exact congrFun rfl
-  · constructor
-    · exact congrFun rfl
-    · intro z
-      constructor
-      · simp [Function.Injective]
-      · simp [Function.Surjective]
+/-!
+For the next theorem, we will need a large number of lemmas. I legitimately do not know if this is
+necessary, since it's just a computation involving some polynomials.
+-/
+lemma poly_1 : (Polynomial.C 1 + Polynomial.X + Polynomial.X^2 : Polynomial ℕ)
+    = Polynomial.ofFinsupp (Finsupp.single 0 1 + Finsupp.single 1 1 + Finsupp.single 2 1) := by
+  have e0 : (Polynomial.C 1) = Polynomial.ofFinsupp (Finsupp.single 0 1) := by abel
+  have e1 : (Polynomial.X : Polynomial ℕ) = Polynomial.ofFinsupp (Finsupp.single 1 1) := by abel
+  have e2 : (Polynomial.X^2 : Polynomial ℕ) = Polynomial.ofFinsupp (Finsupp.single 2 1) := by
+    simp_all only [Polynomial.ofFinsupp_single, Polynomial.monomial_zero_left, eq_natCast,
+    Nat.cast_one, Polynomial.monomial_pow, one_mul, one_pow]
+  rw [Polynomial.ofFinsupp_add,Polynomial.ofFinsupp_add]
+  simp_all only [Polynomial.ofFinsupp_single, Polynomial.monomial_zero_left, eq_natCast,
+  Nat.cast_one, Polynomial.monomial_pow, one_mul, one_pow]
+
+lemma poly_2 : (MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3 =
+    ( (MvPolynomial.X 0)^3
+    + (MvPolynomial.X 1)^3
+    + (MvPolynomial.X 2)^3
+    + (.C 3)*(MvPolynomial.X 0)^2*(MvPolynomial.X 1)
+    + (.C 3)*(MvPolynomial.X 0)^2*(MvPolynomial.X 2)
+    + (.C 3)*(MvPolynomial.X 1)^2*(MvPolynomial.X 0)
+    + (.C 3)*(MvPolynomial.X 1)^2*(MvPolynomial.X 2)
+    + (.C 3)*(MvPolynomial.X 2)^2*(MvPolynomial.X 0)
+    + (.C 3)*(MvPolynomial.X 2)^2*(MvPolynomial.X 1)
+    + (.C 6)*(MvPolynomial.X 0)*(MvPolynomial.X 1)*(MvPolynomial.X 2) : MvPolynomial ℕ ℕ) := by
+  simp only [eq_natCast, Nat.cast_ofNat]
+  ring_nf
+
+lemma poly_3 (n m : ℕ) : (MvPolynomial.X n : MvPolynomial ℕ ℕ)^m
+  = MvPolynomial.monomial (Finsupp.single n m) 1 := by exact MvPolynomial.X_pow_eq_monomial
+
+lemma poly_4 (c n k : ℕ) : (.C c)*(MvPolynomial.X n)^2*(MvPolynomial.X k)
+  = MvPolynomial.monomial (Finsupp.single n 2 + Finsupp.single k 1) c := by
+  rw [MvPolynomial.X_pow_eq_monomial, MvPolynomial.C_mul_monomial, mul_one]
+  unfold MvPolynomial.X
+  simp only [MvPolynomial.monomial_mul, mul_one]
+
+lemma poly_5 (c : ℕ) : (.C c)*(MvPolynomial.X 0)*(MvPolynomial.X 1)*(MvPolynomial.X 2)
+  = MvPolynomial.monomial (Finsupp.single 0 1 + Finsupp.single 1 1 + Finsupp.single 2 1) c := by
+  unfold MvPolynomial.X
+  rw [MvPolynomial.C_mul_monomial]
+  simp only [mul_one, MvPolynomial.monomial_mul]
+
+lemma poly_6 : (MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3 =
+     MvPolynomial.monomial (Finsupp.single 0 3) 1
+   + MvPolynomial.monomial (Finsupp.single 1 3) 1
+   + MvPolynomial.monomial (Finsupp.single 2 3) 1
+   + MvPolynomial.monomial (Finsupp.single 0 2 + Finsupp.single 1 1) 3
+   + MvPolynomial.monomial (Finsupp.single 0 2 + Finsupp.single 2 1) 3
+   + MvPolynomial.monomial (Finsupp.single 1 2 + Finsupp.single 0 1) 3
+   + MvPolynomial.monomial (Finsupp.single 1 2 + Finsupp.single 2 1) 3
+   + MvPolynomial.monomial (Finsupp.single 2 2 + Finsupp.single 0 1) 3
+   + MvPolynomial.monomial (Finsupp.single 2 2 + Finsupp.single 1 1) 3
+   + MvPolynomial.monomial (Finsupp.single 0 1 + Finsupp.single 1 1 + Finsupp.single 2 1) 6 := by
+   rw [poly_2,poly_3,poly_3,poly_3,poly_4,poly_4,poly_4,poly_4,poly_4,poly_4,poly_5]
+
+lemma poly_7 (A B : MvPolynomial ℕ ℕ) : (A + B).2 = A.2 + B.2 := by trivial
+
+lemma poly_8 (n : ℕ) : (MvPolynomial.monomial (Finsupp.single n 3) 1).2
+  = Finsupp.single (Finsupp.single n 3) 1 := by abel
+
+lemma poly_9 (n m : ℕ) :
+  (MvPolynomial.monomial (Finsupp.single n 2 + Finsupp.single m 1) 3 : MvPolynomial ℕ ℕ).2
+    = Finsupp.single (Finsupp.single n 2 + Finsupp.single m 1) 3 := by abel
+
+lemma poly_10 :
+  (MvPolynomial.monomial (Finsupp.single 0 1 + Finsupp.single 1 1 + Finsupp.single 2 1) 6
+    : MvPolynomial ℕ ℕ).2 = (Finsupp.single (Finsupp.single 0 1 + Finsupp.single 1 1
+      + Finsupp.single 2 1) 6 : Finsupp (Finsupp ℕ ℕ) ℕ) := by abel
+
+lemma poly_11 : ((MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3 : MvPolynomial ℕ ℕ).2 =
+   (Finsupp.single (Finsupp.single 0 3) 1
+ + Finsupp.single (Finsupp.single 1 3) 1
+ + Finsupp.single (Finsupp.single 2 3) 1
+ + Finsupp.single (Finsupp.single 0 2 + Finsupp.single 1 1) 3
+ + Finsupp.single (Finsupp.single 0 2 + Finsupp.single 2 1) 3
+ + Finsupp.single (Finsupp.single 1 2 + Finsupp.single 0 1) 3
+ + Finsupp.single (Finsupp.single 1 2 + Finsupp.single 2 1) 3
+ + Finsupp.single (Finsupp.single 2 2 + Finsupp.single 0 1) 3
+ + Finsupp.single (Finsupp.single 2 2 + Finsupp.single 1 1) 3
+ + Finsupp.single (Finsupp.single 0 1 + Finsupp.single 1 1 + Finsupp.single 2 1) 6
+   : Finsupp (Finsupp ℕ ℕ) ℕ) := by simp [poly_6,poly_7,poly_8,poly_9,poly_10]
+
+/-!
+**Theorem.** Let `P` be the multivariate polynomial `(X_0 + X_1 + X_2)^3` (in the semiring of
+polynomials over `ℕ` in the variables `(X_n)_{n ∈ ℕ}`). Let `Q` be the univariate polynomial
+`1 + X + X^2`. The second coordinate of `P` applied to the first coordinate of `Q` is equal to the
+natural number `6`.
+-/
+theorem polynomials_within_polynomials : ((MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3
+  : MvPolynomial ℕ ℕ).2 (Polynomial.C 1 + Polynomial.X + Polynomial.X^2 : Polynomial ℕ).1 = 6 := by
+  rw [poly_1, poly_11]
+  simp only [Finsupp.coe_add, Pi.add_apply, Finsupp.single_eq_same, Nat.add_eq_right,
+  Nat.add_eq_zero_iff]
+  repeat' constructor
+  repeat' simp [Finsupp.single_apply, Finsupp.ext_iff, Finsupp.add_apply]
+  · use 0
+    intro h; simp at h
+    rw [Finsupp.add_apply, Finsupp.add_apply] at h
+    simp_all only [Finsupp.single_eq_same, ne_eq, zero_ne_one, not_false_eq_true,
+    Finsupp.single_eq_of_ne, add_zero, OfNat.zero_ne_ofNat, OfNat.ofNat_ne_one]
+  · use 1
+    intro h; simp at h
+    rw [Finsupp.add_apply, Finsupp.add_apply] at h
+    simp_all only [ne_eq, one_ne_zero, not_false_eq_true, Finsupp.single_eq_of_ne,
+    Finsupp.single_eq_same, zero_add, OfNat.one_ne_ofNat, add_zero, OfNat.ofNat_ne_one]
+  · use 2
+    intro h; simp at h
+    rw [Finsupp.add_apply, Finsupp.add_apply] at h
+    simp_all only [ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true,
+    Finsupp.single_eq_of_ne, OfNat.ofNat_ne_one, add_zero, Finsupp.single_eq_same, zero_add]
+  · use 0
+    intro h; simp at h
+    rw [Finsupp.add_apply, Finsupp.add_apply] at h
+    simp_all only [Finsupp.single_eq_same, ne_eq, zero_ne_one, not_false_eq_true,
+    Finsupp.single_eq_of_ne, add_zero, OfNat.zero_ne_ofNat, OfNat.ofNat_ne_one]
+  · use 0
+    intro h; simp at h
+  · use 2
+    intro h; simp at h
+    rw [Finsupp.add_apply, Finsupp.add_apply] at h
+    simp_all only [ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, Finsupp.single_eq_of_ne,
+    OfNat.ofNat_ne_one, add_zero, Finsupp.single_eq_same, zero_add, zero_ne_one]
+  · use 0
+    intro h; simp at h
+  · use 1
+    intro h; simp at h
+    rw [Finsupp.add_apply, Finsupp.add_apply] at h
+    simp_all only [ne_eq, one_ne_zero, not_false_eq_true, Finsupp.single_eq_of_ne,
+    Finsupp.single_eq_same, zero_add, OfNat.one_ne_ofNat, add_zero, zero_ne_one]
+  · use 0
+    intro h; simp at h
+    rw [Finsupp.add_apply, Finsupp.add_apply] at h
+    simp_all only [Finsupp.single_eq_same, ne_eq, zero_ne_one, not_false_eq_true,
+    Finsupp.single_eq_of_ne, add_zero, OfNat.zero_ne_ofNat]
+
+
 
 lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X = Set.univ := by
   apply Iff.intro
@@ -185,6 +303,22 @@ theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure
          unfold Not singleton Set.instSingletonSet Set.singleton; aesop
   rw [h3,Prop.closure_singleton_true_univ]
   simp
+
+
+/-!
+**Theorem 6.** The following are equivalent: The binary expansion of `7`.
+-/
+theorem TFAE_7_binary : List.TFAE (7).bits := by
+  unfold Nat.bits Nat.binaryRec Nat.binaryRec
+  simp!
+
+/-!
+**Theorem 7.** The dot product of not with itself. Moreover, the matrix determinant of or. However,
+not the determinant of and.
+-/
+theorem not_dot_not_det_or_and_not_det_and : dotProduct not not
+                                          ∧  Matrix.det or
+                                          ∧ ¬Matrix.det and := by decide
 
 /-!
 The next theorem will require by far the longest proof because it actually is a specific case of a
@@ -338,7 +472,7 @@ lemma GrpCat_Uncountable : Uncountable GrpCat := by
                   tauto
 
 /-!
-**Theorem 5.** The existential quantifier on the category of groups is a nonmeasurable set.
+**Theorem 5.** The existential quantifier on the category of groups is a non-measurable set.
 -/
 theorem Exists_GrpCat_nonmeasurable : ¬MeasurableSet (@Exists GrpCat) := by
   let F := fun (Q : GrpCat → Prop) ↦ Exists Q
@@ -374,21 +508,6 @@ theorem Exists_GrpCat_nonmeasurable : ¬MeasurableSet (@Exists GrpCat) := by
                   tauto
   exact GrpCat_Uncountable
 
-
-/-!
-**Theorem 6.** The following are equivalent: The binary expansion of `7`.
--/
-theorem TFAE_7_binary : List.TFAE (7).bits := by
-  unfold Nat.bits Nat.binaryRec Nat.binaryRec
-  simp!
-
-/-!
-**Theorem 7.** The dot product of not with itself. Moreover, the matrix determinant of or. However,
-not the determinant of and.
--/
-theorem not_dot_not_det_or_and_not_det_and : dotProduct not not
-                                          ∧  Matrix.det or
-                                          ∧ ¬Matrix.det and := by decide
 
 -------------------------------------------------------------------
 -------------------------------------------------------------------
@@ -471,8 +590,42 @@ theorem unique_proofs :
 Although, note that here it doesn't make sense to say that `p` is a function.
 -/
 
--------------------------------------------------------------------
--------------------------------------------------------------------
+noncomputable def frankenRat : ℚ := {
+  num := 1,
+  den := (Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).toFinsupp.toFun 2,
+  den_nz := ((Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).1.3 2).1 (by
+rw [Polynomial.toFinsupp_C_mul_X_pow]; norm_num),
+  reduced := by norm_num
+}
+/-!
+**Theorem 12.** The rational number `frankenRat` is equal to `1 / 2`.
+
+Let `P` be the polynomial `2X^2`. Let `A` be the result of applying the third coordinate of the
+first coordinate of `P` to the natural number `2`. Let `B` be the first coordinate of `A`. For the
+unique `z` in the domain of `B`, `B(z)` is equal to the third coordinate of `frankenRat`.
+-/
+theorem frankenRat_thm :
+     frankenRat = 1 / 2
+  ∧ let A := (Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).1.3 2;
+     let B := A.1
+     ∀ z w, z = w ∧ B z = frankenRat.3
+   ∧ ∃ z, B z = frankenRat.3
+:= by
+  constructor
+  · have h : (Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).toFinsupp.toFun 2
+      = (Polynomial.C 2 * Polynomial.X^2).toFinsupp (2 : ℕ) := by abel
+    unfold frankenRat
+    apply Rat.ext
+    · ring
+    · simp only
+      rw [h, Polynomial.toFinsupp_C_mul_X_pow]
+      norm_num
+  · tauto
+
+#check_failure let A := (Polynomial.C 2 * Polynomial.X^2 : Polynomial ℕ).1.3 2
+               let B := A.1
+               ∀ z w, z = w ∧ B z = frankenRat.3
+             ∧ ∃ z, B z = (1 / 2 : ℚ).3
 
 /-!
 We have one last bit of equality-based junk. First we need to define the quotient of quadratic
@@ -546,3 +699,4 @@ theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := by
   have h0 : ⟨Fin (f q), a⟩ = (⟨Fin (f r), b⟩ : Σ' X : Type, X) := rfl
   have h1 : ⟨Fin (f r), b⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := rfl
   simp [h0,h1]
+
