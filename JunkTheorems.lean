@@ -22,7 +22,7 @@ theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 :
   * `C` is the inverse of `B` and
   * for any `z` in the domain of `B`, `B(z)` is a bijection.
 -/
-theorem polynomial_30 :
+theorem polynomial_factorization_30 :
     (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)).1 = (30).factorization := by
   have h : (Polynomial.X^2 : Polynomial ℕ) * (Polynomial.X^3 + Polynomial.X + 1)
            = Polynomial.X^2 + Polynomial.X^3 + Polynomial.X^5 := by ring
@@ -173,8 +173,6 @@ theorem polynomials_within_polynomials : ((MvPolynomial.X 0 + MvPolynomial.X 1 +
     rw [Finsupp.add_apply, Finsupp.add_apply] at h
     simp_all only [Finsupp.single_eq_same, ne_eq, zero_ne_one, not_false_eq_true,
     Finsupp.single_eq_of_ne, add_zero, OfNat.zero_ne_ofNat]
-
-
 
 lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X = Set.univ := by
   apply Iff.intro
