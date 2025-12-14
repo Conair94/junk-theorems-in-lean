@@ -41,7 +41,7 @@ theorem polynomial_factorization_30 :
 For the next theorem, we will need a large number of lemmas. I legitimately do not know if this is
 necessary, since it's just a computation involving some polynomials.
 -/
-lemma poly_1 : (Polynomial.C 1 + Polynomial.X + Polynomial.X^2 : Polynomial ℕ)
+lemma poly_1 : (Polynomial.X^2 + Polynomial.X + Polynomial.C 1 : Polynomial ℕ)
     = Polynomial.ofFinsupp (Finsupp.single 0 1 + Finsupp.single 1 1 + Finsupp.single 2 1) := by
   have e0 : (Polynomial.C 1) = Polynomial.ofFinsupp (Finsupp.single 0 1) := by abel
   have e1 : (Polynomial.X : Polynomial ℕ) = Polynomial.ofFinsupp (Finsupp.single 1 1) := by abel
@@ -51,6 +51,7 @@ lemma poly_1 : (Polynomial.C 1 + Polynomial.X + Polynomial.X^2 : Polynomial ℕ)
   rw [Polynomial.ofFinsupp_add,Polynomial.ofFinsupp_add]
   simp_all only [Polynomial.ofFinsupp_single, Polynomial.monomial_zero_left, eq_natCast,
   Nat.cast_one, Polynomial.monomial_pow, one_mul, one_pow]
+  abel
 
 lemma poly_2 : (MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3 =
     ( (MvPolynomial.X 0)^3
@@ -123,11 +124,11 @@ lemma poly_11 : ((MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3 : Mv
 
 /-!
 **Theorem 3.** Let `P` be the multivariate polynomial `(X_0 + X_1 + X_2)^3`. Let `Q` be the
-univariate polynomial `1 + X + X^2`. The second coordinate of `P` applied to the first coordinate
+univariate polynomial `X^2 + X + 1`. The second coordinate of `P` applied to the first coordinate
 of `Q` is equal to the natural number `6`.
 -/
 theorem polynomials_within_polynomials : ((MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3
- : MvPolynomial _ _).2 (Polynomial.C 1 + Polynomial.X + Polynomial.X^2).1 = 6 := by
+: MvPolynomial _ _).2 (Polynomial.X^2 + Polynomial.X + Polynomial.C 1).1 = 6 := by
   rw [poly_1, poly_11]
   simp only [Finsupp.coe_add, Pi.add_apply, Finsupp.single_eq_same, Nat.add_eq_right,
   Nat.add_eq_zero_iff, Finsupp.single_apply, Finsupp.ext_iff, ite_eq_right_iff, one_ne_zero,
