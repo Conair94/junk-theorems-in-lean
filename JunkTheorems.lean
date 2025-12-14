@@ -32,7 +32,7 @@ theorem polynomial_factorization_30 :
     have f2 : Finsupp.single 2 1 = (2).factorization := by rw [Nat.Prime.factorization]; decide
     have f3 : Finsupp.single 3 1 = (3).factorization := by rw [Nat.Prime.factorization]; decide
     have f5 : Finsupp.single 5 1 = (5).factorization := by rw [Nat.Prime.factorization]; decide
-    rw [h2,Nat.factorization_mul,Nat.factorization_mul]
+    rw [h2, Nat.factorization_mul, Nat.factorization_mul]
     · simp_all only [Nat.reduceMul]
     all_goals simp
   simp_all only [Polynomial.toFinsupp_add, Polynomial.toFinsupp_X_pow]
@@ -109,7 +109,7 @@ lemma poly_10 :
       + Finsupp.single 2 1) 6 : Finsupp (Finsupp ℕ ℕ) ℕ) := by abel
 
 lemma poly_11 : ((MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3 : MvPolynomial ℕ ℕ).2 =
-   (Finsupp.single (Finsupp.single 0 3) 1
+  (Finsupp.single (Finsupp.single 0 3) 1
  + Finsupp.single (Finsupp.single 1 3) 1
  + Finsupp.single (Finsupp.single 2 3) 1
  + Finsupp.single (Finsupp.single 0 2 + Finsupp.single 1 1) 3
@@ -122,57 +122,20 @@ lemma poly_11 : ((MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3 : Mv
    : Finsupp (Finsupp ℕ ℕ) ℕ) := by simp [poly_6,poly_7,poly_8,poly_9,poly_10]
 
 /-!
-**Theorem 3.** Let `P` be the multivariate polynomial `(X_0 + X_1 + X_2)^3` (in the semiring of
-polynomials over `ℕ` in the variables `(X_n)_{n ∈ ℕ}`). Let `Q` be the univariate polynomial
-`1 + X + X^2`. The second coordinate of `P` applied to the first coordinate of `Q` is equal to the
-natural number `6`.
+**Theorem 3.** Let `P` be the multivariate polynomial `(X_0 + X_1 + X_2)^3`. Let `Q` be the
+univariate polynomial `1 + X + X^2`. The second coordinate of `P` applied to the first coordinate
+of `Q` is equal to the natural number `6`.
 -/
 theorem polynomials_within_polynomials : ((MvPolynomial.X 0 + MvPolynomial.X 1 + MvPolynomial.X 2)^3
-  : MvPolynomial ℕ ℕ).2 (Polynomial.C 1 + Polynomial.X + Polynomial.X^2 : Polynomial ℕ).1 = 6 := by
+ : MvPolynomial _ _).2 (Polynomial.C 1 + Polynomial.X + Polynomial.X^2).1 = 6 := by
   rw [poly_1, poly_11]
   simp only [Finsupp.coe_add, Pi.add_apply, Finsupp.single_eq_same, Nat.add_eq_right,
-  Nat.add_eq_zero_iff]
-  repeat' constructor
-  repeat' simp [Finsupp.single_apply, Finsupp.ext_iff, Finsupp.add_apply]
-  · use 0
-    intro h; simp at h
-    rw [Finsupp.add_apply, Finsupp.add_apply] at h
-    simp_all only [Finsupp.single_eq_same, ne_eq, zero_ne_one, not_false_eq_true,
-    Finsupp.single_eq_of_ne, add_zero, OfNat.zero_ne_ofNat, OfNat.ofNat_ne_one]
-  · use 1
-    intro h; simp at h
-    rw [Finsupp.add_apply, Finsupp.add_apply] at h
-    simp_all only [ne_eq, one_ne_zero, not_false_eq_true, Finsupp.single_eq_of_ne,
-    Finsupp.single_eq_same, zero_add, OfNat.one_ne_ofNat, add_zero, OfNat.ofNat_ne_one]
-  · use 2
-    intro h; simp at h
-    rw [Finsupp.add_apply, Finsupp.add_apply] at h
-    simp_all only [ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true,
-    Finsupp.single_eq_of_ne, OfNat.ofNat_ne_one, add_zero, Finsupp.single_eq_same, zero_add]
-  · use 0
-    intro h; simp at h
-    rw [Finsupp.add_apply, Finsupp.add_apply] at h
-    simp_all only [Finsupp.single_eq_same, ne_eq, zero_ne_one, not_false_eq_true,
-    Finsupp.single_eq_of_ne, add_zero, OfNat.zero_ne_ofNat, OfNat.ofNat_ne_one]
-  · use 0
-    intro h; simp at h
-  · use 2
-    intro h; simp at h
-    rw [Finsupp.add_apply, Finsupp.add_apply] at h
-    simp_all only [ne_eq, OfNat.ofNat_ne_zero, not_false_eq_true, Finsupp.single_eq_of_ne,
-    OfNat.ofNat_ne_one, add_zero, Finsupp.single_eq_same, zero_add, zero_ne_one]
-  · use 0
-    intro h; simp at h
-  · use 1
-    intro h; simp at h
-    rw [Finsupp.add_apply, Finsupp.add_apply] at h
-    simp_all only [ne_eq, one_ne_zero, not_false_eq_true, Finsupp.single_eq_of_ne,
-    Finsupp.single_eq_same, zero_add, OfNat.one_ne_ofNat, add_zero, zero_ne_one]
-  · use 0
-    intro h; simp at h
-    rw [Finsupp.add_apply, Finsupp.add_apply] at h
-    simp_all only [Finsupp.single_eq_same, ne_eq, zero_ne_one, not_false_eq_true,
-    Finsupp.single_eq_of_ne, add_zero, OfNat.zero_ne_ofNat]
+  Nat.add_eq_zero_iff, Finsupp.single_apply, Finsupp.ext_iff, ite_eq_right_iff, one_ne_zero,
+  imp_false, not_forall, Finsupp.coe_add, Pi.add_apply, OfNat.ofNat_ne_zero, add_left_inj]
+  refine ⟨⟨⟨⟨⟨⟨⟨⟨⟨0,?_⟩,⟨1,?_⟩⟩,⟨2,?_⟩⟩,⟨0,?_⟩⟩,⟨0,?_⟩⟩,⟨1,?_⟩⟩,⟨0,?_⟩⟩,⟨2,?_⟩⟩,⟨2,?_⟩⟩
+  all_goals intro h; simp at h
+  all_goals rw [Finsupp.add_apply, Finsupp.add_apply] at h
+  all_goals simp at h
 
 lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X = Set.univ := by
   apply Iff.intro
@@ -253,8 +216,7 @@ lemma Prop.isClosed_iff (X : Set Prop) : IsClosed X ↔ X = ∅ ∨ X = {⊥} �
         rw [h4]
         simp
   · intro h
-    rw [<- compl_compl X]
-    rw [isClosed_compl_iff]
+    rw [<- compl_compl X, isClosed_compl_iff]
     apply Or.elim h
     · intro h2
       rw [h2,isOpen_iff]
@@ -298,7 +260,7 @@ lemma Prop.closure_singleton_true_univ : closure ({⊤} : Set Prop) = Set.univ :
 -/
 theorem Riemann_hypothesis_in_closure_of_not_not : RiemannHypothesis ∈ closure (¬¬ ·) := by
   have h3 : (¬¬ ·) = ({⊤} : Set Prop) := by
-         unfold Not singleton Set.instSingletonSet Set.singleton; aesop
+    unfold Not singleton Set.instSingletonSet Set.singleton; aesop
   rw [h3,Prop.closure_singleton_true_univ]
   simp
 
@@ -613,8 +575,8 @@ unique `z` in the domain of `B`, `B(z)` is equal to the third coordinate of `fra
 theorem rational_polynomial_coordinates : r = 1 / 2
                                         ∧ P = Polynomial.C 2 * Polynomial.X^2
                                         ∧ let A := P.1.3 2;
-                                           let B := A.1
-                                           ∃ z, (∀ w, z = w)
+                                          let B := A.1
+                                          ∃ z, (∀ w, z = w)
                                               ∧ B z = r.3 := by
   repeat' constructor
   · apply Rat.ext

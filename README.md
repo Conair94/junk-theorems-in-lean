@@ -8,7 +8,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 2.**  *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
 
-> **Theorem 3.** *Let $`P`$ be the multivariate polynomial $`(X_0 + X_1 + X_2)^3`$ (in the semiring of polynomials over $`\mathbb{N}`$ in the variables $`(X_n)_{n\in \mathbb{N}}`$). Let $`Q`$ be the univariate polynomial $`1 + X + X^2`$. The second coordinate of $`P`$ applied to the first coordinate of $`Q`$ is equal to the natural number $`6`$.*
+> **Theorem 3.** *Let $`P`$ be the multivariate polynomial $`(X_0 + X_1 + X_2)^3`$. Let $`Q`$ be the univariate polynomial $`1 + X + X^2`$. The second coordinate of $`P`$ applied to the first coordinate of $`Q`$ is equal to the natural number $`6`$.*
 
 ### Sets and Logic
 
@@ -49,11 +49,11 @@ Similarly, we can build an element $`r`$ of $`\mathbb{Q}`$ and a polynomial $`P`
 > * *$`P`$ is equal to $`2X^2`$.*
 > * *Let $`A`$ be the result of applying the third coordinate of the first coordinate of $`P`$ to the natural number $`2`$. Let $`B`$ be the first coordinate of $`A`$. For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`r`$.*
 
-Given the first two bullets of Theorem 12, it is perhaps surprising that we can't just take $`r`$ to literally be $`\frac{1}{2}`$ and $`P`$ to literally be $`2X^2`$. If we try to do this, Lean will inform us that the resulting proposition does not typecheck. In particular, the statement
+Given the first two bullets of Theorem 12, it is perhaps surprising that we can't just take $`r`$ to literally be $`\frac{1}{2}`$ and $`P`$ to literally be $`2X^2`$. If we try to do this, Lean will inform us that the resulting proposition does not typecheck. In particular, the last sentence of the statement
 
 * Let $`A`$ be the result of applying the third coordinate of the first coordinate of $`2X^2`$ to the natural number $`2`$. Let $`B`$ be the first coordinate of $`A`$. For the unique $`z`$ in the domain of $`B`$, $`B(z)`$ is equal to the third coordinate of $`\frac{1}{2}`$.'
 
-is completely meaningless, unlike the last bullet of Theorem 12.
+is completely meaningless, unlike the last sentence of Theorem 12.
 
 Finally, using the axiom of choice (in a meaningful way, mind), we can build three terms $`a`$, $`b`$, and $`c`$ and prove the following:
 
