@@ -76,7 +76,7 @@ This last theorem requires a proof tactic that is (reasonably) banned in Mathlib
 >
 > *in the sense of pointed types.*
 
-Note that this is not a vacuous implication. The assumption that $`\mathbb{N}`$ is equal to $`\mathbb{Z}`$ is consistent with Lean. At the moment I don't know what natural number $`4294967296`$ is heterogeneously equal to under these axioms, or indeed if it is even fixed by them.
+Note that this is not a vacuous implication. The assumption that $`\mathbb{N}`$ is equal to $`\mathbb{Z}`$ is consistent with Lean. At the moment I don't know what integer the natural number $`4294967296`$ is heterogeneously equal to under these axioms, or indeed if it is even fixed by them.
 
 ---
 
