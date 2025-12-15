@@ -72,7 +72,7 @@ This last theorem requires a proof tactic that is (reasonably) banned in Mathlib
 > * *the pair $`\langle\mathbb{Z}, 1\rangle`$ is equal to the pair $`\langle\mathbb{N}, 1\rangle`$,*
 > * *the pair $`\langle\mathbb{Z}, 0\rangle`$ is equal to the pair $`\langle\mathbb{N}, 0\rangle`$,*
 > * *the pair $`\langle\mathbb{Z}, -1\rangle`$ is equal to the pair $`\langle\mathbb{N}, 4294967295\rangle`$, and*
-> * *the pair $`\langle\mathbb{Z}, -2\rangle`$ is equal to the pair $`\langle\mathbb{N}, 4294967294\rangle`$ *
+> * *the pair $`\langle\mathbb{Z}, -2\rangle`$ is equal to the pair $`\langle\mathbb{N}, 4294967294\rangle`$,*
 >
 > *in the sense of pointed types.*
 
