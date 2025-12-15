@@ -568,7 +568,8 @@ lemma Int_eq_Nat : ℤ = ℕ := by simp only [Nat_eq_Int]
 * the pair `⟨ℤ, 1⟩` is equal to the pair `⟨ℕ, 1⟩`,
 * the pair `⟨ℤ, 0⟩` is equal to the pair `⟨ℕ, 0⟩`,
 * the pair `⟨ℤ, -1⟩` is equal to the pair `⟨ℕ, 4294967295⟩`, and
-* the pair `⟨ℤ, -2⟩` is equal to the pair `⟨ℕ, 4294967294⟩`.
+* the pair `⟨ℤ, -2⟩` is equal to the pair `⟨ℕ, 4294967294⟩`
+in the sense of pointed types.
 -/
 theorem neg_one_eq_four_bil_ish : ⟨ℤ, 2⟩ = (⟨ℕ, 2⟩ : Σ X, X)
                                 ∧ ⟨ℤ, 1⟩ = (⟨ℕ, 1⟩ : Σ X, X)

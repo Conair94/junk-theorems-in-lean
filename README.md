@@ -72,7 +72,8 @@ This last theorem requires a proof tactic that is (reasonably) banned in Mathlib
 > * *the pair $`⟨ℤ, 1⟩`$ is equal to the pair $`⟨ℕ, 1⟩`$,*
 > * *the pair $`⟨ℤ, 0⟩`$ is equal to the pair $`⟨ℕ, 0⟩`$,*
 > * *the pair $`⟨ℤ, -1⟩`$ is equal to the pair $`⟨ℕ, 4294967295⟩`$, and*
-> * *the pair $`⟨ℤ, -2⟩`$ is equal to the pair $`⟨ℕ, 4294967294⟩`$.*
+> * *the pair $`⟨ℤ, -2⟩`$ is equal to the pair $`⟨ℕ, 4294967294⟩`$*
+> *in the sense of pointed types.*
 
 Note that this is not a vacuous implication. The assumption that $`\mathbb{Z}`$ is equal to $`\mathbb{N}`$ is consistent with Lean.
 
