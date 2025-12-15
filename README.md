@@ -67,7 +67,7 @@ It does make sense to ask whether $`a`$ and $`c`$ are 'heterogeneously equal' (i
 
 This last theorem requires a proof tactic that is (reasonably) banned in Mathlib (i.e., the infamous `native_decide`) as well as an explicit extra axiomatic assumption. (Think of this as being like an exotic counterexample in real analysis that requires $`\mathsf{CH}`$.)
 
-> **Theorem 14.** *Assuming axiomatically that $`\mathbb{Z} = \mathbb{N}`$ and that [we trust the Lean compiler](https://leanprover-community.github.io/mathlib4_docs/Init/Core.html#Lean.trustCompiler),*
+> **Theorem 14.** *Assuming axiomatically that $`\mathbb{N} = \mathbb{Z}`$ and that [we trust the Lean compiler](https://leanprover-community.github.io/mathlib4_docs/Init/Core.html#Lean.trustCompiler),*
 > * *the pair $`\langle\mathbb{Z}, 2\rangle`$ is equal to the pair $`\langle\mathbb{N}, 2\rangle`$,*
 > * *the pair $`\langle\mathbb{Z}, 1\rangle`$ is equal to the pair $`\langle\mathbb{N}, 1\rangle`$,*
 > * *the pair $`\langle\mathbb{Z}, 0\rangle`$ is equal to the pair $`\langle\mathbb{N}, 0\rangle`$,*
@@ -76,7 +76,7 @@ This last theorem requires a proof tactic that is (reasonably) banned in Mathlib
 >
 > *in the sense of pointed types.*
 
-Note that this is not a vacuous implication. The assumption that $`\mathbb{Z}`$ is equal to $`\mathbb{N}`$ is consistent with Lean.
+Note that this is not a vacuous implication. The assumption that $`\mathbb{N}`$ is equal to $`\mathbb{Z}`$ is consistent with Lean. At the moment I don't know what natural number $`4294967296`$ is heterogeneously equal to under these axioms, or indeed if it is even fixed by them.
 
 ---
 
