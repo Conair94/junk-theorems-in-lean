@@ -678,13 +678,11 @@ axiom Int_eq_Nat : ℤ = ℕ
 
 /-!
 **Theorem 14.** Assuming axiomatically that `ℤ = ℕ` and that we trust the Lean compiler, the integer
-`-1` is equal to the natural number `4,294,967,295` (i.e., the pair `⟨ℤ, -1⟩` is equal to the pair
-`⟨ℕ, 4,294,967,295⟩`).
+`-1` is (heterogeneously) equal to the natural number `4,294,967,295` (i.e., the pair `⟨ℤ, -1⟩` is
+equal to the pair `⟨ℕ, 4,294,967,295⟩`).
 -/
 theorem neg_one_eq_four_bil_ish : ⟨ℤ, -1⟩ = (⟨ℕ, 4294967295⟩ : Σ X, X) := by
   have h : cast Int_eq_Nat (-1) = 4294967295 := by native_decide
   have h2 : (-1 : ℤ) ≍ (4294967295 : ℕ) := heq_of_cast_eq Int_eq_Nat h
   simp only [Int.reduceNeg, Sigma.mk.injEq, Int_eq_Nat, h2]
   tauto
-
-
