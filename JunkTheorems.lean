@@ -557,34 +557,3 @@ theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ X, X) := by
   simp [h0,h1]
 
 end Theorem_13
-
-axiom Nat_eq_Int : ℕ = ℤ
-
-lemma Int_eq_Nat : ℤ = ℕ := by simp only [Nat_eq_Int]
-
-/-!
-**Theorem 14.** Assuming axiomatically that `ℕ = ℤ` and that we trust the Lean compiler,
-* the pair `⟨ℤ, 2⟩` is equal to the pair `⟨ℕ, 2⟩`,
-* the pair `⟨ℤ, 1⟩` is equal to the pair `⟨ℕ, 1⟩`,
-* the pair `⟨ℤ, 0⟩` is equal to the pair `⟨ℕ, 0⟩`,
-* the pair `⟨ℤ, -1⟩` is equal to the pair `⟨ℕ, 4294967295⟩`, and
-* the pair `⟨ℤ, -2⟩` is equal to the pair `⟨ℕ, 4294967294⟩`
-in the sense of pointed types.
--/
-theorem neg_one_eq_four_bil_ish : ⟨ℤ, 2⟩ = (⟨ℕ, 2⟩ : Σ X, X)
-                                ∧ ⟨ℤ, 1⟩ = (⟨ℕ, 1⟩ : Σ X, X)
-                                ∧ ⟨ℤ, 0⟩ = (⟨ℕ, 0⟩ : Σ X, X)
-                                ∧ ⟨ℤ, -1⟩ = (⟨ℕ, 4294967295⟩ : Σ X, X)
-                                ∧ ⟨ℤ, -2⟩ = (⟨ℕ, 4294967294⟩ : Σ X, X) := by
-  have h   : cast Int_eq_Nat 2 = 2             := by native_decide
-  have h2  : cast Int_eq_Nat 1 = 1             := by native_decide
-  have h3  : cast Int_eq_Nat 0 = 0             := by native_decide
-  have h4  : cast Int_eq_Nat (-1) = 4294967295 := by native_decide
-  have h5  : cast Int_eq_Nat (-2) = 4294967294 := by native_decide
-  have h6  : (2 : ℤ) ≍ (2 : ℕ)           := heq_of_cast_eq Int_eq_Nat h
-  have h7  : (1 : ℤ) ≍ (1 : ℕ)           := heq_of_cast_eq Int_eq_Nat h2
-  have h8  : (0 : ℤ) ≍ (0 : ℕ)           := heq_of_cast_eq Int_eq_Nat h3
-  have h9  : (-1 : ℤ) ≍ (4294967295 : ℕ) := heq_of_cast_eq Int_eq_Nat h4
-  have h10 : (-2 : ℤ) ≍ (4294967294 : ℕ) := heq_of_cast_eq Int_eq_Nat h5
-  simp only [Sigma.mk.injEq, Int.reduceNeg, and_self, h6, h7, h8, h9, h10, Int_eq_Nat]
-
