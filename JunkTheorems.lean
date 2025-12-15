@@ -500,7 +500,7 @@ theorem two_minus_three_eq_infty : (2).psub 3 = (⊤ : ℕ∞) := rfl
 -------------------------------------------------------------------
 
 /-!
-To keep the next statement readable, we need to give shorthand notation for the following two
+To keep the next theorem readable, we need to give shorthand notation for the following two
 statements.
 
 The statement of quadratic reciprocity for the Jacobi symbol.
@@ -667,9 +667,24 @@ This means that it doesn't even make sense to say that `a` is equal to `c`.
 However, it is easy to show that `a` and `c` are heterogeneously equal, since equality is
 transitive, of course:
 -/
-theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := by
-  have h0 : ⟨Fin (f q), a⟩ = (⟨Fin (f r), b⟩ : Σ' X : Type, X) := rfl
-  have h1 : ⟨Fin (f r), b⟩ = (⟨Fin 1, c⟩ : Σ' X : Type, X) := rfl
+theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ X, X) := by
+  have h0 : ⟨Fin (f q), a⟩ = (⟨Fin (f r), b⟩ : Σ X, X) := rfl
+  have h1 : ⟨Fin (f r), b⟩ = (⟨Fin 1, c⟩ : Σ X, X) := rfl
   simp [h0,h1]
 
 end Theorem_13
+
+axiom Int_eq_Nat : ℤ = ℕ
+
+/-!
+**Theorem 14.** Assuming axiomatically that `ℤ = ℕ` and that we trust the Lean compiler, the integer
+`-1` is equal to the natural number `4,294,967,295` (i.e., the pair `⟨ℤ, -1⟩` is equal to the pair
+`⟨ℕ, 4,294,967,295⟩`).
+-/
+theorem neg_one_eq_four_bil_ish : ⟨ℤ, -1⟩ = (⟨ℕ, 4294967295⟩ : Σ X, X) := by
+  have h : cast Int_eq_Nat (-1) = 4294967295 := by native_decide
+  have h2 : (-1 : ℤ) ≍ (4294967295 : ℕ) := heq_of_cast_eq Int_eq_Nat h
+  simp only [Int.reduceNeg, Sigma.mk.injEq, Int_eq_Nat, h2]
+  tauto
+
+
