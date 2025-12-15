@@ -67,7 +67,7 @@ It does make sense to ask whether $`a`$ and $`c`$ are 'heterogeneously equal' (i
 
 This last theorem requires a proof tactic that is (reasonably) banned in Mathlib (i.e., the infamous `native_decide`) as well as an explicit extra axiomatic assumption. (Think of this as being like an exotic counterexample in real analysis that requires $`\mathsf{CH}`$.)
 
-> **Theorem 14.** Assuming axiomatically that $`\mathbb{Z} = \mathbb{N}`$ and that [we trust the Lean compiler](https://leanprover-community.github.io/mathlib4_docs/Init/Core.html#Lean.trustCompiler), the integer $`-1`$ is equal to the natural number $`4,294,967,295`$ (i.e., the pair $`\langle \mathbb{Z}, -1\rangle`$ is equal to the pair $\langle \mathbb{N}, 4,294,967,295\rangle`$).
+> **Theorem 14.** Assuming axiomatically that $`\mathbb{Z} = \mathbb{N}`$ and that [we trust the Lean compiler](https://leanprover-community.github.io/mathlib4_docs/Init/Core.html#Lean.trustCompiler), the integer $`-1`$ is equal to the natural number $`4,294,967,295`$ (i.e., the pair $`\langle \mathbb{Z}, -1\rangle`$ is equal to the pair $`\langle \mathbb{N}, 4,294,967,295\rangle`$).
 
 Note that this is not a vacuous implication. The assumption that $`\mathbb{Z}`$ is equal to $`\mathbb{N}`$ is consistent with Lean.
 
