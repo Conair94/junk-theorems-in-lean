@@ -1,6 +1,6 @@
 # Some Junk Theorems in Lean
 
-This is a small collection of formally verified junk theorems provable in Lean 4 + Mathlib that, in my experience, are quite surprising and upsetting to mathematicians who are not familiar with type theory (and in the case of Theorem 13, also to mathematicians who are familiar with type theory). [See the main .lean file here.](JunkTheorems.lean)
+This is a small collection of formally verified junk theorems provable in Lean 4 + Mathlib that, in my experience, are quite surprising and upsetting to mathematicians who are not familiar with type theory (and in the case of Theorems 13 and 14, also to mathematicians who are familiar with type theory). [See the main .lean file here.](JunkTheorems.lean)
 
 ### Coding
 
@@ -63,7 +63,16 @@ This may not seem so strange, but the issue is that if we now consider the obvio
 
 It does make sense to ask whether $`a`$ and $`c`$ are 'heterogeneously equal' (i.e., is it the case that $`\langle A, a \rangle = \langle C, c\rangle`$, where $`A`$ is the type of $`a`$ and $`C`$ is the type of $`c`$?), but it also makes sense to ask whether $`\langle \text{Banach spaces}, \ell^2 \rangle`$ is equal to $`\langle \text{groups}, \text{monster group}\rangle`$ or to ask whether $`\langle\mathsf{Prop},\text{quadratic reciprocity}\rangle`$ is equal to $`\langle \mathsf{Fin} 2, 0 \rangle`$ (where $`\mathsf{Prop}`$ is the type of propositions and $`\mathsf{Fin} 2`$ is the type of natural numbers less than $`2`$). The only formal difference is that, while you can prove $`\langle A, a \rangle = \langle C, c\rangle`$ easily (since equality is transitive, after all), the statements $`\langle \text{Banach spaces}, \ell^2 \rangle = \langle \text{groups}, \text{monster group}\rangle`$ and $`\langle \mathsf{Prop},\text{quadratic reciprocity}\rangle = \langle \mathsf{Fin} 2, 0 \rangle`$ are independent of Lean.
 
+### Beyond Mathlib
+
+This last theorem requires a proof tactic that is (reasonably) banned in Mathlib (i.e., the infamous `native_decide`) as well as an explicit extra axiomatic assumption. (Think of this as being like an exotic counterexample in real analysis that requires $`\mathsf{CH}`$.)
+
+> **Theorem 14.** *If we assume axiomatically that the type of natural numbers less than $`2147483649`$ is equal to the type of integers in the interval $`[0,2147483649)`$ and that [we trust the Lean compiler](https://leanprover-community.github.io/mathlib4_docs/Init/Core.html#Lean.trustCompiler), then $`0 = 1`$.*
+
+In other words, these axioms are inconsistent. This is notable firstly because it is consistent without the axioms used by `native_decide` (in this case `Lean.trustCompiler` and `Lean.ofReduceBool`) that the type of natural numbers less than $`2147483649`$ is equal to the type of integers in the interval $`[0,2147483649)`$ (indeed it is consistent to assume that any two types of the same cardinality in the same universe are equal), but also secondly because the analogous axioms regarding numbers smaller than $`k`$ *are* consistent with `native_decide` for any $`k < 2147483649`$.
+
 ---
 
-I should clarify some things. Theorems 1-10 (and to some extent Theorem 12) are artifacts of particular definitions made in Mathlib, although the convention that leads to Theorem 9 seems to be considered best practice (classically) for dealing with the fact that division is a partial function. Theorem 11 is not an artifact of particular definitions, but rather follows very directly from the treatment of propositions in type theory. (It's even provable constructively in type theories with propositional extensionality, such as HoTT.) Theorem 13 is unique to Lean and arises from some of its design decisions (i.e., definitional proof irrelevance and its computational rules for quotient types), which also lead to the failure of subject reduction. In other proof assistants based on dependent type theory (e.g., Rocq and Agda), judgmental/definitional equality is transitive, so nothing like Theorem 13 can happen, even assuming choice.
+I should clarify some things. Theorems 1-10 (and to some extent Theorem 12) are artifacts of particular definitions made in Mathlib, although the convention that leads to Theorem 9 seems to be considered best practice (classically) for dealing with the fact that division is a partial function. Theorem 11 is not an artifact of particular definitions, but rather follows very directly from the treatment of propositions in type theory. (It's even provable constructively in type theories with propositional extensionality, such as HoTT.)
 
+Theorems 13 and 14 are unique to Lean and arise from some of its design decisions. Theorem 13 relies on definitional proof irrelevance and Lean's computational rules for quotient types, which also lead to the failure of subject reduction. In other proof assistants based on dependent type theory (e.g., Rocq and Agda), judgmental/definitional equality is transitive, so nothing like Theorem 13 can happen, even assuming choice. Theorem 14 relies on low-level implementation details of the Lean compiler.

@@ -557,3 +557,23 @@ theorem a_heq_c : ⟨Fin (f q), a⟩ = (⟨Fin 1, c⟩ : Σ X, X) := by
   simp [h0,h1]
 
 end Theorem_13
+
+namespace Theorem_14
+
+def IntFin (k : ℕ) := { x : ℤ // 0 ≤ x ∧ x < k }
+
+axiom Fin_eq_IntFin_2147483649 : Fin 2147483649 = IntFin 2147483649
+
+/-!
+**Theorem 14.** If we assume axiomatically that the type of natural numbers less than `2147483649`
+is equal to the type of integers in the interval [0,2147483649) and moreover that we trust the Lean
+compiler, then `0 = 1`.
+-/
+theorem overflow : 0 = 1 := by
+  let h := (cast Fin_eq_IntFin_2147483649 2147483648).2
+  have h2 : (cast Fin_eq_IntFin_2147483649 2147483648).1 = -2147483648 :=
+    by native_decide
+  rw [h2] at h
+  tauto
+
+end Theorem_14
