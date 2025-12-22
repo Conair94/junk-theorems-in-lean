@@ -15,28 +15,6 @@ theorem one_half_third_coord_is_bijection : Function.Bijective (1 / 2 : ℚ).3 :
   · simp [Function.Surjective]
 
 /-!
-**Theorem 2.** Let `P` be the polynomial `X^2 * (X^3 + X + 1)`.
-* The first coordinate of `P` is equal to the prime factorization of `30`.
-* Let `A` be the third coordinate of the first coordinate of `P`. Fix a natural number `n`, and let
-`B` and `C` be the first and second coordinates of `A(n)`, respectively. Then
-  * `C` is the inverse of `B` and
-  * for any `z` in the domain of `B`, `B(z)` is a bijection.
--/
-theorem polynomial_factorization_30 :
-    (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)).1 = (30).factorization := by
-  have h : (.X^2 : Polynomial ℕ) * (.X^3 + .X + 1) = .X^2 + .X^3 + .X^5 := by ring
-  rw [h]
-  have : Finsupp.single 2 1 + Finsupp.single 3 1 + Finsupp.single 5 1 = Nat.factorization 30 := by
-    have h2 : 30 = 2 * 3 * 5 := by ring
-    have f2 : Finsupp.single 2 1 = (2).factorization := by rw [Nat.Prime.factorization]; decide
-    have f3 : Finsupp.single 3 1 = (3).factorization := by rw [Nat.Prime.factorization]; decide
-    have f5 : Finsupp.single 5 1 = (5).factorization := by rw [Nat.Prime.factorization]; decide
-    rw [h2, Nat.factorization_mul, Nat.factorization_mul]
-    · simp_all only [Nat.reduceMul]
-    all_goals simp
-  simp_all only [Polynomial.toFinsupp_add, Polynomial.toFinsupp_X_pow]
-
-/-!
 For the next theorem, we will need a large number of lemmas. I legitimately do not know if this is
 necessary, since it's just a computation involving some polynomials.
 -/
@@ -117,12 +95,29 @@ lemma poly_11 : ((.X 0 + .X 1 + .X 2)^3 : MvPolynomial ℕ ℕ).2 =
    : Finsupp (Finsupp ℕ ℕ) ℕ) := by simp [poly_6,poly_7,poly_8,poly_9,poly_10]
 
 /-!
-**Theorem 3.** Let `P` be the multivariate polynomial `(X_0 + X_1 + X_2)^3`. Let `Q` be the
+**Theorem 2.**
+* The first coordinate of the polynomial `X^2 * (X^3 + X + 1)` is equal to the prime
+factorization of `30`.
+* Let `P` be the multivariate polynomial `(X_0 + X_1 + X_2)^3`. Let `Q` be the
 univariate polynomial `X^2 + X + 1`. The second coordinate of `P` applied to the first coordinate
 of `Q` is equal to the natural number `6`.
 -/
+theorem polynomial_factorization_30 :
+    (Polynomial.X^2 * (Polynomial.X^3 + Polynomial.X + 1)).1 = (30).factorization := by
+  have h : (.X^2 : Polynomial ℕ) * (.X^3 + .X + 1) = .X^2 + .X^3 + .X^5 := by ring
+  rw [h]
+  have : Finsupp.single 2 1 + Finsupp.single 3 1 + Finsupp.single 5 1 = Nat.factorization 30 := by
+    have h2 : 30 = 2 * 3 * 5 := by ring
+    have f2 : Finsupp.single 2 1 = (2).factorization := by rw [Nat.Prime.factorization]; decide
+    have f3 : Finsupp.single 3 1 = (3).factorization := by rw [Nat.Prime.factorization]; decide
+    have f5 : Finsupp.single 5 1 = (5).factorization := by rw [Nat.Prime.factorization]; decide
+    rw [h2, Nat.factorization_mul, Nat.factorization_mul]
+    · simp_all only [Nat.reduceMul]
+    all_goals simp
+  simp_all only [Polynomial.toFinsupp_add, Polynomial.toFinsupp_X_pow]
+
 theorem polynomials_within_polynomials : ((.X 0 + .X 1 + .X 2)^3
-: MvPolynomial _ _).2 (.X^2 + .X + .C 1 : Polynomial _).1 = 6 := by
+    : MvPolynomial _ _).2 (.X^2 + .X + .C 1 : Polynomial _).1 = 6 := by
   rw [poly_1, poly_11]
   simp only [Finsupp.coe_add, Pi.add_apply, Finsupp.single_eq_same, Nat.add_eq_right,
   Nat.add_eq_zero_iff, Finsupp.single_apply, Finsupp.ext_iff, ite_eq_right_iff, one_ne_zero,
@@ -131,6 +126,58 @@ theorem polynomials_within_polynomials : ((.X 0 + .X 1 + .X 2)^3
   all_goals intro h; simp at h
   all_goals rw [Finsupp.add_apply, Finsupp.add_apply] at h
   all_goals simp at h
+
+/-!
+**Theorem 3.** Let `X` be one divided by the first coordinate of the fifth coordinate of the first
+coordinate of the first coordinate of the first coordinate of the standard field structure on `ℝ`.
+`X` is a Cauchy seuqence but is not summable.
+-/
+theorem first_fifth_first_first_first : let X := 1 / Real.instField.1.1.1.5.1
+                                        IsCauSeq abs X
+                                     ∧ ¬Summable X := by
+  simp only [one_div]
+  unfold NatCast.natCast Real.instField
+  simp only
+  unfold Real.commRing
+  simp only
+  have : (fun n ↦ { cauchy := ↑n } : ℕ → ℝ)⁻¹ = (fun (n : ℕ) ↦ (1 : ℝ) / ↑n) := by aesop
+  rw [this]
+  constructor
+  · unfold IsCauSeq
+    simp only [gt_iff_lt, ge_iff_le, one_div]
+    intro ε h
+    have h2 : ∃ m : ℕ, ∀ k ≥ m, (↑k)⁻¹ < ε / 2 := by
+      have : ∃ m : ℕ, m > 0 ∧ (↑m)⁻¹ < ε / 2 := by
+        use (Nat.ceil (2 / ε) + 1)
+        constructor
+        · finiteness
+        · have : ↑(⌈2 / ε⌉₊ + 1) > 2 / ε := by
+            have : ↑(⌈2 / ε⌉₊) ≥ 2 / ε := by exact Nat.le_ceil (2 / ε)
+            grind
+          have : (↑(⌈2 / ε⌉₊ + 1))⁻¹ < (2 / ε)⁻¹ := by gcongr
+          simp_all only [one_div, Nat.cast_add, Nat.cast_one, gt_iff_lt, inv_div]
+      cases this with
+      | intro m hi0 =>
+          use m
+          intro k hi1
+          have : (↑k : ℝ) ≥ (↑m) := by gcongr
+          have : (1 / ↑k : ℝ) ≤ (1 / ↑m) := by bound
+          grind
+    cases h2 with
+    | intro m h3 =>
+        use m
+        intro j h4
+        let h5 := h3 m
+        let h6 := h3 j
+        have h7 : |(↑j)⁻¹| < ε / 2 := by simp_all only [one_div, abs_inv, Nat.abs_cast, ge_iff_le]
+        have h8 : |(↑m)⁻¹| < ε / 2 := by simp_all only [one_div, abs_inv, Nat.abs_cast, ge_iff_le,
+          le_refl]
+        have h9 : |(↑j)⁻¹| + |(↑m)⁻¹| < ε / 2 + ε / 2 := by gcongr
+        have h10 : |(↑j)⁻¹| + |(↑m)⁻¹| < ε := by simp_all only [one_div, abs_inv, Nat.abs_cast,
+          ge_iff_le, le_refl, add_halves]
+        have h11 : (|(↑j)⁻¹ - (↑m)⁻¹| : ℝ) ≤ |(↑j)⁻¹| + |(↑m)⁻¹| := by exact abs_sub _ _
+        exact Std.lt_of_le_of_lt h11 h10
+  · exact Real.not_summable_one_div_natCast
 
 lemma Prop.isOpen_iff (X : Set Prop) : IsOpen X ↔ X = ∅ ∨ X = {⊤} ∨ X = Set.univ := by
   apply Iff.intro
