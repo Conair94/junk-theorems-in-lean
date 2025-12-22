@@ -10,7 +10,7 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 > * *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
 > * *Let $`P`$ be the multivariate polynomial $`(X_0 + X_1 + X_2)^3`$. Let $`Q`$ be the univariate polynomial $`X^2 + X + 1`$. The second coordinate of $`P`$ applied to the first coordinate of $`Q`$ is equal to the natural number $`6`$.*
 
-> **Theorem 3.** Let $`X`$ be the first coordinate of the fifth coordinate of the first coordinate of the first coordinate of the first coordinate of the standard field structure on $`\mathbb{R}`$. $`X`$ is a Cauchy sequence but is not summable.
+> **Theorem 3.** Let $`X`$ be one divided by the first coordinate of the fifth coordinate of the first coordinate of the first coordinate of the first coordinate of the standard field structure on $`\mathbb{R}`$. $`X`$ is a Cauchy sequence but is not summable.
 
 ### Sets and Logic
 
@@ -71,7 +71,7 @@ This last theorem requires a proof tactic that is (reasonably) banned in Mathlib
 
 > **Theorem 14.** *If we assume axiomatically that the type of natural numbers less than $`2147483649`$ is equal to the type of integers in the interval $`[0,2147483649)`$ and that [we trust the Lean compiler](https://leanprover-community.github.io/mathlib4_docs/Init/Core.html#Lean.trustCompiler), then $`0 = 1`$.*
 
-In other words, these axioms are inconsistent. This is notable firstly because it is consistent without the axioms used by `native_decide` (in this case `Lean.trustCompiler` and `Lean.ofReduceBool`) that the type of natural numbers less than $`2147483649`$ is equal to the type of integers in the interval $`[0,2147483649)`$ (indeed it is consistent to assume that any two types of the same cardinality in the same universe are equal), but also secondly because the analogous axioms regarding numbers smaller than $`k`$ are seemingly consistent with `native_decide` for any $`k < 2147483649`$ (specifically, the analogous proof of $`0 = 1`$ does not work).
+In other words, these axioms are inconsistent. This is notable firstly because it is consistent without the axioms used by `native_decide` (i.e., `Lean.trustCompiler` and `Lean.ofReduceBool`) that the type of natural numbers less than $`2147483649`$ is equal to the type of integers in the interval $`[0,2147483649)`$ (indeed it is consistent to assume that any two types of the same cardinality in the same universe are equal), but also secondly because the analogous axioms regarding numbers smaller than $`k`$ are seemingly consistent with `native_decide` for any $`k < 2147483649`$ (specifically, the analogous proof of $`0 = 1`$ does not work).
 
 ---
 
