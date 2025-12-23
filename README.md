@@ -6,11 +6,9 @@ This is a small collection of formally verified junk theorems provable in Lean 4
 
 > **Theorem 1.** *The third coordinate of the rational number $`\frac{1}{2}`$ is a bijection.*
 
-> **Theorem 2.** 
-> * *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
-> * *Let $`P`$ be the multivariate polynomial $`(X_0 + X_1 + X_2)^3`$. Let $`Q`$ be the univariate polynomial $`X^2 + X + 1`$. The second coordinate of $`P`$ applied to the first coordinate of $`Q`$ is equal to the natural number $`6`$.*
+> **Theorem 2.** *The first coordinate of the polynomial $`X^2(X^3 + X + 1)`$ is equal to the prime factorization of $`30`$.*
 
-> **Theorem 3.** Let $`X`$ be one divided by the first coordinate of the fifth coordinate of the first coordinate of the first coordinate of the first coordinate of the standard field structure on $`\mathbb{R}`$. $`X`$ is a Cauchy sequence but is not summable.
+> **Theorem 3.** *Let $`P`$ be the multivariate polynomial $`(X_0 + X_1 + X_2)^3`$. Let $`Q`$ be the univariate polynomial $`X^2 + X + 1`$. The second coordinate of $`P`$ applied to the first coordinate of $`Q`$ is equal to the natural number $`6`$.*
 
 ### Sets and Logic
 
