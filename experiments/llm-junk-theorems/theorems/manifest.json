@@ -1,0 +1,103 @@
+{
+  "comment": "One entry per junk theorem unit. 'file' is the self-contained snippet shown to the LLM (comments stripped, prerequisites bundled). 'informal_statement' is the human exposition from JunkTheorems.lean - it is NEVER shown to the LLM; it is kept here to help grade the 'meaning' answers. 'ground_truth_compiles' is verified by compiling each snippet against Mathlib v4.26.0-rc2.",
+  "theorems": [
+    {
+      "id": "1",
+      "file": "theorem_01.lean",
+      "theorem_name": "one_half_third_coord_is_bijection",
+      "informal_statement": "The third coordinate of the rational number 1/2 is a bijection.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "2",
+      "file": "theorem_02.lean",
+      "theorem_name": "polynomial_factorization_30",
+      "informal_statement": "Let P be the polynomial X^2 * (X^3 + X + 1). The first coordinate of P is equal to the prime factorization of 30.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "3",
+      "file": "theorem_03.lean",
+      "theorem_name": "polynomials_within_polynomials",
+      "informal_statement": "Let P be the multivariate polynomial (X_0 + X_1 + X_2)^3 over the naturals, and Q the univariate polynomial 1 + X + X^2. The second coordinate of P applied to the first coordinate of Q is equal to the natural number 6.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "4",
+      "file": "theorem_04.lean",
+      "theorem_name": "set_of_nonzero_reals_is_continuous_nonmono_surjection",
+      "informal_statement": "The set {z : R | z != 0} is a continuous, non-monotone surjection.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "5",
+      "file": "theorem_05.lean",
+      "theorem_name": "Riemann_hypothesis_in_closure_of_not_not",
+      "informal_statement": "The Riemann hypothesis is in the topological closure of the set 'not not'.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "6",
+      "file": "theorem_06.lean",
+      "theorem_name": "TFAE_7_binary",
+      "informal_statement": "The following are equivalent: the binary expansion of 7.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "7",
+      "file": "theorem_07.lean",
+      "theorem_name": "not_dot_not_det_or_and_not_det_and",
+      "informal_statement": "The dot product of 'not' with itself. Moreover, the matrix determinant of 'or'. However, not the determinant of 'and'.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "8",
+      "file": "theorem_08.lean",
+      "theorem_name": "Exists_GrpCat_nonmeasurable",
+      "informal_statement": "The existential quantifier on the category of groups is a non-measurable set.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "9",
+      "file": "theorem_09.lean",
+      "theorem_name": "riemannZeta_one'",
+      "informal_statement": "zeta(1) = (gamma - log 4pi)/2, where zeta is the Riemann zeta function (a junk value arising from how Mathlib totalizes partial functions).",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "10",
+      "file": "theorem_10.lean",
+      "theorem_name": "two_minus_three_eq_infty",
+      "informal_statement": "Two minus three, where subtraction is understood as a partial function on the naturals, is equal to the extended natural number +infinity.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "10.5",
+      "file": "theorem_10_5.lean",
+      "theorem_name": "first_prime_gt_3_even_minus4_is_0",
+      "informal_statement": "The first even prime greater than 3 and less than 100, minus 4, is 0 (exploiting [].head! = 0 on the empty list of such primes).",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "11",
+      "file": "theorem_11.lean",
+      "theorem_name": "unique_proofs",
+      "informal_statement": "Let p be the unique proof of quadratic reciprocity and q the unique proof that the Baire category theorem isn't false. The pair (QR, p) is equal to the pair (not not BCT, q), and q is a bijection.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "12",
+      "file": "theorem_12.lean",
+      "theorem_name": "Theorem_12.rational_polynomial_coordinates",
+      "informal_statement": "The rational number r is equal to 1/2. The polynomial P is equal to 2X^2. Let A be the result of applying the third coordinate of the first coordinate of P to 2, and B the first coordinate of A. For the unique z in the domain of B, B(z) equals the third coordinate of r.",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "13",
+      "file": "theorem_13.lean",
+      "theorem_name": "Theorem_13.a_eq_b_eq_c",
+      "informal_statement": "With a : Fin (f q), b : Fin (f r), c : Fin 1 all definitionally 0 and f q = f r = 1: a equals b, and b equals c (although a = c does not even typecheck).",
+      "ground_truth_compiles": true
+    }
+  ]
+}

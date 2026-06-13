@@ -1,0 +1,8 @@
+{
+  "comment": "Prompt templates. {code} is replaced with the contents of a theorem snippet. Each question is asked in a fresh, independent conversation. The 'compiles' template asks for a machine-parseable verdict line so summarize.py can score it.",
+  "system": "You are an expert in Lean 4 and the Mathlib library.",
+  "questions": {
+    "compiles": "Below is a Lean 4 file. It is intended to be compiled against a current version of Mathlib.\n\n```lean\n{code}\n```\n\nDoes this Lean 4 code compile (i.e., is the file accepted by Lean with no errors)? Explain your reasoning, then end your answer with exactly one final line of the form:\n\nVERDICT: COMPILES\nor\nVERDICT: DOES NOT COMPILE",
+    "meaning": "Below is a Lean 4 file. It is intended to be compiled against a current version of Mathlib.\n\n```lean\n{code}\n```\n\nWhat does this Lean 4 code mean, and what theorem is it proving? State the mathematical content of the main theorem in plain language."
+  }
+}

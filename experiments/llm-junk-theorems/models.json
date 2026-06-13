@@ -1,0 +1,25 @@
+{
+  "comment": "Model matrix. All three providers expose an OpenAI-compatible chat-completions endpoint, so one client library covers everything; only base_url and the API key differ. 'tier' is a label for analysis (frontier = newest/largest, legacy = older/smaller). Edit freely; run with --smoke-test after changing model ids. Note: deepseek-chat is the legacy alias which, as of mid-2026, points at deepseek-v4-flash in non-thinking mode (the true V3-era models are no longer served first-party); it is scheduled for retirement on 2026-07-24.",
+  "providers": {
+    "openai": {
+      "base_url": null,
+      "api_key_env": "OPENAI_API_KEY"
+    },
+    "deepseek": {
+      "base_url": "https://api.deepseek.com",
+      "api_key_env": "DEEPSEEK_API_KEY"
+    },
+    "gemini": {
+      "base_url": "https://generativelanguage.googleapis.com/v1beta/openai/",
+      "api_key_env": "GEMINI_API_KEY"
+    }
+  },
+  "models": [
+    { "provider": "gemini",   "model": "gemini-3.1-pro-preview", "tier": "frontier" },
+    { "provider": "gemini",   "model": "gemini-2.5-flash",       "tier": "legacy" },
+    { "provider": "deepseek", "model": "deepseek-v4-pro",        "tier": "frontier" },
+    { "provider": "deepseek", "model": "deepseek-chat",          "tier": "legacy" },
+    { "provider": "openai",   "model": "gpt-5.5",                "tier": "frontier" },
+    { "provider": "openai",   "model": "gpt-4o",                 "tier": "legacy" }
+  ]
+}
