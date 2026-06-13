@@ -13,9 +13,7 @@ namespace Theorem_13
 
 instance QR_setoid : Setoid QR where
   r := (· = ·)
-  iseqv := by
-    constructor
-    all_goals simp
+  iseqv := by constructor; all_goals simp
 
 def QR_mod_eq := Quotient QR_setoid
 
@@ -37,8 +35,6 @@ def b : Fin (f r) := ⟨0, by unfold f r; simp⟩
 def c : Fin 1 := 0
 
 theorem a_eq_b_eq_c : a = b ∧ b = c := by
-  constructor
-  · rfl
-  · rfl
+  constructor; all_goals rfl
 
 end Theorem_13

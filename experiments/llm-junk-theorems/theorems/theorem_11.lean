@@ -20,18 +20,11 @@ theorem unique_proofs :
                          ∧ ⟨QR,p⟩ = (⟨¬¬BCT,q⟩ : Σ' A : Prop, A)
                          ∧ Function.Bijective q := by
   use (by unfold QR; grind [jacobiSym.quadratic_reciprocity])
-  use (by apply not_not_intro
-          unfold BCT
-          intros
-          apply BaireSpace.baire_property
-          · assumption
-          · assumption)
-  constructor
-  · simp
-  · constructor
-    · simp
-    · constructor
-      · grind
-      · constructor
-        · simp [Function.Injective]
-        · simp [Function.Surjective]
+  use (by apply not_not_intro; unfold BCT; intros
+          apply BaireSpace.baire_property; all_goals assumption)
+  repeat' constructor
+  · simp only [implies_true]
+  · simp only [not_not, implies_true]
+  · grind
+  · simp [Function.Injective]
+  · simp [Function.Surjective]

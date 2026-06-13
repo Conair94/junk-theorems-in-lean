@@ -19,7 +19,7 @@
       "id": "3",
       "file": "theorem_03.lean",
       "theorem_name": "polynomials_within_polynomials",
-      "informal_statement": "Let P be the multivariate polynomial (X_0 + X_1 + X_2)^3 over the naturals, and Q the univariate polynomial 1 + X + X^2. The second coordinate of P applied to the first coordinate of Q is equal to the natural number 6.",
+      "informal_statement": "Let P be the multivariate polynomial (X_0 + X_1 + X_2)^3 over the naturals, and Q the univariate polynomial X^2 + X + 1. The second coordinate of P applied to the first coordinate of Q is equal to the natural number 6.",
       "ground_truth_compiles": true
     },
     {
@@ -97,6 +97,13 @@
       "file": "theorem_13.lean",
       "theorem_name": "Theorem_13.a_eq_b_eq_c",
       "informal_statement": "With a : Fin (f q), b : Fin (f r), c : Fin 1 all definitionally 0 and f q = f r = 1: a equals b, and b equals c (although a = c does not even typecheck).",
+      "ground_truth_compiles": true
+    },
+    {
+      "id": "14",
+      "file": "theorem_14.lean",
+      "theorem_name": "Theorem_14.overflow",
+      "informal_statement": "If we assume axiomatically that the type of natural numbers less than 2147483649 is equal to the type of integers in [0, 2147483649), and we trust the Lean compiler (native_decide), then 0 = 1. The snippet contains an explicit axiom plus a native_decide exploiting 32-bit overflow in compiled evaluation.",
       "ground_truth_compiles": true
     }
   ]

@@ -2,8 +2,8 @@
 
 How do LLMs react to *junk theorems* — Lean 4 theorems that are formally true
 but whose informal reading is misleading nonsense? Each model is shown one of
-the 14 numbered junk theorems from [`JunkTheorems.lean`](../../JunkTheorems.lean)
-(theorems 1–13 plus 10.5) and asked, in **separate, fresh conversations**:
+the 15 numbered junk theorems from [`JunkTheorems.lean`](../../JunkTheorems.lean)
+(theorems 1–14 plus 10.5) and asked, in **separate, fresh conversations**:
 
 1. **`compiles`** — Does this Lean 4 code compile?
 2. **`meaning`** — What does this code mean, and what theorem is it proving?
@@ -34,7 +34,7 @@ options. Q2 is graded manually against the `informal_statement` field in
   a single client library covers all of them (only `base_url` + key differ).
 - **Sampling**: 3 independent samples per (model, theorem, question)
   condition at provider-default temperature.
-  14 theorems × 2 questions × 6 models × 3 samples = **504 calls**.
+  15 theorems × 2 questions × 6 models × 3 samples = **540 calls**.
 - **Prompts** ([`prompts.json`](prompts.json)): the `compiles` prompt asks for
   a final machine-parseable `VERDICT:` line; `meaning` is open-ended.
 
@@ -79,4 +79,8 @@ successful conditions are skipped.
   fidelity; they leak that the snippet is "numbered theorem N of some
   collection" but nothing about the junk content.
 - Theorem 13's companion `a_heq_c` and the `#check_failure` demos are excluded
-  (per study design: the 14 numbered theorems only).
+  (per study design: the numbered theorems only).
+- **Theorem 14 is a special case**: its snippet contains an explicit `axiom`
+  and a `native_decide` proof of `0 = 1`. It still compiles (the ground truth
+  is unchanged), but "what is this proving?" answers should be graded with the
+  axiom in mind — noticing the axiom is the whole game.

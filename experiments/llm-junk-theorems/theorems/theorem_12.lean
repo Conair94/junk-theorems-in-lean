@@ -27,18 +27,13 @@ def P : Polynomial ℕ := ⟨{
 theorem rational_polynomial_coordinates : r = 1 / 2
                                         ∧ P = Polynomial.C 2 * Polynomial.X^2
                                         ∧ let A := P.1.3 2;
-                                           let B := A.1
-                                           ∃ z, (∀ w, z = w)
+                                          let B := A.1
+                                          ∃ z, (∀ w, z = w)
                                               ∧ B z = r.3 := by
   repeat' constructor
-  · apply Rat.ext
-    all_goals aesop
-  · unfold Polynomial.X
-    rw [Polynomial.monomial_pow,Polynomial.C_mul_monomial]
-    apply Polynomial.ext
-    intro n
-    unfold Polynomial.coeff P
-    aesop
+  · apply Rat.ext; all_goals aesop
+  · unfold Polynomial.X; rw [Polynomial.monomial_pow,Polynomial.C_mul_monomial]
+    apply Polynomial.ext; intro n; unfold Polynomial.coeff P; aesop
   · simp only [Finsupp.mem_support_iff, ne_eq, implies_true]
 
 end Theorem_12
