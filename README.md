@@ -1,5 +1,18 @@
 # Some Junk Theorems in Lean
 
+## About this fork
+
+This repository is a standalone fork of [James-Hanson/junk-theorems-in-lean](https://github.com/James-Hanson/junk-theorems-in-lean) and is not intended to be merged back upstream. The original collection of junk theorems and the exposition below are James Hanson's work; this fork repurposes that collection as a test corpus for a research study on how large language models react to *junk theorems* — Lean 4 statements that are formally true but whose informal readings are misleading nonsense.
+
+What this fork adds:
+
+- [`experiments/llm-junk-theorems/`](experiments/llm-junk-theorems/) — a prompting framework that shows each numbered junk theorem (stripped of all explanatory comments, with its prerequisite definitions and lemmas bundled into a self-contained snippet) to multiple models from several providers (Gemini, DeepSeek, OpenAI) and asks two questions in independent conversations: *does this Lean 4 code compile?* and *what does this code mean, and what theorem is it proving?* See its [README](experiments/llm-junk-theorems/README.md) for the study design and results.
+- **Theorem 10.5** in [`JunkTheorems.lean`](JunkTheorems.lean): *the first even prime greater than 3 (and less than 100), minus 4, is 0* — exploiting the junk value `[].head! = 0` that Lean assigns to the head of an empty list.
+
+The original exposition follows.
+
+---
+
 This is a small collection of formally verified junk theorems provable in Lean 4 + Mathlib that, in my experience, are quite surprising and upsetting to mathematicians who are not familiar with type theory (and in the case of Theorems 13 and 14, also to mathematicians who are familiar with type theory). [See the main .lean file here.](JunkTheorems.lean)
 
 ### Coding
