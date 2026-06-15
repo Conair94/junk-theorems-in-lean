@@ -13,6 +13,59 @@ Ground truth for Q1: **every snippet compiles** — verified with
 options. Q2 is graded manually against the `informal_statement` field in
 [`theorems/manifest.json`](theorems/manifest.json).
 
+## Results — run 1 (2026-06-14)
+
+First run covered the four DeepSeek + OpenAI models (Gemini was dropped after
+its key's Google Cloud project turned out not to have the Generative Language
+API enabled). **360 calls, 0 errors, 0 unparseable verdicts.** Full data lives
+in [`results/`](results/): per-call records in
+[`results/raw/`](results/raw/), the flat index in
+[`results/all_results.csv`](results/all_results.csv), the generated grid in
+[`results/summary.md`](results/summary.md), and all 360 answers (including
+separated chain-of-thought) as markdown in
+[`results/transcripts/`](results/transcripts/).
+
+### Headline: junk theorems fool models into predicting they *won't* compile
+
+Every snippet compiles, yet on the `compiles` question three of the four models
+answered "DOES NOT COMPILE" most of the time — the statement *reads* like
+nonsense ("the third coordinate of ½ is a bijection"), and that semantic
+"this is absurd" reaction overrides actually tracing the type-checking.
+
+| Model | Tier | Said COMPILES (correct) | Said DOES NOT | Accuracy |
+| --- | --- | --- | --- | --- |
+| `gpt-5.5` | frontier | 26 | 19 | **58 %** |
+| `gpt-4o` | legacy | 8 | 37 | 18 % |
+| `deepseek-v4-pro` | frontier | 2 | 43 | 4 % |
+| `deepseek-chat` | legacy | 2 | 43 | 4 % |
+
+(45 compile-question samples per model = 15 theorems × 3.) Capability tracks
+model strength sharply: `gpt-5.5` is the only model above a coin flip, while
+the two DeepSeek models — frontier `v4-pro` and the smaller `chat` alias — are
+indistinguishable here, both reflexively answering "does not compile."
+
+### Per-theorem signal
+
+Aggregating correct `COMPILES` answers across all four models (out of 12 = 4
+models × 3 samples) shows which junk is *believed*:
+
+- **Most believed:** Theorem 10 (`psub`, 8/12) and Theorem 9 (`riemannZeta_one`,
+  7/12) — both *read* like ordinary true statements (T9 is an actual Mathlib
+  theorem), so they don't trip the "this is junk" reflex.
+- **Universally disbelieved (0/12):** Theorem 4 (the set `{z ≠ 0}` "is a
+  continuous non-monotone surjection") and Theorem 12 (the `ℚ`/polynomial
+  coordinate chain) — *no* model, including `gpt-5.5`, believed these compile.
+
+### Q2 (`meaning`) — qualitative
+
+The 180 `meaning` answers await a manual grading pass (the question of interest
+is whether a model *notices* the statement is misleading rather than just
+paraphrasing the Lean). Spot-checking `gpt-5.5`: it correctly unpacks Theorem 1
+as "the proof that ½'s denominator is nonzero, viewed as a function
+`(2 = 0) → False`, is a bijection between two empty types," and it flags Theorem
+14's planted `axiom` + `native_decide` overflow as the actual trick — so at
+least the frontier model demonstrably sees the junk, not just the syntax.
+
 ## Design
 
 - **Theorem units** ([`theorems/`](theorems/)): one `.lean` file per numbered
