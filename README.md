@@ -8,7 +8,11 @@ What this fork adds:
 
 - [`experiments/llm-junk-theorems/`](experiments/llm-junk-theorems/) — a prompting framework that shows each numbered junk theorem (stripped of all explanatory comments, with its prerequisite definitions and lemmas bundled into a self-contained snippet) to multiple models from several providers (Gemini, DeepSeek, OpenAI) and asks two questions in independent conversations: *does this Lean 4 code compile?* and *what does this code mean, and what theorem is it proving?* See its [README](experiments/llm-junk-theorems/README.md) for the study design and results.
 
-  **Early finding (run 1, DeepSeek + OpenAI, 360 calls):** every snippet compiles, yet models tend to predict the opposite — a junk theorem *reads* like nonsense, and that reaction overrides tracing the actual type-checking. Accuracy on "does this compile?" was `gpt-5.5` 58 %, `gpt-4o` 18 %, and both DeepSeek models 4 %. See the [results writeup](experiments/llm-junk-theorems/README.md#results--run-1-2026-06-14) and [raw data](experiments/llm-junk-theorems/results/).
+  **Early findings (run 1, DeepSeek + OpenAI, 360 calls):**
+  - *Does it compile?* Every snippet compiles, yet models tend to predict the opposite — a junk theorem *reads* like nonsense, and that reaction overrides tracing the actual type-checking. Accuracy: `gpt-5.5` 58 %, `gpt-4o` 18 %, both DeepSeek models 4 %.
+  - *What does it mean?* Hand-grading the 180 explanations (0–2 scale for whether the model sees through the junk) gives a **different ranking**: `gpt-5.5` 2.00, `deepseek-v4-pro` 1.91, `deepseek-chat` 1.51, `gpt-4o` 0.89. The headline is the dissociation — DeepSeek *understands* the junk (1.9/2) while predicting it won't compile 96 % of the time. Understanding the joke and trusting that it type-checks are different skills.
+
+  See the [results writeup](experiments/llm-junk-theorems/README.md#results--run-1-2026-06-14) and [raw data](experiments/llm-junk-theorems/results/).
 - **Theorem 10.5** in [`JunkTheorems.lean`](JunkTheorems.lean): *the first even prime greater than 3 (and less than 100), minus 4, is 0* — exploiting the junk value `[].head! = 0` that Lean assigns to the head of an empty list.
 
 The original exposition follows.

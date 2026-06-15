@@ -56,15 +56,64 @@ models × 3 samples) shows which junk is *believed*:
   continuous non-monotone surjection") and Theorem 12 (the `ℚ`/polynomial
   coordinate chain) — *no* model, including `gpt-5.5`, believed these compile.
 
-### Q2 (`meaning`) — qualitative
+### Q2 (`meaning`) — graded
 
-The 180 `meaning` answers await a manual grading pass (the question of interest
-is whether a model *notices* the statement is misleading rather than just
-paraphrasing the Lean). Spot-checking `gpt-5.5`: it correctly unpacks Theorem 1
-as "the proof that ½'s denominator is nonzero, viewed as a function
-`(2 = 0) → False`, is a bijection between two empty types," and it flags Theorem
-14's planted `axiom` + `native_decide` overflow as the actual trick — so at
-least the frontier model demonstrably sees the junk, not just the syntax.
+All 180 `meaning` answers were graded by hand (single grader, one pass) on a
+0–2 scale focused on the study's core question — does the model see through the
+junk? Per-response grades are in
+[`results/meaning_grades.csv`](results/meaning_grades.csv).
+
+**Rubric**
+
+- **2 — sees the junk:** correctly explains the real (formal) meaning *and*
+  flags that the statement is misleading / a type-theoretic artifact / not the
+  thing its surface reading suggests.
+- **1 — partial:** correct formal reading but presents it straight without
+  flagging the junk, *or* flags the junk but with a materially wrong
+  explanation (e.g. correctly senses it's a "joke" but wrongly claims it is
+  ill-typed).
+- **0 — misses it:** fails to grasp the real meaning — takes the surface
+  reading at face value, or wrongly declares the code malformed / a typo /
+  uncompilable when it is in fact well-typed.
+
+A compile-doubt aside was *not* penalized on its own as long as the meaning was
+explained correctly — that failure mode is already measured by Q1.
+
+| Model | Tier | Mean (0–2) | Fully sees junk (grade 2) |
+| --- | --- | --- | --- |
+| `gpt-5.5` | frontier | **2.00** | 45 / 45 |
+| `deepseek-v4-pro` | frontier | **1.91** | 42 / 45 |
+| `deepseek-chat` | legacy | 1.51 | 27 / 45 |
+| `gpt-4o` | legacy | 0.89 | 7 / 45 |
+
+**The cross-cut finding: understanding the joke ≠ trusting that it compiles.**
+The `meaning` ranking is *not* the `compile` ranking. The two DeepSeek models
+answered "DOES NOT COMPILE" ~96 % of the time (Q1 accuracy 4 %), yet they
+explain the junk's actual content well — `deepseek-v4-pro` scores 1.91/2 on
+meaning, second only to `gpt-5.5`. In other words DeepSeek *gets the joke* but
+doesn't believe it type-checks. The clearest cases are answers that correctly
+unpack the type-theoretic trick and then add "...so of course this would not
+compile" — the comprehension is real, the compile intuition is just wrong.
+
+`gpt-4o` is the genuine weak link on comprehension (0.89/2): its recurring
+failure mode is declaring the snippet "nonsensical," a "typo," or a category
+error *instead of* decoding it — e.g. on Theorem 6 it cannot see the
+`Bool → Prop` coercion that makes `List.TFAE (7).bits` meaningful, and on
+Theorem 10.5 it thinks `head!` on the empty list raises an error rather than
+returning the junk value `0`. `gpt-5.5` saw the junk in every one of its 45
+answers.
+
+**Hardest junk to *explain*** (lowest mean grade across all four models, out of
+2): Theorem 4 (1.17 — `Set ℝ ≡ ℝ → Prop` coercion), Theorem 6 (1.17 —
+`Bool → Prop`), Theorem 7 (1.17 — Boolean functions as vectors/matrices over
+the Boolean ring), and Theorem 1 (1.25 — `.3` is a proof field). These all hinge
+on spotting a silent coercion or projection. **Easiest:** Theorem 13 (2.00 —
+elaborate quotient/choice scaffolding collapsing to a trivial `0 = 0` in
+`Fin 1`), which every model saw through; then Theorems 5 and 10 (1.83).
+
+Caveat: these are one grader's judgments on a 3-sample run; treat the 0–2 means
+as directional, not precise. The full responses are in
+[`results/transcripts/`](results/transcripts/) for independent re-grading.
 
 ## Design
 
