@@ -1,8 +1,8 @@
 {
-  "comment": "Model matrix. All three providers expose an OpenAI-compatible chat-completions endpoint, so one client library covers everything; only base_url and the API key differ. 'tier' is a label for analysis (frontier = newest/largest, legacy = older/smaller). Edit freely; run with --smoke-test after changing model ids. Note: deepseek-chat is the legacy alias which, as of mid-2026, points at deepseek-v4-flash in non-thinking mode (the true V3-era models are no longer served first-party); it is scheduled for retirement on 2026-07-24.",
+  "comment": "Model matrix. All three providers expose an OpenAI-compatible chat-completions endpoint, so one client library covers everything; only base_url and the API key differ. 'tier' is a label for analysis (frontier = newest/largest, legacy = older/smaller). Edit freely; run with --smoke-test after changing model ids. Note: deepseek-chat is the legacy alias which, as of mid-2026, points at deepseek-v4-flash in non-thinking mode (the true V3-era models are no longer served first-party); it is scheduled for retirement on 2026-07-24. The openai base_url is pinned to the us regional host (us.api.openai.com) because this project's key is region-locked and the default api.openai.com returns 401 incorrect_hostname; change it if your account lives in another region. Gemini requires the Generative Language API to be enabled on the key's Google Cloud project, otherwise every call returns a 500 from the compat shim (a masked 403 PERMISSION_DENIED).",
   "providers": {
     "openai": {
-      "base_url": null,
+      "base_url": "https://us.api.openai.com/v1",
       "api_key_env": "OPENAI_API_KEY"
     },
     "deepseek": {
